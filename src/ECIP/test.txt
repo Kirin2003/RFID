@@ -1,0 +1,59 @@
+// test constructIndicator() and constructLocationAndStructureD()
+第一组：
+CidMap1.put(0000,"XX000");
+        CidMap1.put(0001,"0XX00");
+        CidMap1.put(0002,"0X000");
+        CidMap1.put(0003,"1XXXX");
+        CidMap1.put(0005,"11111");
+
+slotId = 0indicator = 0
+slotId = 1indicator = 1
+slotId = 2indicator = -1
+slotId = 3indicator = 2
+slotId = 5indicator = -1
+the 0-th collision slot : xindex = 0
+the 1-th collision slot : xindex = 1
+the 2-th collision slot : xindex = 1
+the 0-th collision slot : code before x =
+the 1-th collision slot : code before x = 0
+the 2-th collision slot : code before x = 1
+
+Process finished with exit code 0
+
+第二组：
+CidMap2.put(0000,"111XX000");
+        CidMap2.put(0001,"1110XX00");
+        CidMap2.put(0002,"1010X000");
+        CidMap2.put(0003,"111XXX0X");
+        CidMap2.put(0005,"11110011");
+slotId = 0indicator = 0
+slotId = 1indicator = 1
+slotId = 2indicator = -1
+slotId = 3indicator = 2
+slotId = 5indicator = -1
+the 0-th collision slot : xindex = 3
+the 1-th collision slot : xindex = 4
+the 2-th collision slot : xindex = 3
+the 0-th collision slot : code before x = 111
+the 1-th collision slot : code before x = 1110
+the 2-th collision slot : code before x = 111
+
+Process finished with exit code 0
+
+
+
+// test selectSlotBasedOnXIndex() combineCID()
+cid = 01000
+ slot = 1
+cid = 00100
+ slot = 0
+cid = 10001
+ slot = 3
+cid = 01001
+ slot = 2
+cid = 00101
+ slot = 2
+01000
+00100
+10000
+ //

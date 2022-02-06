@@ -1,0 +1,317 @@
+[DEBUG] 2021-11-24 21:52:46,758(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:65): enter ECIPwithCLS  
+[DEBUG] 2021-11-24 21:56:00,840(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:65): enter ECIPwithCLS  
+[DEBUG] 2021-11-24 21:56:00,844(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:66): virtual tag list size =4000actual tag list size =1000  
+[DEBUG] 2021-11-24 21:56:00,844(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:67): virtual tag list:   
+[DEBUG] 2021-11-24 21:56:41,481(1) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:65): enter ECIPwithCLS  
+[DEBUG] 2021-11-24 21:56:41,483(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:66): virtual tag list size =12actual tag list size =3  
+[DEBUG] 2021-11-24 21:56:41,483(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:67): virtual tag list:   
+[DEBUG] 2021-11-24 21:56:41,483(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): actual tag list:   
+[DEBUG] 2021-11-24 22:00:16,618(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): enter ECIPwithCLS  
+[DEBUG] 2021-11-24 22:00:16,622(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:70): virtual tag list size =12actual tag list size =3  
+[DEBUG] 2021-11-24 22:00:16,623(5) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:71): virtual tag list:   
+[DEBUG] 2021-11-24 22:00:16,623(5) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:73): actual tag list:   
+[DEBUG] 2021-11-24 22:00:16,623(5) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:75): unreadTagNum = 12  
+[DEBUG] 2021-11-24 22:00:16,624(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:101):    
+[DEBUG] 2021-11-24 22:00:16,625(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:102): in allocateRandomly()  
+[DEBUG] 2021-11-24 22:09:46,218(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): enter ECIPwithCLS  
+[DEBUG] 2021-11-24 22:09:46,221(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:70): virtual tag list size =12actual tag list size =3  
+[DEBUG] 2021-11-24 22:09:46,221(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:71): virtual tag list:   
+[DEBUG] 2021-11-24 22:09:46,221(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:73): actual tag list:   
+[DEBUG] 2021-11-24 22:09:46,221(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:75): unreadTagNum = 12  
+[DEBUG] 2021-11-24 22:09:46,221(3) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:00101011110011101000  
+[DEBUG] 2021-11-24 22:09:46,223(5) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:3  
+[DEBUG] 2021-11-24 22:09:46,223(5) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:11011000111100000010  
+[DEBUG] 2021-11-24 22:09:46,223(5) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:9  
+[DEBUG] 2021-11-24 22:09:46,223(5) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:10111010000100110010  
+[DEBUG] 2021-11-24 22:09:46,224(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:13  
+[DEBUG] 2021-11-24 22:09:46,224(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:11111111010001100110  
+[DEBUG] 2021-11-24 22:09:46,224(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:17  
+[DEBUG] 2021-11-24 22:09:46,224(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:11110100100100000001  
+[DEBUG] 2021-11-24 22:09:46,224(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:0  
+[DEBUG] 2021-11-24 22:09:46,224(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:00111011001010111101  
+[DEBUG] 2021-11-24 22:09:46,226(8) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:16  
+[DEBUG] 2021-11-24 22:09:46,226(8) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:10110111010101111110  
+[DEBUG] 2021-11-24 22:09:46,227(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:5  
+[DEBUG] 2021-11-24 22:09:46,227(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:11111001110000000110  
+[DEBUG] 2021-11-24 22:09:46,227(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:13  
+[DEBUG] 2021-11-24 22:09:46,227(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:10010111000010111101  
+[DEBUG] 2021-11-24 22:09:46,227(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:16  
+[DEBUG] 2021-11-24 22:09:46,227(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:11010001110110011111  
+[DEBUG] 2021-11-24 22:09:46,228(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:2  
+[DEBUG] 2021-11-24 22:09:46,228(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:01100110101110010110  
+[DEBUG] 2021-11-24 22:09:46,228(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:9  
+[DEBUG] 2021-11-24 22:09:46,228(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:10000100101000010100  
+[DEBUG] 2021-11-24 22:09:46,228(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:3  
+[DEBUG] 2021-11-24 22:09:46,228(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:105): map slotToVirtualList  
+[DEBUG] 2021-11-24 22:09:46,229(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:163): tags in actual list select slots  
+[DEBUG] 2021-11-24 22:09:46,229(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): tag cid:11110100100100000001  
+[DEBUG] 2021-11-24 22:09:46,229(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:169): slot:0  
+[DEBUG] 2021-11-24 22:09:46,230(12) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): tag cid:11010001110110011111  
+[DEBUG] 2021-11-24 22:09:46,230(12) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:169): slot:2  
+[DEBUG] 2021-11-24 22:09:46,230(12) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): tag cid:10010111000010111101  
+[DEBUG] 2021-11-24 22:09:46,230(12) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:169): slot:16  
+[DEBUG] 2021-11-24 22:09:46,230(12) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:179): print CidMap. key: slot; value: overlapped code  
+[DEBUG] 2021-11-24 22:37:55,628(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): enter ECIPwithCLS  
+[DEBUG] 2021-11-24 22:37:55,631(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:70): virtual tag list size =12actual tag list size =3  
+[DEBUG] 2021-11-24 22:37:55,631(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:71): virtual tag list:   
+[DEBUG] 2021-11-24 22:37:55,632(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:73): actual tag list:   
+[DEBUG] 2021-11-24 22:37:55,632(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:75): unreadTagNum = 12  
+[DEBUG] 2021-11-24 22:37:55,632(4) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:10110000001011111110  
+[DEBUG] 2021-11-24 22:37:55,634(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:8  
+[DEBUG] 2021-11-24 22:37:55,634(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:00111001111010010101  
+[DEBUG] 2021-11-24 22:37:55,635(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:11  
+[DEBUG] 2021-11-24 22:37:55,635(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:01010101100100010101  
+[DEBUG] 2021-11-24 22:37:55,635(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:11  
+[DEBUG] 2021-11-24 22:37:55,635(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:10000101101011100000  
+[DEBUG] 2021-11-24 22:37:55,635(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:18  
+[DEBUG] 2021-11-24 22:37:55,635(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:01101111010001110110  
+[DEBUG] 2021-11-24 22:37:55,635(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:4  
+[DEBUG] 2021-11-24 22:37:55,635(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:11100001110001000001  
+[DEBUG] 2021-11-24 22:37:55,637(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:3  
+[DEBUG] 2021-11-24 22:37:55,637(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:00100000010110111011  
+[DEBUG] 2021-11-24 22:37:55,637(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:5  
+[DEBUG] 2021-11-24 22:37:55,637(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:10001000101100110111  
+[DEBUG] 2021-11-24 22:37:55,637(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:13  
+[DEBUG] 2021-11-24 22:37:55,637(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:10101010011000100110  
+[DEBUG] 2021-11-24 22:37:55,637(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:0  
+[DEBUG] 2021-11-24 22:37:55,638(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:00100111111010111011  
+[DEBUG] 2021-11-24 22:37:55,638(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:1  
+[DEBUG] 2021-11-24 22:37:55,638(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:01101111000110111110  
+[DEBUG] 2021-11-24 22:37:55,638(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:8  
+[DEBUG] 2021-11-24 22:37:55,638(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): tag:11010010101110110101  
+[DEBUG] 2021-11-24 22:37:55,638(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:94): slot:3  
+[DEBUG] 2021-11-24 22:37:55,638(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:105): map slotToVirtualList  
+[DEBUG] 2021-11-24 22:37:55,639(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:163): tags in actual list select slots  
+[DEBUG] 2021-11-24 22:37:55,639(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): tag cid:00100111111010111011  
+[DEBUG] 2021-11-24 22:37:55,639(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:169): slot:1  
+[DEBUG] 2021-11-24 22:37:55,639(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): tag cid:10101010011000100110  
+[DEBUG] 2021-11-24 22:37:55,639(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:169): slot:0  
+[DEBUG] 2021-11-24 22:37:55,639(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): tag cid:01010101100100010101  
+[DEBUG] 2021-11-24 22:37:55,639(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:169): slot:11  
+[DEBUG] 2021-11-24 22:37:55,640(12) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:179): print CidMap. key: slot; value: overlapped code  
+[DEBUG] 2021-11-24 22:38:38,280(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): virtual tag list size =12actual tag list size =3  
+[DEBUG] 2021-11-24 22:38:38,283(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:70): virtual tag list:   
+[DEBUG] 2021-11-24 22:38:38,283(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:72): actual tag list:   
+[DEBUG] 2021-11-24 22:38:38,283(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:74): unreadTagNum = 12  
+[DEBUG] 2021-11-24 22:38:38,284(4) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:010000  
+[DEBUG] 2021-11-24 22:38:38,284(4) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:4  
+[DEBUG] 2021-11-24 22:38:38,286(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:010000  
+[DEBUG] 2021-11-24 22:38:38,286(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:4  
+[DEBUG] 2021-11-24 22:38:38,286(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:011010  
+[DEBUG] 2021-11-24 22:38:38,286(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:14  
+[DEBUG] 2021-11-24 22:38:38,286(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:100101  
+[DEBUG] 2021-11-24 22:38:38,286(6) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:5  
+[DEBUG] 2021-11-24 22:38:38,287(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:100011  
+[DEBUG] 2021-11-24 22:38:38,287(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:3  
+[DEBUG] 2021-11-24 22:38:38,287(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:101110  
+[DEBUG] 2021-11-24 22:38:38,287(7) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:14  
+[DEBUG] 2021-11-24 22:38:38,288(8) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:001010  
+[DEBUG] 2021-11-24 22:38:38,289(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:18  
+[DEBUG] 2021-11-24 22:38:38,289(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:011110  
+[DEBUG] 2021-11-24 22:38:38,289(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:18  
+[DEBUG] 2021-11-24 22:38:38,289(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:000000  
+[DEBUG] 2021-11-24 22:38:38,289(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:8  
+[DEBUG] 2021-11-24 22:38:38,289(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:011000  
+[DEBUG] 2021-11-24 22:38:38,289(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:12  
+[DEBUG] 2021-11-24 22:38:38,289(9) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:001011  
+[DEBUG] 2021-11-24 22:38:38,290(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:19  
+[DEBUG] 2021-11-24 22:38:38,290(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:92): tag:010011  
+[DEBUG] 2021-11-24 22:38:38,290(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:93): slot:7  
+[DEBUG] 2021-11-24 22:38:38,290(10) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:104): map slotToVirtualList  
+[DEBUG] 2021-11-24 22:38:38,291(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:162): tags in actual list select slots  
+[DEBUG] 2021-11-24 22:38:38,291(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:001010  
+[DEBUG] 2021-11-24 22:38:38,291(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:18  
+[DEBUG] 2021-11-24 22:38:38,291(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:100101  
+[DEBUG] 2021-11-24 22:38:38,291(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:5  
+[DEBUG] 2021-11-24 22:38:38,291(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:010011  
+[DEBUG] 2021-11-24 22:38:38,291(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:7  
+[DEBUG] 2021-11-24 22:38:38,291(11) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:178): print CidMap. key: slot; value: overlapped code  
+[DEBUG] 2021-11-24 22:42:51,083(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): virtual tag list size =12 actual tag list size =3  
+[DEBUG] 2021-11-24 22:42:51,087(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:70): virtual tag list:   
+[DEBUG] 2021-11-24 22:42:51,088(5) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:72): actual tag list:   
+[DEBUG] 2021-11-24 22:42:51,088(5) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:74): unreadTagNum = 12  
+[DEBUG] 2021-11-24 22:42:51,088(5) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:104): map slotToVirtualList  
+[DEBUG] 2021-11-24 22:42:51,090(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:162): tags in actual list select slots  
+[DEBUG] 2021-11-24 22:42:51,090(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:000110  
+[DEBUG] 2021-11-24 22:42:51,090(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:11  
+[DEBUG] 2021-11-24 22:42:51,090(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:101101  
+[DEBUG] 2021-11-24 22:42:51,090(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:10  
+[DEBUG] 2021-11-24 22:42:51,091(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:010011  
+[DEBUG] 2021-11-24 22:42:51,091(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:4  
+[DEBUG] 2021-11-24 22:42:51,091(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:178): print CidMap. key: slot; value: overlapped code  
+[DEBUG] 2021-11-24 22:42:51,091(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:189): the reader remove missing tags  
+[DEBUG] 2021-11-24 22:42:51,091(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:001111)  
+[DEBUG] 2021-11-24 22:42:51,091(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:111001)  
+[DEBUG] 2021-11-24 22:42:51,093(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:001110)  
+[DEBUG] 2021-11-24 22:42:51,093(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:010100)  
+[DEBUG] 2021-11-24 22:42:51,093(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:000010)  
+[DEBUG] 2021-11-24 22:42:51,093(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:010110)  
+[DEBUG] 2021-11-24 22:42:51,094(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:101010)  
+[DEBUG] 2021-11-24 22:42:51,094(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:000011)  
+[DEBUG] 2021-11-24 22:42:51,094(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:011101)  
+[DEBUG] 2021-11-24 22:42:51,094(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:216): after removing, virtualList:  
+[DEBUG] 2021-11-24 22:42:51,094(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:218): after removing, map slotToTagList:  
+[DEBUG] 2021-11-24 22:42:51,094(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:252): CidMap:  
+[DEBUG] 2021-11-24 22:42:51,095(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:270): in slot NO.4code = 010011  
+[DEBUG] 2021-11-24 22:42:51,095(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): identify one tag cid: 010011  
+[DEBUG] 2021-11-24 22:42:51,095(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:270): in slot NO.10code = 101101  
+[DEBUG] 2021-11-24 22:42:51,095(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): identify one tag cid: 101101  
+[DEBUG] 2021-11-24 22:42:51,095(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:270): in slot NO.11code = 000110  
+[DEBUG] 2021-11-24 22:42:51,095(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): identify one tag cid: 000110  
+[DEBUG] 2021-11-24 22:42:51,095(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:296): in this round, read 0 cids  
+[DEBUG] 2021-11-24 22:42:51,095(12) --> [main] ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:306): The reader allocates slot based on  x index, tags belonging to the same slot is divided to one or two parts  
+[DEBUG] 2021-11-24 22:42:51,096(13) --> [main] ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:328): after allocating, new slotToVirtualList:  
+[DEBUG] 2021-11-24 22:42:51,096(13) --> [main] ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:339): Tags in actual tag list select slots based on x index and respond to the reader  
+[DEBUG] 2021-11-24 22:42:51,096(13) --> [main] ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:358): after selecting, new CidMap:   
+[DEBUG] 2021-11-24 22:42:51,096(13) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:189): the reader remove missing tags  
+[DEBUG] 2021-11-24 22:42:51,096(13) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:216): after removing, virtualList:  
+[DEBUG] 2021-11-24 22:42:51,096(13) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:218): after removing, map slotToTagList:  
+[DEBUG] 2021-11-24 22:42:51,096(13) --> [main] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:428): in this round, read 0 cids  
+[DEBUG] 2021-11-24 22:50:37,147(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): virtual tag list size =12 actual tag list size =3  
+[DEBUG] 2021-11-24 22:50:37,151(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:70): virtual tag list:   
+[DEBUG] 2021-11-24 22:50:37,151(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:72): actual tag list:   
+[DEBUG] 2021-11-24 22:50:37,151(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:74): unreadTagNum = 12  
+[DEBUG] 2021-11-24 22:50:37,151(4) --> [main] ECIP.ECIPwithCLS.ecipWithCLS(ECIPwithCLS.java:442): round = 1  
+[DEBUG] 2021-11-24 22:50:37,152(5) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:104): map slotToVirtualList  
+[DEBUG] 2021-11-24 22:50:37,154(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:162): tags in actual list select slots  
+[DEBUG] 2021-11-24 22:50:37,155(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:110000  
+[DEBUG] 2021-11-24 22:50:37,155(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:9  
+[DEBUG] 2021-11-24 22:50:37,155(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:011000  
+[DEBUG] 2021-11-24 22:50:37,155(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:5  
+[DEBUG] 2021-11-24 22:50:37,155(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:001101  
+[DEBUG] 2021-11-24 22:50:37,155(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:14  
+[DEBUG] 2021-11-24 22:50:37,155(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:178): print CidMap. key: slot; value: overlapped code  
+[DEBUG] 2021-11-24 22:50:37,156(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:189): the reader remove missing tags  
+[DEBUG] 2021-11-24 22:50:37,156(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:101001)  
+[DEBUG] 2021-11-24 22:50:37,157(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:111001)  
+[DEBUG] 2021-11-24 22:50:37,157(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:101010)  
+[DEBUG] 2021-11-24 22:50:37,157(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:000011)  
+[DEBUG] 2021-11-24 22:50:37,158(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:011010)  
+[DEBUG] 2021-11-24 22:50:37,158(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:001001)  
+[DEBUG] 2021-11-24 22:50:37,158(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:001001)  
+[DEBUG] 2021-11-24 22:50:37,158(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:110011)  
+[DEBUG] 2021-11-24 22:50:37,158(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:216): after removing, virtualList:  
+[DEBUG] 2021-11-24 22:50:37,158(11) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:218): after removing, map slotToTagList:  
+[DEBUG] 2021-11-24 22:50:37,159(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:252): CidMap:  
+[DEBUG] 2021-11-24 22:50:37,159(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:270): in slot NO.5 code = 011000  
+[DEBUG] 2021-11-24 22:50:37,159(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): identify one tag cid: 011000  
+[DEBUG] 2021-11-24 22:50:37,159(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:270): in slot NO.9 code = 110000  
+[DEBUG] 2021-11-24 22:50:37,159(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): identify one tag cid: 110000  
+[DEBUG] 2021-11-24 22:50:37,159(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:270): in slot NO.14 code = 001101  
+[DEBUG] 2021-11-24 22:50:37,159(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): identify one tag cid: 001101  
+[DEBUG] 2021-11-24 22:50:37,159(12) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:296): in this round, read 0 cids  
+[DEBUG] 2021-11-24 22:52:12,837(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): virtual tag list size =12 actual tag list size =3  
+[DEBUG] 2021-11-24 22:52:12,841(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:70): virtual tag list:   
+[DEBUG] 2021-11-24 22:52:12,841(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:72): actual tag list:   
+[DEBUG] 2021-11-24 22:52:12,842(5) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:74): unreadTagNum = 12  
+[DEBUG] 2021-11-24 22:52:12,842(5) --> [main] ECIP.ECIPwithCLS.ecipWithCLS(ECIPwithCLS.java:445): round = 1  
+[DEBUG] 2021-11-24 22:52:12,842(5) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:104): map slotToVirtualList  
+[DEBUG] 2021-11-24 22:52:12,844(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:162): tags in actual list select slots  
+[DEBUG] 2021-11-24 22:52:12,844(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:111101  
+[DEBUG] 2021-11-24 22:52:12,845(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:8  
+[DEBUG] 2021-11-24 22:52:12,845(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:010101  
+[DEBUG] 2021-11-24 22:52:12,845(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:8  
+[DEBUG] 2021-11-24 22:52:12,845(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:101011  
+[DEBUG] 2021-11-24 22:52:12,845(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:10  
+[DEBUG] 2021-11-24 22:52:12,845(8) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:178): print CidMap. key: slot; value: overlapped code  
+[DEBUG] 2021-11-24 22:52:12,845(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:189): the reader remove missing tags  
+[DEBUG] 2021-11-24 22:52:12,845(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:110111)  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:100101)  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:100111)  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:000000)  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:000010)  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:101110)  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:001000)  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:216): after removing, virtualList:  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:218): after removing, map slotToTagList:  
+[DEBUG] 2021-11-24 22:52:12,847(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:252): CidMap:  
+[DEBUG] 2021-11-24 22:52:12,848(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:293): in slot NO.8code = X1X101  
+[DEBUG] 2021-11-24 22:52:12,848(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:294): identify none tag cid  
+[DEBUG] 2021-11-24 22:52:12,848(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): in slot NO.10 code = 101011  
+[DEBUG] 2021-11-24 22:52:12,848(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:272): identify one tag cid: 101011  
+[DEBUG] 2021-11-24 22:52:12,848(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:299): in this round, read 1 cids  
+[DEBUG] 2021-11-24 22:52:12,848(11) --> [main] ECIP.ECIPwithCLS.ecipWithCLS(ECIPwithCLS.java:451): round = 2  
+[DEBUG] 2021-11-24 22:52:12,848(11) --> [main] ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:309): The reader allocates slot based on  x index, tags belonging to the same slot is divided to one or two parts  
+[DEBUG] 2021-11-24 22:52:12,849(12) --> [main] ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:318): tag cid:111101 new slot:1  
+[DEBUG] 2021-11-24 22:52:12,849(12) --> [main] ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:318): tag cid:000001 new slot:0  
+[DEBUG] 2021-11-24 22:52:12,849(12) --> [main] ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:318): tag cid:101001 new slot:1  
+[DEBUG] 2021-11-24 22:52:12,849(12) --> [main] ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:318): tag cid:010101 new slot:0  
+[DEBUG] 2021-11-24 22:52:12,849(12) --> [main] ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:331): after allocating, new slotToVirtualList:  
+[DEBUG] 2021-11-24 22:52:12,849(12) --> [main] ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:342): Tags in actual tag list select slots based on x index and respond to the reader  
+[DEBUG] 2021-11-24 22:52:12,849(12) --> [main] ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:346): tag cid:111101 new slot:1  
+[DEBUG] 2021-11-24 22:52:12,850(13) --> [main] ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:346): tag cid:010101 new slot:0  
+[DEBUG] 2021-11-24 22:52:12,850(13) --> [main] ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:361): after selecting, new CidMap:   
+[DEBUG] 2021-11-24 22:52:12,850(13) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:189): the reader remove missing tags  
+[DEBUG] 2021-11-24 22:52:12,850(13) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:216): after removing, virtualList:  
+[DEBUG] 2021-11-24 22:52:12,850(13) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:218): after removing, map slotToTagList:  
+[DEBUG] 2021-11-24 22:52:12,850(13) --> [main] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:404): in slot NO.0code = 10101  
+[DEBUG] 2021-11-24 22:52:12,851(14) --> [main] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:405): identify one tag cid: 10101  
+[DEBUG] 2021-11-24 22:52:12,851(14) --> [main] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:404): in slot NO.1code = 11101  
+[DEBUG] 2021-11-24 22:52:12,851(14) --> [main] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:405): identify one tag cid: 11101  
+[DEBUG] 2021-11-24 22:52:12,851(14) --> [main] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:431): in this round, read 0 cids  
+[DEBUG] 2021-11-24 22:55:08,297(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:69): virtual tag list size =12 actual tag list size =3  
+[DEBUG] 2021-11-24 22:55:08,301(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:70): virtual tag list:   
+[DEBUG] 2021-11-24 22:55:08,301(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:72): actual tag list:   
+[DEBUG] 2021-11-24 22:55:08,301(4) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:74): unreadTagNum = 12  
+[DEBUG] 2021-11-24 22:55:08,301(4) --> [main] ECIP.ECIPwithCLS.ecipWithCLS(ECIPwithCLS.java:449): round = 1  
+[DEBUG] 2021-11-24 22:55:08,301(4) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:104): map slotToVirtualList  
+[DEBUG] 2021-11-24 22:55:08,303(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:162): tags in actual list select slots  
+[DEBUG] 2021-11-24 22:55:08,303(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:100010  
+[DEBUG] 2021-11-24 22:55:08,303(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:18  
+[DEBUG] 2021-11-24 22:55:08,304(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:101101  
+[DEBUG] 2021-11-24 22:55:08,304(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:9  
+[DEBUG] 2021-11-24 22:55:08,304(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:167): tag cid:001111  
+[DEBUG] 2021-11-24 22:55:08,304(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:168): slot:19  
+[DEBUG] 2021-11-24 22:55:08,304(7) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:178): print CidMap. key: slot; value: overlapped code  
+[DEBUG] 2021-11-24 22:55:08,304(7) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:189): the reader remove missing tags  
+[DEBUG] 2021-11-24 22:55:08,305(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:111010)  
+[DEBUG] 2021-11-24 22:55:08,306(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:010010)  
+[DEBUG] 2021-11-24 22:55:08,306(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:111011)  
+[DEBUG] 2021-11-24 22:55:08,306(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:010100)  
+[DEBUG] 2021-11-24 22:55:08,307(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:111111)  
+[DEBUG] 2021-11-24 22:55:08,307(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:011010)  
+[DEBUG] 2021-11-24 22:55:08,307(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:000110)  
+[DEBUG] 2021-11-24 22:55:08,307(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:198): remove tag (cid:011110)  
+[DEBUG] 2021-11-24 22:55:08,307(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:216): after removing, virtualList:  
+[DEBUG] 2021-11-24 22:55:08,307(10) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:218): after removing, map slotToTagList:  
+[DEBUG] 2021-11-24 22:55:08,307(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:252): CidMap:  
+[DEBUG] 2021-11-24 22:55:08,308(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): in slot NO.18 code = 100010  
+[DEBUG] 2021-11-24 22:55:08,308(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:272): identify one tag cid: 100010  
+[DEBUG] 2021-11-24 22:55:08,308(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): in slot NO.19 code = 001111  
+[DEBUG] 2021-11-24 22:55:08,308(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:272): identify one tag cid: 001111  
+[DEBUG] 2021-11-24 22:55:08,308(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:271): in slot NO.9 code = 101101  
+[DEBUG] 2021-11-24 22:55:08,308(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:272): identify one tag cid: 101101  
+[DEBUG] 2021-11-24 22:55:08,308(11) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:299): in this round, read 3 cids  
+[DEBUG] 2021-11-24 23:31:35,341(0) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:42): virtual tag list size =12 actual tag list size =3  
+[DEBUG] 2021-11-24 23:31:35,343(2) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:43): virtual tag list:   
+[DEBUG] 2021-11-24 23:31:35,343(2) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:45): actual tag list:   
+[DEBUG] 2021-11-24 23:31:35,344(3) --> [main] ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:47): unreadTagNum = 12  
+[DEBUG] 2021-11-24 23:31:35,344(3) --> [main] ECIP.ECIPwithCLS.ecipWithCLS(ECIPwithCLS.java:422): round = 1  
+[DEBUG] 2021-11-24 23:31:35,344(3) --> [main] ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:77): map slotToVirtualList  
+[DEBUG] 2021-11-24 23:31:35,347(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:135): tags in actual list select slots  
+[DEBUG] 2021-11-24 23:31:35,347(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:140): tag cid:001010  
+[DEBUG] 2021-11-24 23:31:35,347(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:141): slot:19  
+[DEBUG] 2021-11-24 23:31:35,347(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:140): tag cid:111001  
+[DEBUG] 2021-11-24 23:31:35,347(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:141): slot:6  
+[DEBUG] 2021-11-24 23:31:35,347(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:140): tag cid:001111  
+[DEBUG] 2021-11-24 23:31:35,347(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:141): slot:4  
+[DEBUG] 2021-11-24 23:31:35,347(6) --> [main] ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:151): print CidMap. key: slot; value: overlapped code  
+[DEBUG] 2021-11-24 23:31:35,348(7) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:162): the reader remove missing tags  
+[DEBUG] 2021-11-24 23:31:35,348(7) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:171): remove tag (cid:110000)  
+[DEBUG] 2021-11-24 23:31:35,349(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:171): remove tag (cid:110001)  
+[DEBUG] 2021-11-24 23:31:35,349(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:171): remove tag (cid:111011)  
+[DEBUG] 2021-11-24 23:31:35,349(8) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:171): remove tag (cid:100111)  
+[DEBUG] 2021-11-24 23:31:35,350(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:171): remove tag (cid:101001)  
+[DEBUG] 2021-11-24 23:31:35,350(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:171): remove tag (cid:000010)  
+[DEBUG] 2021-11-24 23:31:35,350(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:171): remove tag (cid:111110)  
+[DEBUG] 2021-11-24 23:31:35,350(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:171): remove tag (cid:101011)  
+[DEBUG] 2021-11-24 23:31:35,350(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:189): after removing, virtualList:  
+[DEBUG] 2021-11-24 23:31:35,350(9) --> [main] ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:191): after removing, map slotToTagList:  
+[DEBUG] 2021-11-24 23:31:35,350(9) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:225): CidMap:  
+[DEBUG] 2021-11-24 23:31:35,351(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:244): in slot NO.19 code = 001010  
+[DEBUG] 2021-11-24 23:31:35,351(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:245): identify one tag cid: 001010  
+[DEBUG] 2021-11-24 23:31:35,351(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:244): in slot NO.4 code = 001111  
+[DEBUG] 2021-11-24 23:31:35,351(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:245): identify one tag cid: 001111  
+[DEBUG] 2021-11-24 23:31:35,351(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:244): in slot NO.6 code = 111001  
+[DEBUG] 2021-11-24 23:31:35,351(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:245): identify one tag cid: 111001  
+[DEBUG] 2021-11-24 23:31:35,351(10) --> [main] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:272): in this round, read 3 cids  

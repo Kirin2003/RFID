@@ -1,0 +1,158 @@
+/usr/lib/jvm/java-8-openjdk-amd64/bin/java -javaagent:/home/hxq/Downloads/idea-IU-211.7628.21/lib/idea_rt.jar=39543:/home/hxq/Downloads/idea-IU-211.7628.21/bin -Dfile.encoding=UTF-8 -classpath /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/cldrdata.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/dnsns.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/icedtea-sound.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/jaccess.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/java-atk-wrapper.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/localedata.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/nashorn.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/sunec.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/sunjce_provider.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/sunpkcs11.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/zipfs.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jfr.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/management-agent.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar:/home/hxq/Desktop/2021autumn_semester/RFID/CIP/out/production/CIP:/home/hxq/Downloads/log4j-1.2.17.jar ECIP.ECIPwithCLS
+[DEBUG] --> ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:40):
+
+[DEBUG] --> ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:41): virtual tag list size =12 actual tag list size =3
+[DEBUG] --> ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:42): virtual tag list:
+100010
+011101
+011101
+000100
+010001
+111111
+100000
+100000
+111110
+101100
+110010
+110110
+[DEBUG] --> ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:44): actual tag list:
+101100
+000100
+111110
+[DEBUG] --> ECIP.ECIPwithCLS.<init>(ECIPwithCLS.java:46): unreadTagNum = 12
+[DEBUG] --> ECIP.ECIPwithCLS.ecipWithCLS(ECIPwithCLS.java:445): round = 1
+[DEBUG] --> ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:212):
+
+[DEBUG] --> ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:213): in random identification phase
+[DEBUG] --> ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:78):
+
+[DEBUG] --> ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:79): The reader allocates slots randomly
+[DEBUG] --> ECIP.ECIPwithCLS.allocateRandomly(ECIPwithCLS.java:80): map slotToVirtualList
+slot=16
+100010
+110110
+
+slot=19
+010001
+
+slot=4
+111110
+
+slot=5
+111111
+
+slot=6
+000100
+101100
+
+slot=11
+011101
+011101
+
+slot=12
+110010
+
+slot=14
+100000
+100000
+
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:138): tags in actual list select slots
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:143): tag cid:101100
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:144): slot:6
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:143): tag cid:000100
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:144): slot:6
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:143): tag cid:111110
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:144): slot:4
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:155):
+
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:156): Actual tags select slot
+[DEBUG] --> ECIP.ECIPwithCLS.selectRandomly(ECIPwithCLS.java:157): print CidMap. key: slot; value: overlapped code
+slotId = 4 code = 111110
+slotId = 6 code = X0X100
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:168):
+
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:169): By comparing slotToVirtualList and CidMap, the reader removes the missing tag
+     * If a slot  in the slotToVirtualList isn't in the CidMap, the corresponding tags are all missing
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:100010)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:110110)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:010001)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:111111)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:011101)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:011101)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:110010)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:100000)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:179): remove tag (cid:100000)
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:197): after removing, virtualList:
+000100
+111110
+101100
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:199): after removing, map slotToTagList:
+slot=4
+111110
+
+slot=6
+000100
+101100
+
+[DEBUG] --> ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:235): CidMap:
+slotId = 4 code = 111110
+slotId = 6 code = X0X100
+[DEBUG] --> ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:254): in slot NO.4 code = 111110
+[DEBUG] --> ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:255): identify one tag cid: 111110
+[DEBUG] --> ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:276): in slot NO.6 code = X0X100
+[DEBUG] --> ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:277): identify none tag cid
+[DEBUG] --> ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:282): in this round, read 1 cids
+[DEBUG] --> ECIP.ECIPwithCLS.ecipWithCLS(ECIPwithCLS.java:454): round = 2
+[DEBUG] --> ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:369):
+
+[DEBUG] --> ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:370): The reader allocates slot based on  x index, tags belonging to the same slot is divided to one or two parts
+[DEBUG] --> ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:371): in rearranged identification phase
+[DEBUG] --> ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:302): tag cid:000100 new slot:0
+[DEBUG] --> ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:302): tag cid:101100 new slot:1
+[DEBUG] --> ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:315):
+
+[DEBUG] --> ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:316): The reader allocates slot based on  x index, tags belonging to the same slot is divided to one or two parts
+[DEBUG] --> ECIP.ECIPwithCLS.allocateBasedOnXIndex(ECIPwithCLS.java:317): after allocating, new slotToVirtualList:
+slot=0
+000100
+
+slot=1
+101100
+
+[DEBUG] --> ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:328):
+
+[DEBUG] --> ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:329): vector indicator:
+slotId = 4indicator = -1
+slotId = 6indicator = 0
+[DEBUG] --> ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:331): vector location
+the 0-th collision slot : xindex = 0
+[DEBUG] --> ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:333): structure d
+the 0-th collision slot : code before x =
+[DEBUG] --> ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:335): Tags in actual tag list select slots based on x index and respond to the reader
+[DEBUG] --> ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:339): tag cid:101100 new slot:1
+[DEBUG] --> ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:339): tag cid:000100 new slot:0
+[DEBUG] --> ECIP.ECIPwithCLS.responseBasedOnXIndex(ECIPwithCLS.java:354): after selecting, new CidMap:
+slotId = 0 code = 00100
+slotId = 1 code = 01100
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:168):
+
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:169): By comparing slotToVirtualList and CidMap, the reader removes the missing tag
+     * If a slot  in the slotToVirtualList isn't in the CidMap, the corresponding tags are all missing
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:197): after removing, virtualList:
+000100
+101100
+[DEBUG] --> ECIP.ECIPwithCLS.removeMissing(ECIPwithCLS.java:199): after removing, map slotToTagList:
+slot=0
+000100
+
+slot=1
+101100
+
+[DEBUG] --> ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:402): in slot NO.0 code = 00100
+[DEBUG] --> ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:403): identify one tag cid: 00100
+[DEBUG] --> ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:402): in slot NO.1 code = 01100
+[DEBUG] --> ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:403): identify one tag cid: 01100
+[DEBUG] --> ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:431): in this round, read 2 cids
+identify all cids
+
+Process finished with exit code 0
