@@ -7,11 +7,11 @@ public class Main_CIP {
     public static void main(String[] args) {
         int tagIDLength = 96;//标签id长度
         int categoryIDLength = 32;//类别id长度
-        boolean missing = true;
-        double missingRate=0.75;//缺失率
+        boolean missing = false;
+        double missingRate=0;//缺失率
         int tagsPerCid = 100;//平均有多少个标签是同一个类别id
         int tagNum = 10000;//系统中的标签数目
-        int unReadCids = tagNum/tagsPerCid;//系统中没有识别到的cid
+        int unReadCids = (int)Math.ceil(tagNum*1.0/tagsPerCid);//系统中没有识别到的cid
         boolean isRandom = true;//是否随机分配cid
         int f1=160;//random identification phase的时隙数
         int f2=98;// rearranged identification phase的时隙数
@@ -31,9 +31,23 @@ public class Main_CIP {
         }
         //test(tagNum, tagsPerCid,f1, f2,tagList);
 
-        test2(tagNum,tagsPerCid,f1,f2,tagList,actualList);
+        //test(tagNum,tagsPerCid,f1,f2,tagList,actualList);
+
+        testCIP(tagNum,tagsPerCid,f1,f2,tagList);
     }
 
+
+
+    // 无缺失率
+    public static double testCIP(int tagNum, int tagsPerCid, int f1, int f2, List<Tag> tagList) {
+
+        int unReadCids = (int)Math.ceil(tagNum*1.0/tagsPerCid);;//系统中需要识别的cid数
+        CIP e = new CIP(tagList,unReadCids,f1);
+        double time = e.identifyAll();
+
+        return time;
+
+    }
 
 
     // 无缺失率

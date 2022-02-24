@@ -3,9 +3,8 @@ package ECIP;
 public abstract class IdentifyTool {
     public String output = "";
     public String analysis = "";
+    public double  time;
     public abstract double identifyAll();
 
-//    public void reDisplay() {
-//
-//    }
+   public abstract  double time() ;
 }

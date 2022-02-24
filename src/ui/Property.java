@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 public class Property {
-    private JButton OK;
+    public JButton OK;
     private JButton cancel;
     private JLabel title;
     private JTextField textField1;
@@ -46,6 +46,8 @@ public class Property {
 
     private ResultInfo r = null;
     public JFrame jFrame = new JFrame("配置表格");
+
+    String systemMessage = "";
 
     public Property(ResultInfo r) {
         this.r = r;
@@ -293,6 +295,7 @@ public class Property {
             random = false;
         }
 
+
         if (data.propertiesChanged) {
             data.cidLength = a1;
             data.tagLength = a2;
@@ -302,8 +305,12 @@ public class Property {
             data.tagNumPerCid = a6;
             data.isRandomAllocated = random;
             jFrame.setVisible(false);
+
+            systemMessage += "加载配置成功！";
+
         } else {
             JOptionPane.showMessageDialog(null, errorMessage, "输入不合理", JOptionPane.YES_OPTION);
+            systemMessage += "加载配置失败！\n" + errorMessage;
         }
 
     }

@@ -2,6 +2,7 @@ package ECIP;
 
 import java.util.*;
 
+
 public class CIP extends IdentifyTool{
     protected List<Tag> tagList;
     protected Set<String> categoryIDs;
@@ -22,6 +23,7 @@ public class CIP extends IdentifyTool{
         this.tagList = tagList;
         this.unReadCidNum = unReadCidNum;
         this.f = f;
+        categoryIDs = new HashSet<>();
     }
 
     /**
@@ -88,10 +90,13 @@ public class CIP extends IdentifyTool{
         slotToTagList.clear();
 
         for (Tag tag : tagList) {
-            String cid = tag.selectSlotPseudoRandom(frameSize, random);
 
-            //At the same time, it will overlap CID and then construct CidMap
-            constructCidMapAndSlotToTagList(tag, cid, slotToTagList);
+            if(tag.isActive()){
+                String cid = tag.selectSlotPseudoRandom(frameSize, random);
+
+                //At the same time, it will overlap CID and then construct CidMap
+                constructCidMapAndSlotToTagList(tag, cid, slotToTagList);
+            }
         }
     }
 
@@ -127,12 +132,18 @@ protected String[] decodeCID(String data){
      */
     public double identifyAll(){
         int round = 0;
+        int cidnum = 0;
+        int repeated = 0;
         int unReadTagNum = tagList.size();     //the num of unread tag
+
         Iterator<Tag> iterator = null;  // used to modify tagList
         int num;        // count the num of recognized CID of every round.
         while(unReadCidNum > 0){
+
+
             num = 0;
             round++;
+            output+="第 "+round+" 轮开始！\n";
             int frameSize = f;
             CidMap.clear();
 
@@ -141,8 +152,9 @@ protected String[] decodeCID(String data){
             */
             int random = (int)(100 * Math.random());
 
-            selectSlot(random, frameSize);
 
+            selectSlot(random, frameSize);
+            printCidMap();
             /*
                 recognize cid
              */
@@ -163,25 +175,71 @@ protected String[] decodeCID(String data){
 
 
                     if (cid.length == 2){
+
                         // recognize CIDs
                         categoryIDs.add(cid[0]);
                         categoryIDs.add(cid[1]);
+                        output+=cid[0]+"\n";
+                        output+=cid[1]+"\n";
                         System.out.println("CiD recognized in the " + round + "th round are " + cid[0] + " and "+ cid[1]);
                         num += 2;
-                    }else{
+                    }else if (cid.length == 1){
                         // recognize CID
+
+
                         categoryIDs.add(cid[0]);
                         System.out.println("CID recognized in the "+ round +"th round is " + cid[0]);
+                        output+=cid[0]+"\n";
                         num++;
                     }
                 }
             }
+            output+="在第 "+round+" 轮，共识别 "+num+" 个类别ID\n\n";
             System.out.println("the " + round + "-th round identify "+num+" cids" );
+            if(num == 0) {
+                repeated ++;
+            }
+            cidnum += num;
+            num = 0;
+
+            if(repeated >= 20) {
+                System.out.println("没有识别类别ID的轮次超过20，停止！");
+                output+="没有识别类别ID的轮次超过20，停止！\n";
+                output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 未能识别的类别ID数目："+unReadCidNum+", 识别的类别ID数目："+cidnum+ ", 识别率:"+(unReadCidNum*1.0/(unReadCidNum+cidnum))+"\n\n";
+                output+="模拟结束！\n";
+                analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 未能识别的类别ID数目："+unReadCidNum+", 识别的类别ID数目："+cidnum+ ", 识别率:"+(unReadCidNum*1.0/(unReadCidNum+cidnum))+"\n";
+
+                System.out.println(output);
+                break;
+            }
         }
 
-        // 等待修改，hxq
-        double time = 0;
+        // 计算时间，存储在time中
+        time();
+
+        System.out.println("需要时间约: "+time*1.0/1000 + "s");
+        System.out.println("识别的cid数目 = "+cidnum);
+        if(repeated < 20) {
+            output+="识别结束！\n";
+            output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 识别的类别ID数目："+cidnum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
+            output+="模拟结束！\n";
+
+            analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 识别的类别ID数目："+cidnum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
+
+        }
         return time;
+    }
+
+    @Override
+    public double time() {
+        return 0;
+    }
+
+
+    public void printCategoryIDs() {
+        for(String s : categoryIDs) {
+            System.out.println(s);
+        }
     }
 
     public void printCidMap() {
@@ -192,6 +250,17 @@ protected String[] decodeCID(String data){
 
     public void setTagList(List<Tag> tagList) {
         this.tagList = tagList;
+
+    }
+
+    public void printSlotToTagList(Map<Integer, List<Tag>> stringListMap) {
+        for(Integer in : stringListMap.keySet()) {
+            System.out.println("slot:"+in);
+            System.out.println("taglist:");
+            for(Tag tag : stringListMap.get(in)) {
+                System.out.println(tag.getCategoryID());
+            }
+        }
     }
 
 //    public List<String> getCategoryIDs() {

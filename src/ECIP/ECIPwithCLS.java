@@ -19,13 +19,20 @@ public class ECIPwithCLS extends IdentifyTool{
     protected  Vector<Integer> location = new Vector<>();
     protected  Vector<String> d = new Vector<>();
 
-    protected int unReadCids;
-    protected List<String> cids = new ArrayList<>();
+    protected int unReadCidNum;
+
 
     protected int f1 = 0;//random arranged identification phase的时隙
     protected int f2 = 0;// rearranged identification phase的时隙
 
-    boolean flag = false;
+    protected Set<String> totalPresentCids = new HashSet<>();
+    public Set<String> totalMissingCids = new HashSet<>();
+    public int missingCidNum = 0;
+    public int totalPresence = 0;
+    public int totalMissing = 0;
+    public int totalCidNeedToIdentify = 0;
+    public int round = 0;
+    boolean flag = true;
 
     // 无缺失率
     public ECIPwithCLS(List<Tag> taglist, int unReadCids, int f1, int f2) {
@@ -39,7 +46,8 @@ public class ECIPwithCLS extends IdentifyTool{
     public ECIPwithCLS(List<Tag> tagList, int unReadCids) {
         this.actualList = tagList;
         this.virtualList = tagList;
-        this.unReadCids = unReadCids;
+        this.unReadCidNum = unReadCids;
+        this.totalCidNeedToIdentify = unReadCids;
     }
 
     public ECIPwithCLS(List<Tag> virtualList, List<Tag> actualList, int unReadCids, int f) {
@@ -47,7 +55,10 @@ public class ECIPwithCLS extends IdentifyTool{
         this.actualList = actualList;
         this.f1 = f;
 
-        this.unReadCids = unReadCids;
+        this.unReadCidNum = unReadCids;
+        this.totalCidNeedToIdentify = unReadCids;
+        System.out.println("unreadCidNum ="+unReadCidNum);
+
     }
 
     // 有缺失率，主要用于高缺失率
@@ -56,7 +67,7 @@ public class ECIPwithCLS extends IdentifyTool{
         this.actualList = actualList;
         this.f1 = f1;
         this.f2 = f2;
-        this.unReadCids = unReadCids;
+        this.unReadCidNum = unReadCids;
         logger.debug("\n");
         logger.debug("virtual tag list size ="+virtualList.size()+" actual tag list size ="+actualList.size());
         logger.debug("virtual tag list: ");
@@ -195,6 +206,12 @@ public class ECIPwithCLS extends IdentifyTool{
      * @return  the number of the identified cids
      */
     public int randomIdentificationPhase() {
+        Set<String> missingCids = new HashSet<>();
+        String presenceOutput = "";
+        String missingOutput = "";
+        int presenceNum = 0;
+        int missingNum = 0;
+
         logger.debug("\n");
         logger.debug("in random identification phase");
 
@@ -207,7 +224,10 @@ public class ECIPwithCLS extends IdentifyTool{
         selectRandomly(frameSize, random);
         //printCidMap();
 
-        CLS.removeMissing(slotToVirtualList,CidMap,virtualList,logger);
+        missingNum+=CLS.removeMissing(slotToVirtualList,CidMap,virtualList,logger,totalMissingCids,missingOutput);
+        // 将缺失的类别ID打印出来
+
+
         //System.out.println("virtualList:");printList(virtualList);
         //System.out.println(" ");
 
@@ -215,23 +235,35 @@ public class ECIPwithCLS extends IdentifyTool{
         //System.out.println(" ");
         //identify
         indicator.clear();
-        int readCidNumInOneRound = 0;
+        int readCidNumInOneRound = 0; // useless
         int i = 0;
+
 
         logger.debug("CidMap:");
         //printCidMap();
+
+        // 输出识别开始
+        round ++;
+        output += "第"+round+"轮（随机分配阶段）开始！\n";
         for(Integer slot : CidMap.keySet()){
             String[] strs = decode(CidMap.get(slot));
             int l = strs.length;
 
 
             if(l == 1) {
+                readCidNumInOneRound+=1;
+                presenceNum += 1;
+                totalPresentCids.add(strs[0]);
+                presenceOutput+="类别"+strs[0]+"存在\n";
+
+
+
                 for (Tag tag : slotToVirtualList.get(slot)) {
                     virtualList.remove(tag);
                     if (actualList.contains(tag)) actualList.remove(tag);
+                    if(tag.getCategoryID()!=strs[0]) missingCids.add(tag.getCategoryID());
                 }
-                readCidNumInOneRound+=1;
-                cids.add(strs[0]);
+
 
 
                 indicator.put(slot, -1);
@@ -239,15 +271,17 @@ public class ECIPwithCLS extends IdentifyTool{
                 logger.debug("in slot NO."+slot+" code = "+CidMap.get(slot));
                 logger.debug("identify one tag cid: "+strs[0]);
             } else if(l == 2){
+                readCidNumInOneRound+=2;
+                presenceNum += 2;
+                totalPresentCids.add(strs[0]);
+                totalPresentCids.add(strs[1]);
+                presenceOutput+="类别"+strs[0]+"存在\n";
+                presenceOutput+="类别"+strs[1]+"存在\n";
                 for(Tag tag : slotToVirtualList.get(slot)){
                     virtualList.remove(tag);
                     if(actualList.contains(slot)) actualList.remove(slot);
-
+                    if(tag.getCategoryID()!=strs[0] && tag.getCategoryID()!=strs[1]) missingCids.add(tag.getCategoryID());
                 }
-
-                readCidNumInOneRound+=2;
-                cids.add(strs[0]);
-                cids.add(strs[1]);
 
                 indicator.put(slot, -1);
 
@@ -256,11 +290,35 @@ public class ECIPwithCLS extends IdentifyTool{
             } else {
                 indicator.put(slot, i);
                 i++;
-                flag=true;
+
 
                 logger.debug("in slot NO."+slot+" code = "+CidMap.get(slot));
                 logger.debug("identify none tag cid");
             }
+        }
+
+        //存在的类别ID存在presenceOutput里
+        // 缺失的类别ID存在missingOutput里
+        for(String cid : missingCids) {
+            missingOutput+="类别"+cid+"缺失！\n";
+            totalMissingCids.add(cid);
+        }
+
+        // 一轮识别结束后，整合存在的类别和缺失的类别
+        output+=presenceOutput;
+        output+=missingOutput;
+
+        // 一轮结束后，整合存在的类别数目和缺失的类别数目
+        missingNum = missingCids.size();
+        totalMissing += missingNum;
+        totalPresence += presenceNum;
+
+        // 输出本轮结果
+        output+="第"+round+"轮（随机分配阶段）结束！"+"本轮识别类别ID数："+(presenceNum+missingNum)+", 其中存在的类别ID数："+presenceNum+", 缺失的类别ID数："+missingNum+"\n\n";
+
+        if(CidMap.size() == 0) {
+            flag = false;
+            output+="没有标签回应\n";
         }
 
         //System.out.println(" ");System.out.println("virtual list");printList(virtualList);
@@ -308,7 +366,8 @@ public class ECIPwithCLS extends IdentifyTool{
                     if (actualList.contains(tag)) actualList.remove(tag);
                 }
                 readCidNumInOneRound+=1;
-                cids.add(strs[0]);
+                totalPresentCids.add(strs[0]);
+                output+=strs[0]+"\n";
 
 
                 indicator.put(slot, -1);
@@ -323,8 +382,10 @@ public class ECIPwithCLS extends IdentifyTool{
                 }
 
                 readCidNumInOneRound+=2;
-                cids.add(strs[0]);
-                cids.add(strs[1]);
+                totalPresentCids.add(strs[0]);
+                totalPresentCids.add(strs[1]);
+                output+=strs[0]+"\n";
+                output+=strs[1]+"\n";
 
                 indicator.put(slot, -1);
 
@@ -489,6 +550,12 @@ public class ECIPwithCLS extends IdentifyTool{
      * @return
      */
     public int rearrangedIdentificationPhase() {
+        Set<String> missingCids = new HashSet<>();
+        String presenceOutput = "";
+        String missingOutput = "";
+        int presenceNum = 0;
+        int missingNum = 0;
+
         logger.debug("\n");
         logger.debug("The reader allocates slot based on  x index, tags belonging to the same slot is divided to one or two parts");
         logger.debug("in rearranged identification phase");
@@ -499,45 +566,66 @@ public class ECIPwithCLS extends IdentifyTool{
 
         responseBasedOnXIndex();
 
-        CLS.removeMissing(slotToVirtualList,CidMap,virtualList,logger);
+        missingNum += CLS.removeMissing(slotToVirtualList,CidMap,virtualList,logger,totalMissingCids,missingOutput);
 
         //System.out.println(" ");System.out.println("Virtual list");printList(virtualList);
         //System.out.println(" ");System.out.println("actual list");printList(actualList);
         // identify
+
+        // 输出识别开始
+        round ++;
+        output += "第"+round+"轮（重新分配阶段）开始！\n";
+
         indicator.clear();
         int i = 0;
         int readCidNum = 0;
+        System.out.println("in rearranged identification phase");
 
+        logger.info("cid map size = "+CidMap.size());
         for (Integer slot : CidMap.keySet()) {
             String[] strs = decode(CidMap.get(slot));
             int l = strs.length;
 
             if (l == 1) {
-                for (Tag tag : slotToVirtualList.get(slot)) {
-                    virtualList.remove(tag);
-                    if (actualList.contains(tag)) actualList.remove(tag);
-                }
-
                 readCidNum++;
                 String cid1 = combine(slot, strs[0]);
-                cids.add(cid1);
+                totalPresentCids.add(cid1);
+                presenceOutput+="类别"+cid1+"存在\n";
+                presenceNum += 1;
 
                 indicator.put(slot,-1);
 
                 logger.debug("in slot NO." + slot + " code = " + CidMap.get(slot));
                 logger.debug("identify one tag cid: " + strs[0]);
-            } else if (l == 2) {
+
                 for (Tag tag : slotToVirtualList.get(slot)) {
                     virtualList.remove(tag);
-                    if (actualList.contains(slot)) actualList.remove(slot);
+                    if (actualList.contains(tag)) actualList.remove(tag);
+                    if(tag.getCategoryID() != cid1) {
+                        missingCids.add(cid1);
+                    }
                 }
 
+
+            } else if (l == 2) {
                 readCidNum += 2;
                 String cid1 = combine(slot, strs[0]);
                 String cid2 = combine(slot, strs[1]);
 
-                cids.add(cid1);
-                cids.add(cid2);
+                totalPresentCids.add(cid1);
+                totalPresentCids.add(cid2);
+
+                presenceOutput+="类别"+cid1+"存在\n";
+                presenceOutput+="类别"+cid2+"存在\n";
+
+                presenceNum += 2;
+                for (Tag tag : slotToVirtualList.get(slot)) {
+                    virtualList.remove(tag);
+                    if (actualList.contains(slot)) actualList.remove(slot);
+                    if(tag.getCategoryID()!=cid1 && tag.getCategoryID()!=cid2) missingCids.add(tag.getCategoryID());
+
+                }
+
 
                 indicator.put(slot,-1);
 
@@ -545,7 +633,7 @@ public class ECIPwithCLS extends IdentifyTool{
                 logger.debug("two partial tag cid: " + strs[0] + " " + strs[1]);
                 logger.debug("identify two tag cid: " + cid1 + " " + cid2);
             } else {
-                flag=true;
+
                 indicator.put(slot,i);
                 i++;
                 logger.debug("in slot NO." + slot + " code = " + CidMap.get(slot));
@@ -553,8 +641,31 @@ public class ECIPwithCLS extends IdentifyTool{
             }
         }
 
-        System.out.println("in rearranged identification phase");
-        printCidMap();
+
+        //存在的类别ID存在presenceOutput里
+        // 缺失的类别ID存在missingOutput里
+        for(String cid : missingCids) {
+            missingOutput+="类别"+cid+"缺失！\n";
+            totalMissingCids.add(cid);
+        }
+
+        // 一轮识别结束后，整合存在的类别和缺失的类别
+        output+=presenceOutput;
+        output+=missingOutput;
+
+        // 一轮结束后，整合存在的类别数目和缺失的类别数目
+        missingNum = missingCids.size();
+        totalMissing += missingNum;
+        totalPresence += presenceNum;
+
+        // 输出本轮结果
+        output+="第"+round+"轮（重新分配阶段）结束！"+"本轮识别类别ID数："+(presenceNum+missingNum)+", 其中存在的类别ID数："+presenceNum+", 缺失的类别ID数："+missingNum+"\n\n";
+
+
+        if(CidMap.size() == 0)  {
+            flag = false;
+            output+="没有标签回应\n";
+        } // 退出条件，如果没有标签回应，那所有存在的标签都回应完，剩余的都是缺失的
 
         logger.info("in this round, read "+readCidNum+" cids");
         return readCidNum;
@@ -589,7 +700,7 @@ public class ECIPwithCLS extends IdentifyTool{
 
                 readCidNumInOneRound++;
                 String cid1 = combine(slot,strs[0]);
-                cids.add(cid1);
+                totalPresentCids.add(cid1);
                 indicator.put(slot,-1);
 
                 logger.debug("in slot NO."+slot+" code = "+CidMap.get(slot));
@@ -604,8 +715,8 @@ public class ECIPwithCLS extends IdentifyTool{
                 String cid1 = combine(slot,strs[0]);
                 String cid2 = combine(slot,strs[1]);
 
-                cids.add(cid1);
-                cids.add(cid2);
+                totalPresentCids.add(cid1);
+                totalPresentCids.add(cid2);
 
                 indicator.put(slot,-1);
 
@@ -652,10 +763,14 @@ public class ECIPwithCLS extends IdentifyTool{
         int repeated = 0;
         int round = 1;
         int num;
+        int cidnum = 0;
 
         // 第一阶段：random identification phase
         logger.info("round = "+round);
+        //output+="第 "+round+" 轮开始（随机分配阶段）！\n";
         num = randomIdentificationPhase();
+        cidnum+=num;
+        //output+="在第 "+round+" 轮（随机分配阶段），共识别 "+num+" 个类别ID\n\n";
         round ++;
         if(num == 0) repeated++;
 
@@ -663,21 +778,107 @@ public class ECIPwithCLS extends IdentifyTool{
 
         //第二阶段：重复进行rearranged identification phase
         while (flag) {
+           // output+="第 "+round+" 轮开始（重新分配阶段）！\n";
 
-            flag = false;
+            flag = true;
             logger.info("round = "+round);
             num = rearrangedIdentificationPhase();
+
+
+
+            cidnum+=num;
+           // output+="在第 "+round+" 轮（重新分配阶段），共识别 "+num+" 个类别ID\n\n";
+
             round++;
             if (num == 0) repeated ++;
 
-            if (repeated > 30){
+            if (repeated >= 30){
                 System.out.println("round = " + round);
                 System.out.println("repeated round > 30, stop!");
+
+                output+="没有识别类别ID的轮次超过30, 停止！\n";
+                output+="需要识别的类别ID数目："+(totalCidNeedToIdentify)+", 识别的类别ID数量："+(totalPresence+totalMissing)+", 存在的类别ID数量："+totalPresence+", 缺失的类别ID数目："+totalMissing+", 识别率："+(totalPresence+totalMissing)*1.0/(unReadCidNum+cidnum)+", 需要时间约： "+time*1.0/1000 + " s\n";
+                output+="模拟结束！\n";
+
+                analysis+="需要识别的类别ID数目："+(totalCidNeedToIdentify)+", 识别的类别ID数量："+(unReadCidNum+cidnum)+", 存在的类别ID数量："+cidnum+", 缺失的类别ID数目："+unReadCidNum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
                 break;
             }
 
         }
         System.out.println("识别完成");
+        if(repeated < 30) {
+            // 已经没有标签回应了，virtual list的所有标签都是缺失的
+            Set<String> missingCids = new HashSet<>();
+            for(Tag tag : virtualList) {
+                missingCids.add(tag.getCategoryID());
+            }
+
+            // 输出缺失的类别ID，和缺失的数量,
+            String missingOutput = "";
+            int missingNum = missingCids.size();
+            for(String cid : missingCids) {
+                missingOutput += "类别"+cid+"缺失\n";
+            }
+            output+=missingOutput;
+            totalMissing += missingNum;
+
+
+
+            output+="识别结束！\n";
+            output+="需要识别的类别ID数目："+(totalCidNeedToIdentify)+", 识别的类别ID数量："+(totalCidNeedToIdentify)+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
+            //分析结果，全部存在，全部缺失，部分存在部分缺失
+
+
+            // 1 具体cid
+            Set<String> pset = new HashSet<>();
+            Set<String> mset = new HashSet<>();
+            Set<String >pmset = new HashSet<>();
+
+            for(String cid : totalPresentCids) {
+                if(totalMissingCids.contains(cid)) {
+                    pmset.add(cid);
+                }
+                else {
+                    pset.add(cid);
+                }
+            }
+
+            for(String cid : totalMissingCids) {
+                if(!totalPresentCids.contains(cid)) {
+                    mset.add(cid);
+                }
+            }
+
+            // 2 数目
+            int pm = pmset.size();
+            int p = pset.size();
+            int m = mset.size();
+
+            System.out.println(pset.size());
+            System.out.println(mset.size());
+            System.out.println(pmset.size());
+
+            output+="全部标签都存在的类别ID数量："+p+"分别是：\n";
+            for(String cid : pset) {
+                output+="类别"+cid+"\n";
+            }
+            output+="全部标签都缺失的类别ID数量："+m+"分别是：\n";
+            for(String cid : mset) {
+                output+="类别"+cid+"\n";
+            }
+            output+="部分标签存在部分标签缺失的类别ID数量："+pm+"分别是：\n";
+            for(String cid : pmset) {
+                output+="类别"+cid+"\n";
+            }
+
+            output+="模拟结束！\n";
+            output+="需要识别的类别ID数目："+(totalCidNeedToIdentify)+", 识别的类别ID数量："+(p+m+pm)+", 识别率："+(p+m+pm)*1.0/totalCidNeedToIdentify+", 需要时间约： "+time*1.0/1000 + " s\n";
+            output+="全部标签都存在的类别ID数量："+p+", 全部标签都缺失的类别ID数量："+m+", 部分存在部分缺失的类别ID数量："+pm+"\n";
+
+            analysis+="需要识别的类别ID数目："+(totalCidNeedToIdentify)+", 识别的类别ID数量："+(unReadCidNum+cidnum)+", 存在的类别ID数量："+cidnum+", 缺失的类别ID数目："+unReadCidNum+", 识别率："+(p+m+pm)*1.0/totalCidNeedToIdentify+", 需要时间约： "+time*1.0/1000 + " s\n";
+
+        }
+
         double totaltime = time();
         return totaltime;
     }
@@ -724,7 +925,7 @@ public class ECIPwithCLS extends IdentifyTool{
     public double time() {
         double time = 0;
         // 计算时间
-        double d = unReadCids /f1;
+        double d = unReadCidNum /f1;
         // the time of random allocation phase T_p1
         double t1 = f1*Math.exp(-d)*(-0.8)+f1*1.2;
         time += t1;
@@ -735,7 +936,7 @@ public class ECIPwithCLS extends IdentifyTool{
         time += ti;
 
         // 计算rearranged identification phase的时间 T_cs
-        double tcs = 2.4*(unReadCids-f2+f2*Math.exp(-unReadCids*1.0/f2));
+        double tcs = 2.4*(unReadCidNum -f2+f2*Math.exp(-unReadCidNum *1.0/f2));
         time+=tcs;
         return time;
     }
@@ -932,7 +1133,5 @@ public class ECIPwithCLS extends IdentifyTool{
 //        this.tagList = tagList;
 //    }
 
-    public List<String> getCategoryIDs() {
-        return cids;
-    }
+
 }

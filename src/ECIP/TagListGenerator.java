@@ -19,7 +19,7 @@ public class TagListGenerator {
     }
 
     public static List<Tag> highMissingListFactory(List<Tag> tagList, double missingRate) {
-        int size = (int)(tagList.size()*(1-missingRate));
+        int size = (int)Math.ceil(tagList.size()*(1-missingRate));
 
         List<Tag> actualList = new ArrayList<>();
         long time = System.currentTimeMillis();

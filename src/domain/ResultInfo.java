@@ -14,11 +14,11 @@ public class ResultInfo {
     /** 标签数目 */
     public  Integer tagNum = 10000;
     /** 时隙数目 */
-    public  Integer f = 98;
+    public  Integer f =98;
     /** 是否随机分配*/
     public  Boolean isRandomAllocated = true;
     /** 标签/类别ID */
-    public  Integer tagNumPerCid = 10;
+    public  Integer tagNumPerCid = 100;
 
 
     public enum Algorithms{
@@ -28,7 +28,7 @@ public class ResultInfo {
         ECIPwithDLS;
     }
 
-    public Algorithms a = Algorithms.Ecip;
+    public Algorithms a = Algorithms.ECIPwithCLS;
 
     public boolean propertiesChanged = true;
 
@@ -70,7 +70,9 @@ public class ResultInfo {
 
     public Integer getUnReadCidNum() {
 
-        return (int)Math.ceil( (tagNum/tagNumPerCid)*(1-missingRate));
+        // 无缺失时，显然正确
+        // 有缺失时，目标是找到印证每个类是缺失还是存在，正确
+        return (int)Math.ceil( (tagNum*1.0/tagNumPerCid) );
     }
 
     public boolean isPropertiesChanged() {

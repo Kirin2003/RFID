@@ -1,7 +1,10 @@
 package ui;
 import ECIP.*;
 
+import java.awt.*;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import domain.ResultInfo;
 import org.apache.log4j.Level;
@@ -9,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 public class Controller {
     ResultInfo r = new ResultInfo();
@@ -34,6 +38,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 load();
+
             }
         });
 
@@ -122,14 +127,22 @@ public class Controller {
 
             }
         });
+
+
     }
 
     // 新建配置表格
     public void load() {
 
-        new Property(r).jFrame.setVisible(true);
+
+        //new Property(r).jFrame.setVisible(true);
+        Property property = new Property(r);
+        property.jFrame.setVisible(true);
+
 
     }
+
+
 
 //    // 保存配置按钮
 //    public void save() {
@@ -232,16 +245,30 @@ public class Controller {
     // 开始模拟
     public void start() {
         initTool();
+        String output = "";
 
 
         // 控制台区域显示文字
-        ui.controlText.setText("模拟开始！");
+       output += "模拟开始！\n\n";
+       output+="参数配置如下：\n";
+       output+="标签ID长度："+r.tagLength+" 类别ID长度："+r.cidLength+" 缺失率："+r.missingRate+" 标签数目："+r.tagNum+"\n是否随机分配类别ID："+r.isRandomAllocated+" 平均每个类别的标签数量："+r.tagNumPerCid+"\n\n";
+
+       output+="选择算法：\n";
+       output+=r.a.toString()+"\n\n";
+       output+="基于以上配置，最优时隙为："+r.f+"\n\n";
+       output+="模拟结果如下：\n\n";
+
+        ui.controlText.setText(output);
+        ui.controlText.setSelectedTextColor(Color.BLUE);
 
         //开始模拟
         identifyTool.identifyAll();
+        output+=identifyTool.output;
 
-//        System.out.println(identifyTool.output);
-        ui.controlText.setText(identifyTool.output);
+
+        ui.controlText.setText(output);
+        System.out.println("output");
+        System.out.println(output);
 
     }
 

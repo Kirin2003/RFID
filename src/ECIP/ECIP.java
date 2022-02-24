@@ -130,15 +130,16 @@ public class ECIP extends CIP {
                 System.out.println(" ");
                 if (num2 == 0) repeated++;
 
-                if (repeated >32) {
+                if (repeated >=32) {
                     //System.out.println("未能识别的tag数目 = " + unReadTagNum);
                     System.out.println("未能识别的cid数目 = "+unReadCidNum);
                     System.out.println("识别的cid数目 = "+cidnum);
                     System.out.println("round = " + round);
                     System.out.println("repeated round > 32, stop!");
 
-                    output+="重复轮次>32, 识别停止！\n";
+                    output+="没有识别类别ID的轮次超过32, 停止！\n";
                     output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 未能识别的类别ID数目："+unReadCidNum+", 识别的类别ID数目："+cidnum+ ", 识别率:"+(unReadCidNum*1.0/(unReadCidNum+cidnum))+"\n";
+                    output+="模拟结束！\n";
                     analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 未能识别的类别ID数目："+unReadCidNum+", 识别的类别ID数目："+cidnum+ ", 识别率:"+(unReadCidNum*1.0/(unReadCidNum+cidnum))+"\n";
 
                     break;
@@ -151,18 +152,20 @@ public class ECIP extends CIP {
 
         System.out.println("需要时间约: "+time*1.0/1000 + "s");
         System.out.println("识别的cid数目 = "+cidnum);
-        output+="识别结束！\n";
-        output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 识别的类别ID数目："+cidnum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
-        output+="模拟结束！\n";
+        if(repeated < 32) {
+            output+="识别结束！\n";
+            output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 未识别的类别ID数目："+unReadCidNum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
+            output+="模拟结束！\n";
 
-        analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 识别的类别ID数目："+cidnum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
+            analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 未识别的类别ID数目："+unReadCidNum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
 
+        }
         return time;
 
     }
 
     // 计算时间
-    public void time() {
+    public double time() {
         // 计算时间
         double d = unReadCidNum /f1;
         // the time of random allocation phase T_p1
@@ -177,6 +180,7 @@ public class ECIP extends CIP {
         // 计算rearranged identification phase的时间 T_cs
         double tcs = 2.4*(unReadCidNum-f2+f2*Math.exp(-unReadCidNum*1.0/f2));
         time+=tcs;
+        return time;
     }
 
 
