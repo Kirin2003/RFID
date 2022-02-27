@@ -13,11 +13,6 @@ public class ECIP extends CIP {
     protected int f1 = 0;//random arranged identification phase的时隙
     protected int f2 = 0;// rearranged identification phase的时隙
 
-
-
-
-
-
     public ECIP() {
     }
 

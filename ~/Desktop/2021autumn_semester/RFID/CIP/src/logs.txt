@@ -1,60 +1,66 @@
-[INFO ] 2022-02-23 07:51:53,134(0) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:769): round = 1  
-[INFO ] 2022-02-23 07:51:53,185(51) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:325): in this round, read 33 cids  
-[INFO ] 2022-02-23 07:51:53,185(51) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 2  
-[INFO ] 2022-02-23 07:51:53,185(51) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
-[INFO ] 2022-02-23 07:51:53,185(51) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 0  
-[INFO ] 2022-02-23 07:51:53,186(52) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 58  
-[INFO ] 2022-02-23 07:51:53,192(58) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 50  
-[INFO ] 2022-02-23 07:51:53,208(74) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 35 cids  
-[INFO ] 2022-02-23 07:51:53,208(74) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 3  
-[INFO ] 2022-02-23 07:51:53,208(74) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
-[INFO ] 2022-02-23 07:51:53,208(74) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 25  
-[INFO ] 2022-02-23 07:51:53,208(74) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 50  
-[INFO ] 2022-02-23 07:51:53,208(74) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 1  
-[INFO ] 2022-02-23 07:51:53,208(74) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 2  
-[INFO ] 2022-02-23 07:51:53,209(75) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 1  
-[INFO ] 2022-02-23 07:51:53,209(75) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 3  
-[INFO ] 2022-02-23 07:51:53,209(75) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 2  
-[INFO ] 2022-02-23 07:51:53,210(76) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 4  
-[INFO ] 2022-02-23 07:51:53,210(76) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 5  
-[INFO ] 2022-02-23 07:51:53,210(76) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 10  
-[INFO ] 2022-02-23 07:51:53,210(76) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 6  
-[INFO ] 2022-02-23 07:51:53,210(76) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 13  
-[INFO ] 2022-02-23 07:51:53,210(76) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 7  
-[INFO ] 2022-02-23 07:51:53,210(76) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 14  
-[INFO ] 2022-02-23 07:51:53,211(77) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 8  
-[INFO ] 2022-02-23 07:51:53,211(77) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 17  
-[INFO ] 2022-02-23 07:51:53,211(77) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 9  
-[INFO ] 2022-02-23 07:51:53,211(77) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 19  
-[INFO ] 2022-02-23 07:51:53,211(77) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 10  
-[INFO ] 2022-02-23 07:51:53,211(77) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 20  
-[INFO ] 2022-02-23 07:51:53,211(77) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 11  
-[INFO ] 2022-02-23 07:51:53,212(78) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 22  
-[INFO ] 2022-02-23 07:51:53,212(78) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 11  
-[INFO ] 2022-02-23 07:51:53,212(78) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 23  
-[INFO ] 2022-02-23 07:51:53,212(78) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 16  
-[INFO ] 2022-02-23 07:51:53,212(78) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 32  
-[INFO ] 2022-02-23 07:51:53,212(78) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 18  
-[INFO ] 2022-02-23 07:51:53,212(78) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 36  
-[INFO ] 2022-02-23 07:51:53,213(79) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 21  
-[INFO ] 2022-02-23 07:51:53,213(79) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 42  
-[INFO ] 2022-02-23 07:51:53,213(79) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 23  
-[INFO ] 2022-02-23 07:51:53,213(79) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 47  
-[INFO ] 2022-02-23 07:51:53,215(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 30  
-[INFO ] 2022-02-23 07:51:53,220(86) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 28 cids  
-[INFO ] 2022-02-23 07:51:53,220(86) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 4  
-[INFO ] 2022-02-23 07:51:53,220(86) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
-[INFO ] 2022-02-23 07:51:53,220(86) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 15  
-[INFO ] 2022-02-23 07:51:53,220(86) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 30  
-[INFO ] 2022-02-23 07:51:53,221(87) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 0  
-[INFO ] 2022-02-23 07:51:53,221(87) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 1  
-[INFO ] 2022-02-23 07:51:53,221(87) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 10  
-[INFO ] 2022-02-23 07:51:53,221(87) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 21  
-[INFO ] 2022-02-23 07:51:53,221(87) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 4  
-[INFO ] 2022-02-23 07:51:53,221(87) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 4 cids  
-[INFO ] 2022-02-23 07:51:53,221(87) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 5  
-[INFO ] 2022-02-23 07:51:53,222(88) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
-[INFO ] 2022-02-23 07:51:53,222(88) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 2  
-[INFO ] 2022-02-23 07:51:53,222(88) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 4  
-[INFO ] 2022-02-23 07:51:53,222(88) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 0  
-[INFO ] 2022-02-23 07:51:53,222(88) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 0 cids  
+[INFO ] 2022-02-26 17:48:56,761(0) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:769): round = 1  
+[INFO ] 2022-02-26 17:48:56,803(42) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.randomIdentificationPhase(ECIPwithCLS.java:325): in this round, read 25 cids  
+[INFO ] 2022-02-26 17:48:56,803(42) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 2  
+[INFO ] 2022-02-26 17:48:56,803(42) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
+[INFO ] 2022-02-26 17:48:56,803(42) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 0  
+[INFO ] 2022-02-26 17:48:56,804(43) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 54  
+[INFO ] 2022-02-26 17:48:56,810(49) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 58  
+[INFO ] 2022-02-26 17:48:56,828(67) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 44 cids  
+[INFO ] 2022-02-26 17:48:56,828(67) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 3  
+[INFO ] 2022-02-26 17:48:56,828(67) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
+[INFO ] 2022-02-26 17:48:56,828(67) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 29  
+[INFO ] 2022-02-26 17:48:56,828(67) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 58  
+[INFO ] 2022-02-26 17:48:56,828(67) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 3  
+[INFO ] 2022-02-26 17:48:56,828(67) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 6  
+[INFO ] 2022-02-26 17:48:56,829(68) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 5  
+[INFO ] 2022-02-26 17:48:56,829(68) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 11  
+[INFO ] 2022-02-26 17:48:56,830(69) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 7  
+[INFO ] 2022-02-26 17:48:56,830(69) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 14  
+[INFO ] 2022-02-26 17:48:56,830(69) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 9  
+[INFO ] 2022-02-26 17:48:56,830(69) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 18  
+[INFO ] 2022-02-26 17:48:56,830(69) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 9  
+[INFO ] 2022-02-26 17:48:56,830(69) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 19  
+[INFO ] 2022-02-26 17:48:56,831(70) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 12  
+[INFO ] 2022-02-26 17:48:56,831(70) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 24  
+[INFO ] 2022-02-26 17:48:56,831(70) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 15  
+[INFO ] 2022-02-26 17:48:56,831(70) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 31  
+[INFO ] 2022-02-26 17:48:56,831(70) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 16  
+[INFO ] 2022-02-26 17:48:56,831(70) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 33  
+[INFO ] 2022-02-26 17:48:56,831(70) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 18  
+[INFO ] 2022-02-26 17:48:56,832(71) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 37  
+[INFO ] 2022-02-26 17:48:56,832(71) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 19  
+[INFO ] 2022-02-26 17:48:56,832(71) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 39  
+[INFO ] 2022-02-26 17:48:56,832(71) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 20  
+[INFO ] 2022-02-26 17:48:56,832(71) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 40  
+[INFO ] 2022-02-26 17:48:56,832(71) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 21  
+[INFO ] 2022-02-26 17:48:56,832(71) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 42  
+[INFO ] 2022-02-26 17:48:56,832(71) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 23  
+[INFO ] 2022-02-26 17:48:56,833(72) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 47  
+[INFO ] 2022-02-26 17:48:56,833(72) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 25  
+[INFO ] 2022-02-26 17:48:56,833(72) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 50  
+[INFO ] 2022-02-26 17:48:56,836(75) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 28  
+[INFO ] 2022-02-26 17:48:56,840(79) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 26 cids  
+[INFO ] 2022-02-26 17:48:56,840(79) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 4  
+[INFO ] 2022-02-26 17:48:56,840(79) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
+[INFO ] 2022-02-26 17:48:56,840(79) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 14  
+[INFO ] 2022-02-26 17:48:56,841(80) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 28  
+[INFO ] 2022-02-26 17:48:56,841(80) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 7  
+[INFO ] 2022-02-26 17:48:56,841(80) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 14  
+[INFO ] 2022-02-26 17:48:56,841(80) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 7  
+[INFO ] 2022-02-26 17:48:56,841(80) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 15  
+[INFO ] 2022-02-26 17:48:56,841(80) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 4  
+[INFO ] 2022-02-26 17:48:56,842(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 3 cids  
+[INFO ] 2022-02-26 17:48:56,842(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 5  
+[INFO ] 2022-02-26 17:48:56,842(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
+[INFO ] 2022-02-26 17:48:56,842(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 2  
+[INFO ] 2022-02-26 17:48:56,842(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 4  
+[INFO ] 2022-02-26 17:48:56,842(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1042): location index = 0  
+[INFO ] 2022-02-26 17:48:56,842(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1043): cid map index = 1  
+[INFO ] 2022-02-26 17:48:56,842(81) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 2  
+[INFO ] 2022-02-26 17:48:56,843(82) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 2 cids  
+[INFO ] 2022-02-26 17:48:56,843(82) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:784): round = 6  
+[INFO ] 2022-02-26 17:48:56,843(82) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1007): in construct location and structure d   
+[INFO ] 2022-02-26 17:48:56,843(82) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1008): location size = 1  
+[INFO ] 2022-02-26 17:48:56,843(82) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.constructLocationAndStructureD(ECIPwithCLS.java:1009): cid map size = 2  
+[INFO ] 2022-02-26 17:48:56,843(82) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:584): cid map size = 0  
+[INFO ] 2022-02-26 17:48:56,843(82) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.rearrangedIdentificationPhase(ECIPwithCLS.java:670): in this round, read 0 cids  
