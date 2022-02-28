@@ -14,13 +14,13 @@ import java.util.Hashtable;
  * @create 2022-01-26-16:44
  */
 public class MainInterface {
-    protected JFrame jFrame = new JFrame("RFID读写器快速读取CID仿真模拟系统");
+    public JFrame jFrame = new JFrame("RFID读写器快速读取CID仿真模拟系统");
 
     /** ResultInfo */
     protected ResultInfo resultInfo;
 
-    /** 创建打开文件对话框*/
-    protected JFileChooser chooser = new JFileChooser(".");
+    /** 创建保存文件对话框*/
+    protected JFileChooser chooser = new JFileChooser(String.valueOf(JFileChooser.SAVE_DIALOG));
 
     /** 定义菜单条 */
     protected JMenuBar mb = new JMenuBar();
@@ -57,9 +57,6 @@ public class MainInterface {
 
     /** 创建按钮组件 */
     JButton loadButton = new JButton("新建配置表格");
-    JButton saveButton = new JButton("保存配置");
-    JButton loadFileButton = new JButton("推荐算法");//无用
-    JButton openFileButton = new JButton("预警设置");//无用
     JButton choiceButton = new JButton("选择算法");
     JButton adviceButton = new JButton("推荐算法");
 
@@ -75,8 +72,6 @@ public class MainInterface {
 
     /** 定义菜单栏 */
     JMenuItem loadMenu = new JMenuItem("新建配置表格");
-    JMenuItem loadFileMenu = new JMenuItem("新建配置文件");// 无用
-    JMenuItem openFileMenu = new JMenuItem("打开配置文件");// 无用
     JMenuItem choiceMenu = new JMenuItem("选择算法");
     JMenuItem adviceMenu = new JMenuItem("推荐算法");
     JMenuItem startMenu = new JMenuItem("开始模拟");
@@ -122,60 +117,8 @@ public class MainInterface {
 
     /** 组装菜单 */
     public void assembleMenu(){
-
-
-
-
-        chooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                if (f.getName().endsWith(".properties") || f.isDirectory()){
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public String getDescription() {
-                return "配置文件";
-            }
-        });
-
-//        file.addMenuListener(new MenuListener() {
-//            @Override
-//            // 从配置文件中得到用户输入的标签数、缺失率等
-//            public void menuSelected(MenuEvent e) {
-//                chooser.showOpenDialog(jFrame);
-//                File newFile = chooser.getSelectedFile();
-//                Properties properties = new Properties();
-//                try(FileInputStream fis = new FileInputStream(newFile);) {
-//                    properties.load(fis);
-//                }catch (IOException e1){
-//                    e1.printStackTrace();
-//                }
-//                ResultInfo.cidLength = Integer.valueOf(properties.getProperty("cidLength"));
-//                ResultInfo.missingRate = Double.valueOf(properties.getProperty("lossRate"));
-//                ResultInfo.tagNum = Integer.valueOf(properties.getProperty("tagNum"));
-//                ResultInfo.f = Integer.valueOf(properties.getProperty("slotNum"));
-//                ResultInfo.isRandomAllocated = Boolean.parseBoolean(properties.getProperty("isRandomAllocated"));
-//                ResultInfo.tagNumPerCid = Integer.valueOf(properties.getProperty("tagNumPerCid"));
-//            }
-//
-//            @Override
-//            public void menuDeselected(MenuEvent e) {}
-//
-//            @Override
-//            public void menuCanceled(MenuEvent e) {}
-//        });
-
         // 每个菜单下添加菜单项
-
         configuration.add(loadMenu);
-        //configuration.addSeparator();
-        //configuration.add(loadFileMenu);
-        //configuration.addSeparator();
-        //configuration.add(openFileMenu);
-        //configuration.addSeparator();
 
         algorithm.add(choiceMenu);
         algorithm.addSeparator();
@@ -245,8 +188,6 @@ public class MainInterface {
     /** 组装功能区 */
     public void assembleFunction(){
 
-
-
         // 设置背景颜色
         slider.setBackground(Color.WHITE);
         // 设置主刻度间隔
@@ -268,8 +209,8 @@ public class MainInterface {
 
 
         loadButton.setPreferredSize(new Dimension(150, 25));
-        loadFileButton.setPreferredSize(new Dimension(150, 25));
-        openFileButton.setPreferredSize(new Dimension(150, 25));
+        adviceButton.setPreferredSize(new Dimension(150, 25));
+        warnButton.setPreferredSize(new Dimension(150, 25));
         choiceButton.setPreferredSize(new Dimension(150, 25));
         startButton.setPreferredSize(new Dimension(150, 25));
         endButton.setPreferredSize(new Dimension(150, 25));
@@ -286,19 +227,13 @@ public class MainInterface {
         internalPanel.add(Box.createVerticalStrut(70));
         internalPanel.add(loadButton);
         internalPanel.add(Box.createVerticalStrut(70));
-        internalPanel.add(loadFileButton);
+        internalPanel.add(adviceButton);
         internalPanel.add(Box.createVerticalStrut(70));
-        internalPanel.add(openFileButton);
+        internalPanel.add(warnButton);
         internalPanel.add(Box.createVerticalStrut(70));
         internalPanel.add(choiceButton);
         internalPanel.add(Box.createVerticalStrut(70));
-//        internalPanel.add(adviceButton);
-//        internalPanel.add(Box.createVerticalStrut(70));
-//        internalPanel.add(warnButton);
-//        internalPanel.add(Box.createVerticalStrut(70));
         internalPanel.add(startButton);
-//        internalPanel.add(Box.createVerticalStrut(70));
-//        internalPanel.add(endButton);
         internalPanel.add(Box.createVerticalStrut(70));
         internalPanel.add(clearButton);
         internalPanel.add(Box.createVerticalStrut(70));

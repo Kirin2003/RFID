@@ -1,8 +1,9 @@
 package ECIP;
 
 import java.util.*;
-
 import org.apache.log4j.Logger;
+
+
 
 public class CLS {
 
@@ -10,7 +11,7 @@ public class CLS {
      * By comparing slotToVirtualList and CidMap, remove the missing tag
      * If a slot  in the slotToVirtualList isn't in the CidMap, the corresponding tags are all missing
      */
-    public  static int removeMissing(Map<Integer,List<Tag>> slotToVirtualList, Map<Integer, String> CidMap, List<Tag> virtualList, Logger logger,Set<String> totalMissingCids, String missingOutput) {
+    public  static int removeMissing(Map<Integer,List<Tag>> slotToVirtualList, Map<Integer, String> CidMap, List<Tag> virtualList, Logger logger, Set<String> totalMissingCids, String missingOutput) {
 
         logger.debug("\n");
         logger.debug("By comparing slotToVirtualList and CidMap, the reader removes the missing tag\n" +
