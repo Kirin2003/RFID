@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 public class Property {
     public JButton OK;
-    private JButton cancel;
     private JLabel title;
     private JTextField textField1;
     private JLabel Label1;
@@ -66,29 +65,6 @@ public class Property {
                 setData(r);
             }
         });
-//        cancel.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            }
-//        });
-//        RadioButton1.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//                if (RadioButton1.isSelected()) {
-//                    RadioButton2.setSelected(false);
-//                }
-//            }
-//        });
-//
-//        RadioButton2.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//                if (RadioButton2.isSelected()) {
-//                    RadioButton1.setSelected(true);
-//                }
-//            }
-//        });
     }
 
     private void createUIComponents() {

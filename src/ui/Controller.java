@@ -3,8 +3,9 @@ import ECIP.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import domain.ResultInfo;
 import org.apache.log4j.Level;
@@ -17,7 +18,6 @@ import java.util.List;
 public class Controller {
     ResultInfo r = new ResultInfo();
     MainInterface ui = new MainInterface();
-    Properties properties = new Properties();
 
     IdentifyTool identifyTool = null;
 
@@ -38,7 +38,6 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 load();
-
             }
         });
 
@@ -69,12 +68,24 @@ public class Controller {
 
         ui.analysisButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(ActionEvent e) {
                 analysis();
             }
         });
 
+        ui.saveFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                save();
+            }
+        });
 
+        ui.warnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warn();
+            }
+        });
     }
 
     public void assembleMenu() {
@@ -82,18 +93,6 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 load();
-            }
-        });
-        ui.loadFileMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                loadFile();
-            }
-        });
-        ui.openFileMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                openFile();
             }
         });
         ui.choiceMenu.addActionListener(new ActionListener() {
@@ -123,59 +122,54 @@ public class Controller {
         ui.saveFileMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                saveFile();
-
+                save();
             }
         });
-
-
+        ui.warnMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warn();
+            }
+        });
     }
 
     // 新建配置表格
     public void load() {
-
-
-        //new Property(r).jFrame.setVisible(true);
         Property property = new Property(r);
         property.jFrame.setVisible(true);
-
-
     }
 
-
-
-//    // 保存配置按钮
-//    public void save() {
-//        ui.saveButton.addActionListener(new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                ui.chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//                ui.chooser.showSaveDialog(jFrame);
-//                File dir = ui.chooser.getSelectedFile();
-//                try(FileWriter fileWriter = new FileWriter(new File(dir, "new.properties"), true)){
-//                    fileWriter.write("cidLength="+ResultInfo.cidLength);
-//                    fileWriter.write("lossRate="+ResultInfo.missingRate);
-//                    fileWriter.write("tagNum="+ResultInfo.tagNum);
-//                    fileWriter.write("slotNum="+ResultInfo.f);
-//                    fileWriter.write("isRandomAllocated="+ResultInfo.isRandomAllocated);
-//                    fileWriter.write("tagNumPerCid="+ResultInfo.tagNumPerCid);
-//                } catch (IOException ioException) {
-//                    ioException.printStackTrace();
-//                }
-//            }
-//        });
-//    }
-
-
-    // 新建配置文件
-    public void loadFile() {
-
+    // 预警设置
+    public void warn(){
+        Warning warning = new Warning();
+        warning.pack();
+        warning.setLocationRelativeTo(ui.jFrame);
+        warning.setVisible(true);
     }
 
-    // 打开配置文件
-    public void openFile() {
+   // 保存配置按钮
+   public void save() {
+        // 设置文件过滤器
+        MyFilter myFilter = new MyFilter();
+        myFilter.addExtension("properties");
+        myFilter.addExtension("txt");
+        myFilter.setDescription("properties or txt");
+        ui.chooser.setFileFilter(myFilter);
 
-    }
+        ui.chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        ui.chooser.showSaveDialog(ui.jFrame);
+        File dir = ui.chooser.getSelectedFile();
+        try(FileWriter fileWriter = new FileWriter(new File(dir, "new.properties"), true)){
+            fileWriter.write("cidLength="+r.getCidLength());
+            fileWriter.write("lossRate="+r.getMissingRate());
+            fileWriter.write("tagNum="+r.getTagNum());
+            fileWriter.write("slotNum="+r.getF());
+            fileWriter.write("isRandomAllocated="+r.getRandomAllocated());
+            fileWriter.write("tagNumPerCid="+r.getTagNumPerCid());
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+   }
 
     //选择算法
     public void chooseAlgorithms() {
@@ -200,22 +194,19 @@ public class Controller {
 
     // 构造identifyTool
     public void initTool() {
+        //等待修改 hxq
+        Vector<String> tids = null;
+        Vector<String> cids = null;
 
-            //等待修改 hxq
-            Vector<String> tids = null;
-            Vector<String> cids = null;
+        if (r.isRandomAllocated) {
+            tagList = TagListGenerator.tagListFactory2(r.getTagLength(), r.getCidLength(), r.getTagNum(), r.getTagNumPerCid());
+        } else {
+            tagList = TagListGenerator.tagListFactory3(r.getTagLength(), r.getCidLength(), r.getTagNum(), tids, cids);
+        }
 
-            if (r.isRandomAllocated) {
-                tagList = TagListGenerator.tagListFactory2(r.getTagLength(), r.getCidLength(), r.getTagNum(), r.getTagNumPerCid());
-            } else {
-                tagList = TagListGenerator.tagListFactory3(r.getTagLength(), r.getCidLength(), r.getTagNum(), tids, cids);
-            }
-
-            if (r.getMissingRate() > 0) {
-                actualList = TagListGenerator.highMissingListFactory(tagList, r.getMissingRate());
-            }
-
-
+        if (r.getMissingRate() > 0) {
+            actualList = TagListGenerator.highMissingListFactory(tagList, r.getMissingRate());
+        }
 
         switch (r.getA()) {
             case Cip:
@@ -232,11 +223,6 @@ public class Controller {
                 identifyTool = new CIP(tagList, r.getUnReadCidNum(), r.getF());
                 break;
         }
-
-
-
-//
-//
         r.algorithmsChanged = false;
         r.propertiesChanged = false;
     }
@@ -246,7 +232,6 @@ public class Controller {
     public void start() {
         initTool();
         String output = "";
-
 
         // 控制台区域显示文字
        output += "模拟开始！\n\n";
@@ -265,33 +250,20 @@ public class Controller {
         identifyTool.identifyAll();
         output+=identifyTool.output;
 
-
         ui.controlText.setText(output);
         System.out.println("output");
         System.out.println(output);
 
     }
 
-
-
     // 清空控制台
     public void clear() {
         ui.controlText.setText("");
-
-
     }
 
     // 结果分析按钮
     public void analysis() {
         ui.controlText.setText(identifyTool.analysis);
-
     }
-
-    // 保存记录
-    public void saveFile() {
-
-    }
-
-
 
 }

@@ -1,6 +1,5 @@
 package ui;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
