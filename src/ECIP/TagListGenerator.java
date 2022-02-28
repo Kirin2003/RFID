@@ -2,43 +2,73 @@ package ECIP;
 
 import java.util.*;
 public class TagListGenerator {
+    //useless
     /**
-     * generate tag list randomly
-     * @param tagIDLength the length of TID
-     * @param categoryIDLength the length of CID
-     * @param tagnum the num of tags
+     *
+     * @param tagList
+     * @param missingRate
      * @return
      */
-    public static List<Tag> tagListFactory1(int tagIDLength, int categoryIDLength, int tagnum){
-        ArrayList<Tag> tagList = new ArrayList<>();
-        for (int i = 0; i < tagnum; i++) {
-            tagList.add(new Tag());
-        }
-        allocateRandom(tagList, tagIDLength, categoryIDLength);
-        return tagList;
-    }
-
     public static List<Tag> highMissingListFactory(List<Tag> tagList, double missingRate) {
-        int size = (int)Math.ceil(tagList.size()*(1-missingRate));
+        int size = (int)Math.ceil(tagList.size()*(1-missingRate)); // 向上取整
 
         List<Tag> actualList = new ArrayList<>();
         long time = System.currentTimeMillis();
         Random random = new Random(time);
         int i = 0;
-        Set<Tag> set = new HashSet<>();
-        while(true) {
+        Set<Tag> tagSet = new HashSet<>();
+        Set<String> cidSet = new HashSet<>();
+        while(tagSet.size() < size) {
             i = random.nextInt(tagList.size());
-            set.add(tagList.get(i));
-            if (set.size() >= size) {
-                break;
+            Tag tag = tagList.get(i);
+            String cid = tag.getCategoryID();
+            if (!cidSet.contains(cid)) {
+                tagSet.add(tag);
+                cidSet.add(cid);
             }
+
         }
-        for (Tag tag : set) {
+        for (Tag tag : tagSet) {
             actualList.add(tag);
         }
         return actualList;
     }
 
+    /**
+     *
+     * @param tagList
+     * @param missingRate cid的缺失率，而不是标签的缺失率
+     * @return
+     */
+    public static List<Tag> highMissingListFactory2(List<Tag> tagList, int virtualCidNum, double missingRate) {
+        int size = (int)Math.ceil(virtualCidNum*(1-missingRate)); // 向上取整
+
+
+        List<Tag> actualList = new ArrayList<>();
+        long time = System.currentTimeMillis();
+        Random random = new Random(time);
+        int i = 0;
+        Set<Tag> tagSet = new HashSet<>();
+        Set<String> cidSet = new HashSet<>();
+        while(tagSet.size() < size) {
+            i = random.nextInt(tagList.size());
+            Tag tag = tagList.get(i);
+            String cid = tag.getCategoryID();
+            if (!cidSet.contains(cid)) {
+                tagSet.add(tag);
+                cidSet.add(cid);
+            }
+
+        }
+        for (Tag tag : tagSet) {
+            actualList.add(tag);
+        }
+        return actualList;
+    }
+
+
+
+    // 指定cid时用，现在不用
     public static List<Tag> tagListFactory3(int tagIDLength, int categoryIDLength, int tagnum, Vector<String> tagids, Vector<String> cids) {
         List<Tag> tagList = null;
         String tagid, cid;
@@ -66,25 +96,6 @@ public class TagListGenerator {
         return tagList;
     }
 
-//    public static List<Tag> tagListGenerator(boolean isRandom, int tagIDLength, int categoryIDLength, int tagNum, int tagsPerCid, Vector<String> tagids, Vector<String> cids) {
-//        if (isRandom) {
-//            tagList = TagListGenerator.tagListFactory2(tagIDLength, categoryIDLength, tagNum,tagsPerCid);
-//        } else {
-//            tagList = TagListGenerator.tagListFactory3(tagIDLength,categoryIDLength,tagNum,tagids, cids);
-//        }
-//
-//        if (missing) {
-//            actualList=TagListGenerator.highMissingListFactory(tagList,missingRate);
-//        }
-//    }
-
-    private static void allocateRandom(List<Tag> tagList, int tagIDLength, int categoryIDLength){
-        for (Tag tag : tagList) {
-            tag.setTagID(getRandomID(tagIDLength));
-            tag.setCategoryID(getRandomID(categoryIDLength));
-            //System.out.println("categoryID = "+tag.getCategoryID());
-        }
-    }
 
     /**
      * Compared with allocateRandom, allocateRandom2 controls thr number of tags in each category equal to density
@@ -112,6 +123,20 @@ public class TagListGenerator {
         for (int i = 0; i < IDLength; i++)
             sb.append(Math.random() > 0.5 ? '1' : '0');
         return sb.toString();
+    }
+
+    // 测试函数
+    public static void main(String[] args) {
+        List<Tag> tagList = TagListGenerator.tagListFactory2(10, 5, 10, 4);
+        System.out.println("tag list");
+        for(Tag tag : tagList) {
+            System.out.println("tag id:"+tag.getTagID()+" cid:"+tag.getCategoryID());
+        }
+//        List<Tag> actualList = TagListGenerator.highMissingListFactory2(tagList,10, 0.7);
+//        System.out.println("actual List");
+//        for(Tag tag : actualList) {
+//            System.out.println("tag id:"+tag.getTagID()+" cid:"+tag.getCategoryID());
+//        }
     }
 
 }

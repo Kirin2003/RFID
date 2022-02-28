@@ -57,18 +57,15 @@ public class MainInterface {
 
     /** 创建按钮组件 */
     JButton loadButton = new JButton("新建配置表格");
-    JButton saveButton = new JButton("保存配置");
-    JButton loadFileButton = new JButton("推荐算法");//无用
-    JButton openFileButton = new JButton("预警设置");//无用
-    JButton choiceButton = new JButton("选择算法");
     JButton adviceButton = new JButton("推荐算法");
+    JButton warnButton = new JButton("预警设置");
+    JButton choiceButton = new JButton("选择算法");
 
     JButton startButton = new JButton("开始模拟");
     JButton endButton = new JButton("结束模拟");//无用
     JButton clearButton = new JButton("清空控制台");
     JButton saveFileButton = new JButton("保存记录");
     JButton analysisButton = new JButton("结果分析");
-    JButton warnButton = new JButton("预警设置");
 
     JLabel speedLabel = new JLabel("动画速度:(慢-快)");
     final JSlider slider = new JSlider(1, 10, 5);
@@ -122,10 +119,6 @@ public class MainInterface {
 
     /** 组装菜单 */
     public void assembleMenu(){
-
-
-
-
         chooser.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File f) {
@@ -268,8 +261,8 @@ public class MainInterface {
 
 
         loadButton.setPreferredSize(new Dimension(150, 25));
-        loadFileButton.setPreferredSize(new Dimension(150, 25));
-        openFileButton.setPreferredSize(new Dimension(150, 25));
+        adviceButton.setPreferredSize(new Dimension(150, 25));
+        warnButton.setPreferredSize(new Dimension(150, 25));
         choiceButton.setPreferredSize(new Dimension(150, 25));
         startButton.setPreferredSize(new Dimension(150, 25));
         endButton.setPreferredSize(new Dimension(150, 25));
@@ -286,9 +279,9 @@ public class MainInterface {
         internalPanel.add(Box.createVerticalStrut(70));
         internalPanel.add(loadButton);
         internalPanel.add(Box.createVerticalStrut(70));
-        internalPanel.add(loadFileButton);
+        internalPanel.add(adviceButton);
         internalPanel.add(Box.createVerticalStrut(70));
-        internalPanel.add(openFileButton);
+        internalPanel.add(warnButton);
         internalPanel.add(Box.createVerticalStrut(70));
         internalPanel.add(choiceButton);
         internalPanel.add(Box.createVerticalStrut(70));

@@ -28,26 +28,28 @@ public class Main_CIP {
 
         if (missing) {
             actualList=TagListGenerator.highMissingListFactory(tagList,missingRate);
+        } else {
+            actualList = tagList;
         }
         //test(tagNum, tagsPerCid,f1, f2,tagList);
 
         //test(tagNum,tagsPerCid,f1,f2,tagList,actualList);
 
-        testCIP(tagNum,tagsPerCid,f1,f2,tagList);
-    }
-
-
-
-    // 无缺失率
-    public static double testCIP(int tagNum, int tagsPerCid, int f1, int f2, List<Tag> tagList) {
-
-        int unReadCids = (int)Math.ceil(tagNum*1.0/tagsPerCid);;//系统中需要识别的cid数
-        CIP e = new CIP(tagList,unReadCids,f1);
-        double time = e.identifyAll();
-
-        return time;
 
     }
+
+
+
+//    // 无缺失率
+//    public static double testCIP(int tagNum, int tagsPerCid, int f1, int f2, List<Tag> tagList) {
+//
+//        int unReadCids = (int)Math.ceil(tagNum*1.0/tagsPerCid);;//系统中需要识别的cid数
+//        CIP e = new CIP(tagList,unReadCids,f1);
+//        double time = e.identifyAll();
+//
+//        return time;
+//
+//    }
 
 
     // 无缺失率

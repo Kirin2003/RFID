@@ -10,7 +10,7 @@ public class ResultInfo {
     /** 类别ID长度 */
     public  Integer cidLength = 32;
     /** 缺失率 */
-    public  Double missingRate = 0.75;
+    public  Double missingRate = 0.0;
     /** 标签数目 */
     public  Integer tagNum = 10000;
     /** 时隙数目 */
@@ -68,7 +68,7 @@ public class ResultInfo {
         return tagNumPerCid;
     }
 
-    public Integer getUnReadCidNum() {
+    public Integer getTotalCidNum() {
 
         // 无缺失时，显然正确
         // 有缺失时，目标是找到印证每个类是缺失还是存在，正确
@@ -130,6 +130,19 @@ public class ResultInfo {
 //    public static Vector<String> cids = null;
 
 
-
-
+    @Override
+    public String toString() {
+        return "ResultInfo{" +
+                "tagLength=" + tagLength +
+                ", cidLength=" + cidLength +
+                ", missingRate=" + missingRate +
+                ", tagNum=" + tagNum +
+                ", f=" + f +
+                ", isRandomAllocated=" + isRandomAllocated +
+                ", tagNumPerCid=" + tagNumPerCid +
+                ", a=" + a +
+                ", propertiesChanged=" + propertiesChanged +
+                ", algorithmsChanged=" + algorithmsChanged +
+                '}';
+    }
 }

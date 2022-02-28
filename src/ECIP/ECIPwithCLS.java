@@ -22,19 +22,22 @@ public class ECIPwithCLS extends IdentifyTool{
     protected int unReadCidNum;
 
 
-    protected int f1 = 0;//random arranged identification phase的时隙
-    protected int f2 = 0;// rearranged identification phase的时隙
+    protected int f1 = 0;//
+    protected int f2 = 0;// useless
 
+
+    // useless
     protected Set<String> totalPresentCids = new HashSet<>();
     public Set<String> totalMissingCids = new HashSet<>();
     public int missingCidNum = 0;
     public int totalPresence = 0;
     public int totalMissing = 0;
     public int totalCidNeedToIdentify = 0;
+
     public int round = 0;
     boolean flag = true;
 
-    // 无缺失率
+    // 无缺失率, useless
     public ECIPwithCLS(List<Tag> taglist, int unReadCids, int f1, int f2) {
         this(taglist, taglist, unReadCids, f1, f2);
     }
@@ -43,14 +46,8 @@ public class ECIPwithCLS extends IdentifyTool{
         this(tagList,tagList,unReadCids,f1);
     }
 
-    public ECIPwithCLS(List<Tag> tagList, int unReadCids) {
-        this.actualList = tagList;
-        this.virtualList = tagList;
-        this.unReadCidNum = unReadCids;
-        this.totalCidNeedToIdentify = unReadCids;
-    }
-
     public ECIPwithCLS(List<Tag> virtualList, List<Tag> actualList, int unReadCids, int f) {
+        //super(tidLength, cidLength);
         this.virtualList = virtualList;
         this.actualList = actualList;
         this.f1 = f;

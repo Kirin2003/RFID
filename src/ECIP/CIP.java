@@ -4,26 +4,22 @@ import java.util.*;
 
 
 public class CIP extends IdentifyTool{
-    protected List<Tag> tagList;
-    protected Set<String> categoryIDs;
+    protected List<Tag> actualList;
+    protected List<Tag> virtualList;
+    //protected Set<String> presentCids;
     protected Map<Integer, String> CidMap = new HashMap<>(); //store the slotId and the overlapped cid
     protected Map<Integer,List<Tag>> slotToTagList = new HashMap<>();
-    protected int f;
-    protected int time;
     protected int unReadCidNum;
 
 
-    public CIP() {}
-    public CIP(List<Tag> tagList){
-        this.tagList = tagList;
-        categoryIDs = new HashSet<>();
-    }
-
-    public CIP(List<Tag> tagList, int unReadCidNum, int f) {
-        this.tagList = tagList;
-        this.unReadCidNum = unReadCidNum;
+    public CIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
+        super(tidLength, cidLength);
+        this.virtualList = virtualList;
+        this.actualList = actualList;
+        this.virtualCidNum = virtualCidNum;
+        this.actualCidNum = actualCidNum;
         this.f = f;
-        categoryIDs = new HashSet<>();
+
     }
 
     /**
@@ -89,7 +85,7 @@ public class CIP extends IdentifyTool{
         CidMap.clear();
         slotToTagList.clear();
 
-        for (Tag tag : tagList) {
+        for (Tag tag : actualList) {
 
             if(tag.isActive()){
                 String cid = tag.selectSlotPseudoRandom(frameSize, random);
@@ -134,7 +130,7 @@ protected String[] decodeCID(String data){
         int round = 0;
         int cidnum = 0;
         int repeated = 0;
-        int unReadTagNum = tagList.size();     //the num of unread tag
+        int unReadTagNum = actualList.size();     //the num of unread tag
 
         Iterator<Tag> iterator = null;  // used to modify tagList
         int num;        // count the num of recognized CID of every round.
@@ -162,7 +158,7 @@ protected String[] decodeCID(String data){
                 String[] cid = decodeCID(CidMap.get(slotId));
                 // category-compatible slot
                 if(cid.length == 2 || cid.length == 1){
-                    iterator = tagList.iterator();
+                    iterator = actualList.iterator();
                     while (iterator.hasNext()){
                         Tag tag = iterator.next();
                         //deactivate all the tags belong to this category
@@ -177,8 +173,8 @@ protected String[] decodeCID(String data){
                     if (cid.length == 2){
 
                         // recognize CIDs
-                        categoryIDs.add(cid[0]);
-                        categoryIDs.add(cid[1]);
+                        presentCids.add(cid[0]);
+                        presentCids.add(cid[1]);
                         output+=cid[0]+"\n";
                         output+=cid[1]+"\n";
                         System.out.println("CiD recognized in the " + round + "th round are " + cid[0] + " and "+ cid[1]);
@@ -187,7 +183,7 @@ protected String[] decodeCID(String data){
                         // recognize CID
 
 
-                        categoryIDs.add(cid[0]);
+                        presentCids.add(cid[0]);
                         System.out.println("CID recognized in the "+ round +"th round is " + cid[0]);
                         output+=cid[0]+"\n";
                         num++;
@@ -237,7 +233,7 @@ protected String[] decodeCID(String data){
 
 
     public void printCategoryIDs() {
-        for(String s : categoryIDs) {
+        for(String s : presentCids) {
             System.out.println(s);
         }
     }
@@ -249,7 +245,7 @@ protected String[] decodeCID(String data){
     }
 
     public void setTagList(List<Tag> tagList) {
-        this.tagList = tagList;
+        this.actualList = tagList;
 
     }
 

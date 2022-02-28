@@ -69,7 +69,9 @@ public class Tag {
 
     }
 
-
+    public String getTagID() {
+        return tagID;
+    }
 
     public void setTagID(String tagID) {
         this.tagID = tagID;

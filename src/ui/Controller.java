@@ -3,8 +3,6 @@ import ECIP.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.*;
 import domain.ResultInfo;
 import org.apache.log4j.Level;
@@ -180,7 +178,7 @@ public class Controller {
     //选择算法
     public void chooseAlgorithms() {
         logger.debug(" enter choiceButton()");
-        String s = (String) JOptionPane.showInputDialog(ui.jFrame, "", "选择算法", JOptionPane.DEFAULT_OPTION, null, new String[]{"CIP", "ECIP", "ECIP with CLS", "ECIP with DLS"}, "CLS");
+        String s = (String) JOptionPane.showInputDialog(ui.jFrame, "", "选择算法", JOptionPane.DEFAULT_OPTION, null, new String[]{"CIP", "ECIP", "ECIP with CLS", "ECIP with DLS"}, "ECIP");
         System.out.println(s);
         ResultInfo.Algorithms a = ResultInfo.Algorithms.Cip;
         if(s == "CIP") {
@@ -201,35 +199,41 @@ public class Controller {
     // 构造identifyTool
     public void initTool() {
 
-            //等待修改 hxq
+            // useless
             Vector<String> tids = null;
             Vector<String> cids = null;
+            int virtualCidNum = (int)Math.ceil(r.tagNum * 1.0 / r.tagNumPerCid);
+            int actualCidNum = (int)Math.ceil(r.tagNum * r.missingRate / r.tagNumPerCid);
 
             if (r.isRandomAllocated) {
                 tagList = TagListGenerator.tagListFactory2(r.getTagLength(), r.getCidLength(), r.getTagNum(), r.getTagNumPerCid());
             } else {
+                // useless
                 tagList = TagListGenerator.tagListFactory3(r.getTagLength(), r.getCidLength(), r.getTagNum(), tids, cids);
             }
 
             if (r.getMissingRate() > 0) {
-                actualList = TagListGenerator.highMissingListFactory(tagList, r.getMissingRate());
+                actualList = TagListGenerator.highMissingListFactory2(tagList, virtualCidNum,r.getMissingRate());
+            } else {
+                actualList = tagList;
             }
 
 
 
         switch (r.getA()) {
             case Cip:
-                identifyTool = new CIP(tagList, r.getUnReadCidNum(), r.getF());
+                identifyTool = new CIP(tagList, actualList,  virtualCidNum, actualCidNum,r.getF(),r.tagLength,r.cidLength);
                 break;
             case Ecip:
-                identifyTool = new ECIP(tagList, r.getUnReadCidNum(), r.getF());
+                r.f = (int)Math.ceil(0.98 * actualCidNum);
+                identifyTool = new ECIP(tagList, actualList,  virtualCidNum, actualCidNum,r.getF(),r.tagLength,r.cidLength);
                 break;
             case ECIPwithCLS:
-                identifyTool = new ECIPwithCLS(tagList, actualList, r.getUnReadCidNum(), r.getF());
+                identifyTool = new ECLS(tagList, actualList, virtualCidNum,actualCidNum , r.getF(), r.tagLength,r.cidLength);
                 break;
             case ECIPwithDLS:
             default:
-                identifyTool = new CIP(tagList, r.getUnReadCidNum(), r.getF());
+                identifyTool = new ECIP(tagList, actualList, virtualCidNum,actualCidNum, r.getF(),r.tagLength,r.cidLength);
                 break;
         }
 
@@ -244,6 +248,7 @@ public class Controller {
 
     // 开始模拟
     public void start() {
+        System.out.println("开始模拟！");
         initTool();
         String output = "";
 
@@ -267,8 +272,6 @@ public class Controller {
 
 
         ui.controlText.setText(output);
-        System.out.println("output");
-        System.out.println(output);
 
     }
 

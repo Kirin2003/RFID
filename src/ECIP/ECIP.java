@@ -8,34 +8,14 @@ public class ECIP extends CIP {
     protected Map<Integer, Integer> indicator = new HashMap<>();
     protected Vector<Integer> location = new Vector<>();
     protected Vector<String> d = new Vector<>();
-    protected int unReadCidNum;
-    protected long time=0;
-    protected int f1 = 0;//random arranged identification phase的时隙
-    protected int f2 = 0;// rearranged identification phase的时隙
 
-    public ECIP() {
+    protected boolean flag = false; // 是否需要新一轮识别
+
+
+
+    public ECIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
+        super(virtualList, actualList, virtualCidNum, actualCidNum, f, tidLength, cidLength);
     }
-
-    public ECIP(List<Tag> tagList, int unReadCidNum, int f) {
-        super(tagList);
-        this.unReadCidNum = unReadCidNum;
-        this.f1 = f;
-    }
-
-    public ECIP(List<Tag> tagList, int unReadCidNum){
-        super(tagList);
-        //this.unReadTagNum = tagList.size();
-        this.unReadCidNum = unReadCidNum;
-    }
-
-    public ECIP(List<Tag> tagList, int unReadCidNum, int f1, int f2) {
-        super(tagList);
-        //this.unReadTagNum = tagList.size();
-        this.unReadCidNum = unReadCidNum;
-        this.f1 = f1;
-        this.f2 = f2;
-    }
-
 
     /**
      * simulate random identification phase
@@ -43,10 +23,8 @@ public class ECIP extends CIP {
      * the first round of ecip is the same as cip
      */
     protected int randomIdentificationPhase() {
-        int frameSize = f1;
-        /*
-        tags in tagList select slot, construct CidMap and SlotToTagList
-        */
+        int frameSize = f;
+
         // generate random seed
         int random = (int) (100 * Math.random());
         selectSlot(random, frameSize);
@@ -54,13 +32,6 @@ public class ECIP extends CIP {
         //printCidMap();
         int num = recognizeCid(false);
 
-
-        //System.out.println("in randomIdentificationPhase()");
-
-        //System.out.println("in round " + round + " readTagNum = " + readCidNumInOneRound);
-
-
-        unReadCidNum -= num;
         return num;
     }
 
@@ -68,8 +39,6 @@ public class ECIP extends CIP {
      * simulate rearranged identification phase process
      */
     protected int rearrangedIdentificationPhase() {
-
-
             /*
             modify location, and structure d using CidMap and indicator;
              */
@@ -87,95 +56,138 @@ public class ECIP extends CIP {
              */
         int num = recognizeCid(true);
 
-        unReadCidNum -= num;
         return num;
     }
 
     public double identifyAll() {
-
         int repeated = 0;
         int round = 1;
         int num1, num2;
-        int cidnum = 0;
-
 
             System.out.println("round "+round);
             output+="第 "+round+" 轮开始（随机分配阶段）！\n";
 
-
             num1 = randomIdentificationPhase();
-            cidnum += num1;
-
             System.out.println("identify cids in random identification phase: "+num1);
             output+="在第 "+round+" 轮（随机分配阶段），共识别 "+num1+" 个类别ID\n\n";
             if(num1==0) repeated++;
 
-            while(unReadCidNum > 0) {
+            while(flag) {
+                flag = false;
                 round++;
                 System.out.println("round "+round);
                 output+="第 "+round+" 轮开始（重新分配阶段）！\n";
 
                 num2 = rearrangedIdentificationPhase();
-                cidnum +=num2;
+
                 System.out.println("identify cids in rearranged identification phase: "+num2);
                 output+="在第 "+round+" 轮（重新分配阶段），共识别 "+num2+" 个类别ID\n\n";
-
 
                 //System.out.println("the time of round "+round+" is:"+oneRoundTime);
                 System.out.println(" ");
                 if (num2 == 0) repeated++;
 
-                if (repeated >=32) {
-                    //System.out.println("未能识别的tag数目 = " + unReadTagNum);
-                    System.out.println("未能识别的cid数目 = "+unReadCidNum);
-                    System.out.println("识别的cid数目 = "+cidnum);
-                    System.out.println("round = " + round);
-                    System.out.println("repeated round > 32, stop!");
-
-                    output+="没有识别类别ID的轮次超过32, 停止！\n";
-                    output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 未能识别的类别ID数目："+unReadCidNum+", 识别的类别ID数目："+cidnum+ ", 识别率:"+(unReadCidNum*1.0/(unReadCidNum+cidnum))+"\n";
-                    output+="模拟结束！\n";
-                    analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 未能识别的类别ID数目："+unReadCidNum+", 识别的类别ID数目："+cidnum+ ", 识别率:"+(unReadCidNum*1.0/(unReadCidNum+cidnum))+"\n";
+                if (repeated >=32) {//因为未识别任何cid的轮次过多而提前停止
 
                     break;
                 }
                 //oneRoundTime = 0;
             }
-
             // 计算时间，存储在time中
         time();
 
-        System.out.println("需要时间约: "+time*1.0/1000 + "s");
-        System.out.println("识别的cid数目 = "+cidnum);
-        if(repeated < 32) {
+            Set<String> virtualCids = new HashSet<>();
+            for(Tag tag : virtualList) {
+                virtualCids.add(tag.getCategoryID());
+            }
+        System.out.println("virtual cid num:" + virtualCids.size());
+
+            // 缺失的标签
+            for(Tag tag : virtualList) {
+                String cid = tag.getCategoryID();
+
+                // 没有识别到存在的cid认为缺失
+                if (!presentCids.contains(cid)) {
+                    missingCids.add(cid);
+                }
+            }
+
+
+            //TODO
+//        System.out.println("virtual tags");
+//            for(String cid : virtualCids) {
+//                System.out.println(cid);
+//            }
+//
+//        System.out.println("missing tag num:"+missingCids.size());
+//        System.out.println("missing tags:");
+//            for(String cid : missingCids) {
+//                System.out.println(cid);
+//            }
+//
+//
+//
+//            int num = 0;
+//            System.out.println("在present不在virtual中");
+//            for(String cid : presentCids) {
+//                if(!virtualCids.contains(cid)) {
+//                    System.out.println(cid);
+//                    num++;
+//                }
+//            }
+//        System.out.println(num);
+
+            int presentNum = presentCids.size();
+            int missingNum = virtualCidNum -presentNum;
+            int misidentification = actualCidNum - presentNum;
+
+
+
+        if(repeated < 32) { // 全部识别
             output+="识别结束！\n";
-            output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 未识别的类别ID数目："+unReadCidNum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+ String.format("%.2f", time*1.0/1000) + " s\n";
             output+="模拟结束！\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
 
-            analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 未识别的类别ID数目："+unReadCidNum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
-
+        } else { // 部分识别，因为未识别任何cid的轮次过多而停止
+            output+="由于冲突时隙，未能识别类别ID的轮次过多，提前停止！可能影响准确率！";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/missingNum)+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+            output+="模拟结束！\n";
+            analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
         }
+
+        analysis+="识别存在的类别ID为：\n";
+        for(String cid : presentCids) {
+            analysis+=cid+"\n";
+        }
+
+
         return time;
 
     }
 
-    // 计算时间
+
+
+    // 计算时间, 全过程的理论时间
     public double time() {
-        // 计算时间
-        double d = unReadCidNum /f1;
-        // the time of random allocation phase T_p1
-        double t1 = f1*Math.exp(-d)*(-0.8)+f1*1.2;
-        time += t1;
-        //oneRoundTime += t1;
+        int n = virtualCidNum; // 要识别的类别ID数目
+        double d = n*1.0 / f;
+        double d2 = tid*1.0/96;
+        // 随机识别阶段
+        System.out.println("tcid:"+tcid+"tid:"+tid);
+        double t1 = f * Math.exp(-d)*(te-tcid)+ f * tcid;
 
-        // the time of broadcasting indicator vector in the first round:T_i
-        double ti = f1 * (d*Math.exp(-d)+d)*(2.8)/96;
-        time += ti;
+        // 重排识别阶段
+        double t2 = f*(d*Math.exp(-d)+d)*d2+(2*tcid)*(n-f+f*Math.exp(-d));
+        time = t1 + t2;
 
-        // 计算rearranged identification phase的时间 T_cs
-        double tcs = 2.4*(unReadCidNum-f2+f2*Math.exp(-unReadCidNum*1.0/f2));
-        time+=tcs;
+
         return time;
+    }
+
+    public void analysis() {
+
+
     }
 
 
@@ -199,9 +211,8 @@ public class ECIP extends CIP {
             // category-compatible slot
             if (l == 1) {
                 for (Tag tag : slotToTagList.get(slotId)) {
-                    tag.setActive(false);
-                    tagList.remove(tag);
-                   // unReadTagNum--;
+                   tag.setActive(false);
+
                 }
 
                 // recognize CID and construct indicator
@@ -211,8 +222,7 @@ public class ECIP extends CIP {
             } else if (l == 2) {
                 for (Tag tag : slotToTagList.get(slotId)) {
                     tag.setActive(false);
-                    tagList.remove(tag);
-                   // unReadTagNum--;
+
                 }
 
                 // recognize CIDs
@@ -222,6 +232,8 @@ public class ECIP extends CIP {
             } else {
                 indicator.put(slotId, i);
                 ++i;
+
+                flag = true; // 需要新一轮识别
             }
         }
 
@@ -239,17 +251,20 @@ public class ECIP extends CIP {
         if (isPartial) {
             for (String str : strs) {
                 String cid = combineCID(slotId, str);
+
                 System.out.println("identify cid:" +cid+"\n");
-                output+="识别类别ID："+cid+"\n";
-                categoryIDs.add(cid);
+                output+="识别类别ID："+cid+"存在\n";
+                presentCids.add(cid);
+
                 //System.out.println(cid);
             }
 
         } else {
             for (String str : strs) {
                 System.out.println("identify cid:"+str+"\n");
-                output+="识别类别ID："+str+"\n";
-                categoryIDs.add(str);
+                output+="识别类别ID："+str+"存在\n";
+                presentCids.add(str);
+
                 //System.out.println(str);
             }
         }
@@ -325,14 +340,16 @@ public class ECIP extends CIP {
         CidMap.clear();
         Map<Integer, List<Tag>> newSlotToTagList = new HashMap<>();
 
-        for(Tag tag : tagList) {
-            int oldslot = tag.getSlotSelected();
-            int j = indicator.get(oldslot);
-            if(j!=-1) {
-                int xindex = location.get(j);
-                tag.selectSlotBasedOnXIndex(j,xindex);
-                String partialCid = tag.getCategoryID().substring(xindex + 1);
-                constructCidMapAndSlotToTagList(tag, partialCid, newSlotToTagList);
+        for(Tag tag : actualList) {
+            if (tag.isActive()) {
+                int oldslot = tag.getSlotSelected();
+                int j = indicator.get(oldslot);
+                if(j!=-1) {
+                    int xindex = location.get(j);
+                    tag.selectSlotBasedOnXIndex(j,xindex);
+                    String partialCid = tag.getCategoryID().substring(xindex + 1);
+                    constructCidMapAndSlotToTagList(tag, partialCid, newSlotToTagList);
+                }
             }
 
         }
@@ -397,9 +414,7 @@ public class ECIP extends CIP {
         }
     }
 
-    public void setTagList(List<Tag> tagList) {
-        this.tagList = tagList;
-    }
+
 
 //    public Set<String> getCategoryIDs() {
 //        return categoryIDs;
