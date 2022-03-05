@@ -4,7 +4,7 @@ import java.util.*;
 public abstract class IdentifyTool {
     public String output = "";
     public String analysis = "";
-    public double  time;
+    public double  time = 0;
 
 
     public Set<String> presentCids = new HashSet<>();

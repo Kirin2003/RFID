@@ -88,6 +88,8 @@ public class CIP extends IdentifyTool{
                 constructCidMapAndSlotToTagList(tag, cid, slotToTagList);
             }
         }
+
+
     }
 
     /**
@@ -117,10 +119,11 @@ public class CIP extends IdentifyTool{
     }
 
     protected int randomIdentificationPhase() {
+        // 优化帧长
         int frameSize = f;
 
         // generate random seed
-        int random = (int) (100 * Math.random());
+        int random = (int)(100 * Math.random());
         selectSlot(random, frameSize);
 
 
@@ -134,21 +137,16 @@ public class CIP extends IdentifyTool{
             if (l == 1) {
                 for (Tag tag : slotToTagList.get(slotId)) {
                     tag.setActive(false);
-
                 }
 
                 // recognize CID and construct indicator
-
                 System.out.println("identify cid:" +strs[0]+"\n");
                 output+="识别类别ID："+strs[0]+"存在\n";
                 presentCids.add(strs[0]);
-
-
                 readCidNumInOneRound++;
             } else if (l == 2) {
                 for (Tag tag : slotToTagList.get(slotId)) {
                     tag.setActive(false);
-
                 }
 
                 // recognize CIDs
@@ -166,6 +164,8 @@ public class CIP extends IdentifyTool{
                 flag = true; // 需要新一轮识别
             }
         }
+
+
         return readCidNumInOneRound;
     }
 
@@ -178,31 +178,44 @@ public class CIP extends IdentifyTool{
         int cidnum = 0;
         int repeated = 0;
 
+        // 记录系统中待识别的类别ID数，优化时隙
+        int unReadCidNum = actualCidNum;
+        int f1 = (int)(Math.ceil(1.53*unReadCidNum));
+        f =f1 > 10 ? f1:10;
+
 
         Iterator<Tag> iterator = null;  // used to modify tagList
         int num;        // count the num of recognized CID of every round.
         while( flag ) {
             flag = false;
             output+="第 "+round+" 轮开始（重新分配阶段）！\n";
-            round++;
+
             num = randomIdentificationPhase();
             output+="在第 "+round+" 轮（随机分配阶段），共识别 "+num+" 个类别ID\n\n";
 
-            if(num == 0) repeated ++;
-            if(repeated >= 32) {//因为未识别任何cid的轮次过多而提前停止
+            time += 2.31 * num;
+            round++;
+            // 优化时隙
+            unReadCidNum -= num;
+            int f2 = (int)(Math.ceil(1.53*unReadCidNum));
+            f =f2 > 10 ? f2:10;
+
+            if(num == 0)  {
+                repeated ++;
+                time += (9*0.4 + 1.2);
+            }
+            if(repeated >= 2) {//因为未识别任何cid的轮次过多而提前停止
                 break;
             }
 
         }
 
-        // 计算时间，存储在time中
-        time();
+
 
         Set<String> virtualCids = new HashSet<>();
         for(Tag tag : virtualList) {
             virtualCids.add(tag.getCategoryID());
         }
-        System.out.println("virtual cid num:" + virtualCids.size());
 
         // 缺失的标签
         for(Tag tag : virtualList) {
@@ -220,17 +233,17 @@ public class CIP extends IdentifyTool{
 
 
 
-        if(repeated < 32) { // 全部识别
+        if(repeated < 2) { // 全部识别
             output+="识别结束！\n";
-            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+ String.format("%.2f", time*1.0/1000) + " s\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+"， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+ String.format("%.2f", time*1.0/1000) + " s\n";
             output+="模拟结束！\n";
-            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+"， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
 
         } else { // 部分识别，因为未识别任何cid的轮次过多而停止
             output+="由于冲突时隙，未能识别类别ID的轮次过多，提前停止！可能影响准确率！\n";
-            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/missingNum)+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+"， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/virtualCidNum)+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
             output+="模拟结束！\n";
-            analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+            analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+"， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/virtualCidNum)+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
         }
 
         analysis+="识别存在的类别ID为：\n";
@@ -243,7 +256,7 @@ public class CIP extends IdentifyTool{
 
     @Override
     public double time() {
-        return 0;
+        return 1.53*actualCidNum;
     }
 
 

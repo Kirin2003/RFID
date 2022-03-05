@@ -13,6 +13,7 @@ public class ECIP extends CIP {
 
     public ECIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
         super(virtualList, actualList, virtualCidNum, actualCidNum, f, tidLength, cidLength);
+
     }
 
 
@@ -64,13 +65,23 @@ public class ECIP extends CIP {
         int round = 1;
         int num1, num2;
 
+        // 优化时隙
+        f = (int)(Math.ceil(0.98 * actualCidNum));
+
         System.out.println("round "+round);
         output+="第 "+round+" 轮开始（随机分配阶段）！\n";
 
         num1 = randomIdentificationPhase();
+
+
         System.out.println("identify cids in random identification phase: "+num1);
         output+="在第 "+round+" 轮（随机分配阶段），共识别 "+num1+" 个类别ID\n\n";
-        if(num1==0) repeated++;
+
+        time += num1 * 1.81;
+        if(num1==0) {
+            repeated++;
+            time += (f-1)*0.4 + 1.2;
+        }
 
         while(flag) {
             flag = false;
@@ -79,13 +90,17 @@ public class ECIP extends CIP {
             output+="第 "+round+" 轮开始（重新分配阶段）！\n";
 
             num2 = rearrangedIdentificationPhase();
+            time += num2 * 1.81;
 
             System.out.println("identify cids in rearranged identification phase: "+num2);
             output+="在第 "+round+" 轮（重新分配阶段），共识别 "+num2+" 个类别ID\n\n";
 
             //System.out.println("the time of round "+round+" is:"+oneRoundTime);
             System.out.println(" ");
-            if (num2 == 0) repeated++;
+            if (num2 == 0) {
+                repeated++;
+                time += (f-1)*0.4 + 1.2;
+            }
 
             if (repeated >=32) {//因为未识别任何cid的轮次过多而提前停止
 
@@ -95,7 +110,7 @@ public class ECIP extends CIP {
 
         }
         // 计算时间，存储在time中
-        time();
+
 
             Set<String> virtualCids = new HashSet<>();
             for(Tag tag : virtualList) {
@@ -144,6 +159,7 @@ public class ECIP extends CIP {
 
 
 
+
         if(repeated < 32) { // 全部识别
             output+="识别结束！\n";
             output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+ String.format("%.2f", time*1.0/1000) + " s\n";
@@ -171,19 +187,8 @@ public class ECIP extends CIP {
 
     // 计算时间, 全过程的理论时间
     public double time() {
-        int n = virtualCidNum; // 要识别的类别ID数目
-        double d = n*1.0 / f;
-        double d2 = tid*1.0/96;
-        // 随机识别阶段
-        System.out.println("tcid:"+tcid+"tid:"+tid);
-        double t1 = f * Math.exp(-d)*(te-tcid)+ f * tcid;
 
-        // 重排识别阶段
-        double t2 = f*(d*Math.exp(-d)+d)*d2+(2*tcid)*(n-f+f*Math.exp(-d));
-        time = t1 + t2;
-
-
-        return time;
+        return 1.81 * actualCidNum;
     }
 
     public void analysis() {
