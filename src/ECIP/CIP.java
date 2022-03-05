@@ -179,9 +179,9 @@ public class CIP extends IdentifyTool{
         int repeated = 0;
 
         // 记录系统中待识别的类别ID数，优化时隙
-        int unReadCidNum = actualCidNum;
-        int f1 = (int)(Math.ceil(1.53*unReadCidNum));
-        f =f1 > 10 ? f1:10;
+//        int unReadCidNum = actualCidNum;
+//        int f1 = (int)(Math.ceil(1.53*unReadCidNum));
+//        f =f1 > 10 ? f1:10;
 
 
         Iterator<Tag> iterator = null;  // used to modify tagList
@@ -196,9 +196,9 @@ public class CIP extends IdentifyTool{
             time += 2.31 * num;
             round++;
             // 优化时隙
-            unReadCidNum -= num;
-            int f2 = (int)(Math.ceil(1.53*unReadCidNum));
-            f =f2 > 10 ? f2:10;
+//            unReadCidNum -= num;
+//            int f2 = (int)(Math.ceil(1.53*unReadCidNum));
+//            f =f2 > 10 ? f2:10;
 
             if(num == 0)  {
                 repeated ++;
@@ -241,9 +241,9 @@ public class CIP extends IdentifyTool{
 
         } else { // 部分识别，因为未识别任何cid的轮次过多而停止
             output+="由于冲突时隙，未能识别类别ID的轮次过多，提前停止！可能影响准确率！\n";
-            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+"， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/virtualCidNum)+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+"， 识别缺失的类别ID数目："+missingNum+", 准确率："+(1- (misidentification*1.0/virtualCidNum) )+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
             output+="模拟结束！\n";
-            analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+"， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/virtualCidNum)+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+            analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+"， 识别缺失的类别ID数目："+missingNum+", 准确率："+(1- (misidentification*1.0/virtualCidNum) )+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
         }
 
         analysis+="识别存在的类别ID为：\n";
