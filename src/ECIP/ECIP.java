@@ -64,37 +64,37 @@ public class ECIP extends CIP {
         int round = 1;
         int num1, num2;
 
+        System.out.println("round "+round);
+        output+="第 "+round+" 轮开始（随机分配阶段）！\n";
+
+        num1 = randomIdentificationPhase();
+        System.out.println("identify cids in random identification phase: "+num1);
+        output+="在第 "+round+" 轮（随机分配阶段），共识别 "+num1+" 个类别ID\n\n";
+        if(num1==0) repeated++;
+
+        while(flag) {
+            flag = false;
+            round++;
             System.out.println("round "+round);
-            output+="第 "+round+" 轮开始（随机分配阶段）！\n";
+            output+="第 "+round+" 轮开始（重新分配阶段）！\n";
 
-            num1 = randomIdentificationPhase();
-            System.out.println("identify cids in random identification phase: "+num1);
-            output+="在第 "+round+" 轮（随机分配阶段），共识别 "+num1+" 个类别ID\n\n";
-            if(num1==0) repeated++;
+            num2 = rearrangedIdentificationPhase();
 
-            while(flag) {
-                flag = false;
-                round++;
-                System.out.println("round "+round);
-                output+="第 "+round+" 轮开始（重新分配阶段）！\n";
+            System.out.println("identify cids in rearranged identification phase: "+num2);
+            output+="在第 "+round+" 轮（重新分配阶段），共识别 "+num2+" 个类别ID\n\n";
 
-                num2 = rearrangedIdentificationPhase();
+            //System.out.println("the time of round "+round+" is:"+oneRoundTime);
+            System.out.println(" ");
+            if (num2 == 0) repeated++;
 
-                System.out.println("identify cids in rearranged identification phase: "+num2);
-                output+="在第 "+round+" 轮（重新分配阶段），共识别 "+num2+" 个类别ID\n\n";
+            if (repeated >=32) {//因为未识别任何cid的轮次过多而提前停止
 
-                //System.out.println("the time of round "+round+" is:"+oneRoundTime);
-                System.out.println(" ");
-                if (num2 == 0) repeated++;
-
-                if (repeated >=32) {//因为未识别任何cid的轮次过多而提前停止
-
-                    break;
-                }
-
-
+                break;
             }
-            // 计算时间，存储在time中
+
+
+        }
+        // 计算时间，存储在time中
         time();
 
             Set<String> virtualCids = new HashSet<>();
@@ -266,7 +266,6 @@ public class ECIP extends CIP {
                 output+="识别类别ID："+str+"存在\n";
                 presentCids.add(str);
 
-                //System.out.println(str);
             }
         }
     }

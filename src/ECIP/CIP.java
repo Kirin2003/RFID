@@ -8,7 +8,7 @@ public class CIP extends IdentifyTool{
     protected List<Tag> virtualList;
     protected Map<Integer, String> CidMap = new HashMap<>(); //store the slotId and the overlapped cid
     protected Map<Integer,List<Tag>> slotToTagList = new HashMap<>();
-    protected int unReadCidNum;
+    protected boolean flag = true;
 
 
     public CIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
@@ -90,134 +90,154 @@ public class CIP extends IdentifyTool{
         }
     }
 
-/**
- * exploit Manchester coding scheme to decode the aggregated signals received in collision slots.
- * @param data:
- */
-protected String[] decodeCID(String data){
-    // empty slot
-    if (data == null){
-        return null;
+    /**
+     * exploit Manchester coding scheme to decode the aggregated signals received in collision slots.
+     * @param data:
+     */
+    protected String[] decodeCID(String data){
+        // empty slot
+        if (data == null){
+            return null;
+        }
+        // category-compatible slot
+        int index1 = data.indexOf('X');
+        if (index1 == -1){
+            // the reader receives the data with no collision bit ‘X’, it identifies a CID
+            return new String[]{data};
+        }
+        int index2 = data.lastIndexOf('X');
+        if (index1 == index2){
+            // the reader receives the data with only one collision bit ‘X’, it identifies two CIDs. One is the collision bit ‘X’ is set to ‘0’, the other is set to ‘1’.
+            String s1 = data.replace('X', '0');
+            String s2 = data.replace('X', '1');
+            return new String[]{s1, s2};
+        }
+        // category-collision slot
+        return new String[]{};
     }
-    // category-compatible slot
-    int index1 = data.indexOf('X');
-    if (index1 == -1){
-        // the reader receives the data with no collision bit ‘X’, it identifies a CID
-        return new String[]{data};
+
+    protected int randomIdentificationPhase() {
+        int frameSize = f;
+
+        // generate random seed
+        int random = (int) (100 * Math.random());
+        selectSlot(random, frameSize);
+
+
+        // identify
+        int readCidNumInOneRound = 0;
+        for (Integer slotId : CidMap.keySet()) {
+            String[] strs = decodeCID(CidMap.get(slotId));
+            int l = strs.length;
+
+            // category-compatible slot
+            if (l == 1) {
+                for (Tag tag : slotToTagList.get(slotId)) {
+                    tag.setActive(false);
+
+                }
+
+                // recognize CID and construct indicator
+
+                System.out.println("identify cid:" +strs[0]+"\n");
+                output+="识别类别ID："+strs[0]+"存在\n";
+                presentCids.add(strs[0]);
+
+
+                readCidNumInOneRound++;
+            } else if (l == 2) {
+                for (Tag tag : slotToTagList.get(slotId)) {
+                    tag.setActive(false);
+
+                }
+
+                // recognize CIDs
+                System.out.println("identify cid:" +strs[0]+"\n");
+                System.out.println("identify cid:" +strs[1]+"\n");
+                output+="识别类别ID："+strs[0]+"存在\n";
+                output+="识别类别ID："+strs[1]+"存在\n";
+                presentCids.add(strs[0]);
+                presentCids.add(strs[1]);
+                readCidNumInOneRound += 2;
+
+            } else { // 冲突时隙
+
+
+                flag = true; // 需要新一轮识别
+            }
+        }
+        return readCidNumInOneRound;
     }
-    int index2 = data.lastIndexOf('X');
-    if (index1 == index2){
-        // the reader receives the data with only one collision bit ‘X’, it identifies two CIDs. One is the collision bit ‘X’ is set to ‘0’, the other is set to ‘1’.
-        String s1 = data.replace('X', '0');
-        String s2 = data.replace('X', '1');
-        return new String[]{s1, s2};
-    }
-    // category-collision slot
-    return new String[]{};
-}
 
 
     /**
      * cip process simulation
      */
     public double identifyAll(){
-        int round = 0;
+        int round = 1;
         int cidnum = 0;
         int repeated = 0;
-        int unReadTagNum = actualList.size();     //the num of unread tag
+
 
         Iterator<Tag> iterator = null;  // used to modify tagList
         int num;        // count the num of recognized CID of every round.
-        while(unReadCidNum > 0){
-
-
-            num = 0;
+        while( flag ) {
+            flag = false;
+            output+="第 "+round+" 轮开始（重新分配阶段）！\n";
             round++;
-            output+="第 "+round+" 轮开始！\n";
-            int frameSize = f;
-            CidMap.clear();
+            num = randomIdentificationPhase();
+            output+="在第 "+round+" 轮（随机分配阶段），共识别 "+num+" 个类别ID\n\n";
 
-            /*
-            tags in tagList select slot
-            */
-            int random = (int)(100 * Math.random());
-
-
-            selectSlot(random, frameSize);
-            printCidMap();
-            /*
-                recognize cid
-             */
-            for (Integer slotId : CidMap.keySet()) {
-                String[] cid = decodeCID(CidMap.get(slotId));
-                // category-compatible slot
-                if(cid.length == 2 || cid.length == 1){
-                    iterator = actualList.iterator();
-                    while (iterator.hasNext()){
-                        Tag tag = iterator.next();
-                        //deactivate all the tags belong to this category
-                        if(tag.getSlotSelected().equals(slotId)){
-                            tag.setActive(false);
-                            unReadTagNum--;
-                            iterator.remove();
-                        }
-                    }
-
-
-                    if (cid.length == 2){
-
-                        // recognize CIDs
-                        presentCids.add(cid[0]);
-                        presentCids.add(cid[1]);
-
-                        System.out.println("CiD recognized in the " + round + "th round are " + cid[0] + " and "+ cid[1]);
-                        output+="识别类别ID："+cid[0]+"存在\n";
-                        output+="识别类别ID："+cid[1]+"存在\n";
-                        num += 2;
-                    }else if (cid.length == 1){
-                        // recognize CID
-
-
-                        presentCids.add(cid[0]);
-                        System.out.println("CID recognized in the "+ round +"th round is " + cid[0]);
-                        output+="识别类别ID："+cid[0]+"存在\n";
-                        num++;
-                    }
-                }
-            }
-            output+="在第 "+round+" 轮，共识别 "+num+" 个类别ID\n\n";
-            System.out.println("the " + round + "-th round identify "+num+" cids" );
-            if(num == 0) {
-                repeated ++;
-            }
-            cidnum += num;
-            num = 0;
-
-            if(repeated >= 20) {
-                System.out.println("没有识别类别ID的轮次超过20，停止！");
-                output+="没有识别类别ID的轮次超过20，停止！\n";
-                output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 未能识别的类别ID数目："+unReadCidNum+", 识别的类别ID数目："+cidnum+ ", 识别率:"+(unReadCidNum*1.0/(unReadCidNum+cidnum))+"\n\n";
-                output+="模拟结束！\n";
-                analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 未能识别的类别ID数目："+unReadCidNum+", 识别的类别ID数目："+cidnum+ ", 识别率:"+(unReadCidNum*1.0/(unReadCidNum+cidnum))+"\n";
-
-                System.out.println(output);
+            if(num == 0) repeated ++;
+            if(repeated >= 32) {//因为未识别任何cid的轮次过多而提前停止
                 break;
             }
+
         }
 
         // 计算时间，存储在time中
         time();
 
-        System.out.println("需要时间约: "+time*1.0/1000 + "s");
-        System.out.println("识别的cid数目 = "+cidnum);
-        if(repeated < 20) {
-            output+="识别结束！\n";
-            output+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 识别的类别ID数目："+cidnum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
-            output+="模拟结束！\n";
-
-            analysis+="需要识别的类别ID数目："+(unReadCidNum+cidnum)+", 识别的类别ID数量："+cidnum+", 识别的类别ID数目："+cidnum+", 识别率：100%"+", 需要时间约： "+time*1.0/1000 + " s\n";
-
+        Set<String> virtualCids = new HashSet<>();
+        for(Tag tag : virtualList) {
+            virtualCids.add(tag.getCategoryID());
         }
+        System.out.println("virtual cid num:" + virtualCids.size());
+
+        // 缺失的标签
+        for(Tag tag : virtualList) {
+            String cid = tag.getCategoryID();
+
+            // 没有识别到存在的cid认为缺失
+            if (!presentCids.contains(cid)) {
+                missingCids.add(cid);
+            }
+        }
+
+        int presentNum = presentCids.size();
+        int missingNum = virtualCidNum -presentNum;
+        int misidentification = actualCidNum - presentNum;
+
+
+
+        if(repeated < 32) { // 全部识别
+            output+="识别结束！\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+ String.format("%.2f", time*1.0/1000) + " s\n";
+            output+="模拟结束！\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+
+        } else { // 部分识别，因为未识别任何cid的轮次过多而停止
+            output+="由于冲突时隙，未能识别类别ID的轮次过多，提前停止！可能影响准确率！\n";
+            output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/missingNum)+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+            output+="模拟结束！\n";
+            analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+        }
+
+        analysis+="识别存在的类别ID为：\n";
+        for(String cid : presentCids) {
+            analysis+=cid+"\n";
+        }
+
         return time;
     }
 
