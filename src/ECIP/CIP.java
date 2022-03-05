@@ -6,15 +6,10 @@ import java.util.*;
 public class CIP extends IdentifyTool{
     protected List<Tag> actualList;
     protected List<Tag> virtualList;
-    //protected Set<String> presentCids;
     protected Map<Integer, String> CidMap = new HashMap<>(); //store the slotId and the overlapped cid
     protected Map<Integer,List<Tag>> slotToTagList = new HashMap<>();
     protected int unReadCidNum;
 
-
-    // useless
-
-    public CIP(List<Tag> tagList, int n, int f) {}
 
     public CIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
         super(tidLength, cidLength);
@@ -33,7 +28,6 @@ public class CIP extends IdentifyTool{
      */
     void constructCidMapAndSlotToTagList(Tag tag, String str, Map<Integer,List<Tag>>slotToTagList) {
         Integer slotSelected = tag.getSlotSelected();
-
 
         // the slot is empty
         if (!CidMap.containsKey(slotSelected)){
@@ -75,10 +69,6 @@ public class CIP extends IdentifyTool{
         return stringBuilder.toString();
     }
 
-//    public static void main(String[] args) {
-//        //test encode
-//        System.out.println(encode("10000", "10111"));
-//    }
 
     /**
      * selects a slot based on the random hash function H(CID, r) mod f
@@ -179,9 +169,10 @@ protected String[] decodeCID(String data){
                         // recognize CIDs
                         presentCids.add(cid[0]);
                         presentCids.add(cid[1]);
-                        output+=cid[0]+"\n";
-                        output+=cid[1]+"\n";
+
                         System.out.println("CiD recognized in the " + round + "th round are " + cid[0] + " and "+ cid[1]);
+                        output+="识别类别ID："+cid[0]+"存在\n";
+                        output+="识别类别ID："+cid[1]+"存在\n";
                         num += 2;
                     }else if (cid.length == 1){
                         // recognize CID
@@ -189,7 +180,7 @@ protected String[] decodeCID(String data){
 
                         presentCids.add(cid[0]);
                         System.out.println("CID recognized in the "+ round +"th round is " + cid[0]);
-                        output+=cid[0]+"\n";
+                        output+="识别类别ID："+cid[0]+"存在\n";
                         num++;
                     }
                 }

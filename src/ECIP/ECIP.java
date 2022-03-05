@@ -11,16 +11,11 @@ public class ECIP extends CIP {
 
     protected boolean flag = false; // 是否需要新一轮识别
 
-
-
     public ECIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
         super(virtualList, actualList, virtualCidNum, actualCidNum, f, tidLength, cidLength);
     }
 
-    public ECIP(List<Tag> tagList, int unReadCidNum, Integer f) {
-        super(tagList, unReadCidNum, f);
 
-    }
 
     /**
      * simulate random identification phase
@@ -96,7 +91,8 @@ public class ECIP extends CIP {
 
                     break;
                 }
-                //oneRoundTime = 0;
+
+
             }
             // 计算时间，存储在time中
         time();

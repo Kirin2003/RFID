@@ -12,7 +12,6 @@ public class ECLS extends IdentifyTool{
     protected Map<Integer, Integer> indicator = new HashMap<>();
     protected  Vector<Integer> location = new Vector<>();
 
-    protected Map<Integer, Integer> L = new HashMap<>(); // 某个时隙是空时隙，单时隙，冲突时隙
     protected int f1 = 0;
 
     boolean flag = false;
@@ -30,7 +29,7 @@ public class ECLS extends IdentifyTool{
     public void allocate1(int frameSize, int random) {
         slotToVirtualList.clear();
         CidMap.clear();
-        L.clear();
+
 
         // 给每个虚拟标签分配时隙
         for (Tag tag : virtualList) {
@@ -55,39 +54,9 @@ public class ECLS extends IdentifyTool{
             }
         }
 
-        // 记录标签类别个数, 键：时隙，值：标签类别个数
-        String cid1 = null;
-        boolean isSingle = true;
-//        for(Integer slot : slotToVirtualList.keySet()) {
-//            if(slotToVirtualList.get(slot).size() == 0) {
-//                L.put(slot, 0); // 空时隙
-//                break;
-//            } else {
-//                cid1 = slotToVirtualList.get(slot).get(0).getCategoryID();
-//
-//                for(Tag tag : slotToVirtualList.get(slot)) {
-//                    if(tag.getCategoryID() != cid1) {
-//                        isSingle = false;
-//                        break;
-//                    }
-//                }
-//                if(isSingle) {
-//                    L.put(slot, 1); // 单时隙
-//
-//                } else {
-//                    L.put(slot, 2); // 表示冲突时隙
-//                }
-//            }
-//        }
-
 
     }
 
-    public void printL() {
-        for(Integer i : L.keySet()) {
-
-        }
-    }
 
     /**
      * overlap category ID
@@ -139,6 +108,8 @@ public class ECLS extends IdentifyTool{
 
         for(Integer slot : slotToVirtualList.keySet()) {
             if(!presentSlots.contains(slot)) {
+
+
                 cids.clear();
                 // 全部缺失
                 // 收集全部cid ,标签变为不活跃状态
@@ -177,6 +148,8 @@ public class ECLS extends IdentifyTool{
             } else {
                 // 存在未能识别的冲突时隙，需要新一轮的识别
                 flag = true;
+
+
                 indicator.put(slot, i);
                 location.add(CidMap.get(slot).indexOf('X'));
                 i++;
@@ -195,30 +168,6 @@ public class ECLS extends IdentifyTool{
         return num;
     }
 
-    /**
-     * construct location vector and structure d
-     *Each element corresponds to an unidentified category-
-     * collision slot and indicates the index X index of the first
-     * collision bit ‘X’ in this slot.
-     */
-//    protected void constructLocation() {
-//        System.out.println("indicator");
-//        printIndicator();
-//        System.out.println("cid map");
-//        printCidMap();
-//
-//        Vector<Integer> newLocation = new Vector<>();
-//        for (Integer slotID : indicator.keySet()) {
-//            if (indicator.get(slotID) != -1) {
-//                int i = indicator.get(slotID);//第i个冲突时隙
-//
-//                }
-//            }
-//
-//        location = newLocation;
-//
-//    }
-
     public void printCidMap() {
         for (Integer slotId : CidMap.keySet()) {
             System.out.println("slotId = " + slotId + " code = " + CidMap.get(slotId));
@@ -236,10 +185,6 @@ public class ECLS extends IdentifyTool{
 
 
     public void allocate2() {
-
-        //Map<Integer, List<Tag>> newSlotToVirtualList = new HashMap<>();
-        //Map<Integer, String> newCidMap = new HashMap<>();
-
         /*
         重写：hxq, 2022-3-5
         重新分配，依据xindex分配，reconcile冲突时隙
@@ -284,15 +229,11 @@ public class ECLS extends IdentifyTool{
                 }
             }
         }
-        //slotToVirtualList = newSlotToVirtualList;
-        //CidMap = newCidMap;
-
     }
 
     public int rearrangedIdentificationPhase() {
         int num = 0;
 
-        //constructLocationAndStructureD();
         allocate2();
         num = identify1();
         return num;
@@ -316,22 +257,23 @@ public class ECLS extends IdentifyTool{
         while(flag) {
             flag = false;
             round++;
-            System.out.println("round "+round);
-            output+="第 "+round+" 轮开始（重新分配阶段）！\n";
+            System.out.println("round " + round);
+            output += "第 " + round + " 轮开始（重新分配阶段）！\n";
 
             num2 = rearrangedIdentificationPhase();
 
-            System.out.println("identify cids in rearranged identification phase: "+num2);
-            output+="在第 "+round+" 轮（重新分配阶段），共识别 "+num2+" 个类别ID\n\n";
+            System.out.println("identify cids in rearranged identification phase: " + num2);
+            output += "在第 " + round + " 轮（重新分配阶段），共识别 " + num2 + " 个类别ID\n\n";
 
             //System.out.println("the time of round "+round+" is:"+oneRoundTime);
             System.out.println(" ");
             if (num2 == 0) repeated++;
 
-            if (repeated >=32) {//因为未识别任何cid的轮次过多而提前停止
+            if (repeated >= 32) {//因为未识别任何cid的轮次过多而提前停止
 
                 break;
             }
+        }
 
             time();
 
@@ -352,9 +294,9 @@ public class ECLS extends IdentifyTool{
                 analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
             }
             return time;
-        }
 
-        return 0;
+
+
     }
 
     @Override

@@ -1,10 +1,5 @@
 package domain;
 
-import ECIP.Tag;
-import java.util.*;
-
-
-
 public class ResultInfo {
     /** 标签ID长度 */
     public  Integer tagLength = 96;
@@ -15,7 +10,7 @@ public class ResultInfo {
     /** 标签数目 */
     public  Integer tagNum = 10000;
     /** 时隙数目 */
-    public  Integer f =98;
+    public  Integer f =160;
     /** 是否随机分配*/
     public  Boolean isRandomAllocated = true;
     /** 标签/类别ID */
@@ -29,16 +24,9 @@ public class ResultInfo {
         ECIPwithDLS;
     }
 
-    public Algorithms a = Algorithms.ECIPwithCLS;
+    public Algorithms a = Algorithms.Cip;
 
     public boolean propertiesChanged = true;
-
-    public boolean algorithmsChanged = true;
-
-    // useless
-    public int getUnReadCidNum() {
-        return 0;
-    }
 
     public Algorithms getA() {
         return a;
@@ -72,67 +60,22 @@ public class ResultInfo {
         return tagNumPerCid;
     }
 
-    public Integer getTotalCidNum() {
+    public Integer getVirtualCidNum() {
 
         // 无缺失时，显然正确
         // 有缺失时，目标是找到印证每个类是缺失还是存在，正确
         return (int)Math.ceil( (tagNum*1.0/tagNumPerCid) );
     }
 
-    public boolean isPropertiesChanged() {
-        return propertiesChanged;
+    public Integer getActualCidNum() {
+        return (int)Math.ceil(tagNum *(1-missingRate) /tagNumPerCid);
     }
 
-    public boolean isAlgorithmsChanged() {
-        return algorithmsChanged;
-    }
-
-    public void setTagLength(Integer tagLength) {
-        this.tagLength = tagLength;
-        propertiesChanged = true;
-    }
-
-    public void setCidLength(Integer cidLength) {
-        this.cidLength = cidLength;
-        propertiesChanged = true;
-    }
-
-    public void setMissingRate(Double missingRate) {
-        this.missingRate = missingRate;
-        propertiesChanged = true;
-    }
-
-    public void setTagNum(Integer tagNum) {
-        this.tagNum = tagNum;
-        propertiesChanged = true;
-    }
-
-    public void setF(Integer f) {
-        this.f = f;
-        propertiesChanged = true;
-    }
-
-    public void setRandomAllocated(Boolean randomAllocated) {
-        isRandomAllocated = randomAllocated;
-        propertiesChanged = true;
-    }
-
-    public void setTagNumPerCid(Integer tagNumPerCid) {
-        this.tagNumPerCid = tagNumPerCid;
-        propertiesChanged = true;
-    }
 
     public void setA(Algorithms a) {
         this.a = a;
-        algorithmsChanged = true;
+
     }
-
-    //    public static List<Tag> virtualList = null;
-//    public static List<Tag> actualList = null;
-//    public static Integer unReadCids = 0;
-//    public static Vector<String> tids = null;
-//    public static Vector<String> cids = null;
-
 
     @Override
     public String toString() {
@@ -145,8 +88,6 @@ public class ResultInfo {
                 ", isRandomAllocated=" + isRandomAllocated +
                 ", tagNumPerCid=" + tagNumPerCid +
                 ", a=" + a +
-                ", propertiesChanged=" + propertiesChanged +
-                ", algorithmsChanged=" + algorithmsChanged +
                 '}';
     }
 }

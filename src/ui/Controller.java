@@ -186,45 +186,41 @@ public class Controller {
         } else if (s == "ECIP with DLS"){
             a = ResultInfo.Algorithms.ECIPwithDLS;
         }
-
         r.setA(a);
-
     }
-
 
     // 构造identifyTool
     public void initTool() {
-        //等待修改 hxq
-        Vector<String> tids = null;
-        Vector<String> cids = null;
 
-        if (r.isRandomAllocated) {
-            tagList = TagListGenerator.tagListFactory2(r.getTagLength(), r.getCidLength(), r.getTagNum(), r.getTagNumPerCid());
-        } else {
-            tagList = TagListGenerator.tagListFactory3(r.getTagLength(), r.getCidLength(), r.getTagNum(), tids, cids);
-        }
 
-        if (r.getMissingRate() > 0) {
-            actualList = TagListGenerator.highMissingListFactory(tagList, r.getMissingRate());
-        }
+        int virtualCidNum = r.getVirtualCidNum();
+        int actualCidNum = r.getActualCidNum();
+
+        tagList = TagListGenerator.tagListFactory2(r.getTagLength(), r.getCidLength(), r.getTagNum(), r.getTagNumPerCid());
+
+        actualList = TagListGenerator.highMissingListFactory2(tagList, virtualCidNum, r.getMissingRate());
+
+
+
 
         switch (r.getA()) {
             case Cip:
-                identifyTool = new CIP(tagList, r.getUnReadCidNum(), r.getF());
+
+                identifyTool = new CIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength);
                 break;
             case Ecip:
-                identifyTool = new ECIP(tagList, r.getUnReadCidNum(), r.getF());
+                identifyTool = new ECIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength);
+
                 break;
             case ECIPwithCLS:
-                identifyTool = new ECIPwithCLS(tagList, actualList, r.getUnReadCidNum(), r.getF());
+                identifyTool = new ECLS(tagList, actualList,virtualCidNum,actualCidNum,r.f, r.tagLength, r.cidLength);
                 break;
             case ECIPwithDLS:
             default:
-                identifyTool = new CIP(tagList, r.getUnReadCidNum(), r.getF());
+                identifyTool = new CIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength);
                 break;
         }
-        r.algorithmsChanged = false;
-        r.propertiesChanged = false;
+
     }
 
 
@@ -247,6 +243,8 @@ public class Controller {
         ui.controlText.setSelectedTextColor(Color.BLUE);
 
         //开始模拟
+
+
         identifyTool.identifyAll();
         output+=identifyTool.output;
 
