@@ -1,1 +1,1 @@
-[DEBUG] 2022-02-28 12:29:50,781(0) --> [AWT-EventQueue-1] ui.Controller.chooseAlgorithms(Controller.java:180):  enter choiceButton()  
+[INFO ] 2022-03-05 12:20:44,462(0) --> [AWT-EventQueue-1] ECIP.ECIPwithCLS.identifyAll(ECIPwithCLS.java:766): round = 1  
