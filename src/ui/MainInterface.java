@@ -14,7 +14,7 @@ import java.util.Hashtable;
  * @create 2022-01-26-16:44
  */
 public class MainInterface {
-    public JFrame jFrame = new JFrame("RFID读写器快速读取CID仿真模拟系统");
+    public JFrame jFrame = new JFrame("RFID类别识别仿真系统");
 
     /** ResultInfo */
     protected ResultInfo resultInfo;

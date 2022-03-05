@@ -4,7 +4,7 @@ import java.io.*;
 
 public class JavaPythonTest {
     public static void main(String[] args) throws IOException, InterruptedException {
-        
+
         //通过原生方式调用，解决python文件引入第三方库的问题
         //第一个参数默认是python,第二个参数python脚本路径，第三和第四个参数是python要接收的参数
         String[] argg = new String[] { "python3", "/home/hxq/Desktop/2021-2022winter/RFID/CIP/src/ECIP/optimize.py"};

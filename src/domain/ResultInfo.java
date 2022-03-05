@@ -16,6 +16,10 @@ public class ResultInfo {
     /** 标签/类别ID */
     public  Integer tagNumPerCid = 100;
 
+    public Integer mostMissingTagNum = 100;
+
+    public String preciousCid = "10101010101010101010101010101010";
+
 
     public enum Algorithms{
         Cip,
@@ -27,6 +31,8 @@ public class ResultInfo {
     public Algorithms a = Algorithms.Cip;
 
     public boolean propertiesChanged = true;
+
+    public boolean warningChanged = true;
 
     public Algorithms getA() {
         return a;

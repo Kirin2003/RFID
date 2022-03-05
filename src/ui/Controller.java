@@ -141,7 +141,7 @@ public class Controller {
 
     // 预警设置
     public void warn(){
-        Warning warning = new Warning();
+        Warning warning = new Warning(r);
         warning.pack();
         warning.setLocationRelativeTo(ui.jFrame);
         warning.setVisible(true);
