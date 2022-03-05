@@ -1,4 +1,5 @@
 package domain;
+
 import ECIP.Tag;
 import java.util.*;
 
@@ -34,7 +35,10 @@ public class ResultInfo {
 
     public boolean algorithmsChanged = true;
 
-
+    // useless
+    public int getUnReadCidNum() {
+        return 0;
+    }
 
     public Algorithms getA() {
         return a;

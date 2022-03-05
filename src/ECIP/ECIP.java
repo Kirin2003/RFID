@@ -17,6 +17,11 @@ public class ECIP extends CIP {
         super(virtualList, actualList, virtualCidNum, actualCidNum, f, tidLength, cidLength);
     }
 
+    public ECIP(List<Tag> tagList, int unReadCidNum, Integer f) {
+        super(tagList, unReadCidNum, f);
+
+    }
+
     /**
      * simulate random identification phase
      * at the same time, construct indicator

@@ -4,25 +4,17 @@ import java.util.*;
 import org.apache.log4j.Logger;
 
 public class ECLS extends IdentifyTool{
-
-    public static Logger logger =  Logger.getLogger("ecip");
-
-
+    public static Logger logger =  Logger.getLogger("ecls");
     protected List<Tag> virtualList;
     protected List<Tag> actualList;
     protected Map<Integer,List<Tag>> slotToVirtualList = new HashMap<>(); // key: slot, value: virtual tags which are allocated to the slot
-
     protected Map<Integer, String> CidMap = new HashMap<>(); //key: slotId. value: the overlapped cid
-
     protected Map<Integer, Integer> indicator = new HashMap<>();
     protected  Vector<Integer> location = new Vector<>();
-    protected  Vector<String> d = new Vector<>();
-    protected Map<Integer, Integer> L = new HashMap<>();
 
-
+    protected Map<Integer, Integer> L = new HashMap<>(); // 某个时隙是空时隙，单时隙，冲突时隙
     protected int f1 = 0;
 
-    public int round = 0;
     boolean flag = false;
 
     public ECLS(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
@@ -38,6 +30,7 @@ public class ECLS extends IdentifyTool{
     public void allocate1(int frameSize, int random) {
         slotToVirtualList.clear();
         CidMap.clear();
+        L.clear();
 
         // 给每个虚拟标签分配时隙
         for (Tag tag : virtualList) {
@@ -45,9 +38,6 @@ public class ECLS extends IdentifyTool{
                 tag.selectSlotPseudoRandom(frameSize,random);
             }
             int slot = tag.getSlotSelected();
-
-//            logger.debug("tag:"+tag.getCategoryID());
-//            logger.debug("slot:"+tag.getSlotSelected());
 
             // 生成分配向量（或：分配映射）A和CidMap
             if (!slotToVirtualList.keySet().contains(slot)) {
@@ -68,27 +58,27 @@ public class ECLS extends IdentifyTool{
         // 记录标签类别个数, 键：时隙，值：标签类别个数
         String cid1 = null;
         boolean isSingle = true;
-        for(Integer slot : slotToVirtualList.keySet()) {
-            if(slotToVirtualList.get(slot).size() == 0) {
-                L.put(slot, 0); // 空时隙
-                break;
-            } else {
-                cid1 = slotToVirtualList.get(slot).get(0).getCategoryID();
-
-                for(Tag tag : slotToVirtualList.get(slot)) {
-                    if(tag.getCategoryID() != cid1) {
-                        isSingle = false;
-                        break;
-                    }
-                }
-                if(isSingle) {
-                    L.put(slot, 1); // 单时隙
-
-                } else {
-                    L.put(slot, 2); // 表示冲突时隙
-                }
-            }
-        }
+//        for(Integer slot : slotToVirtualList.keySet()) {
+//            if(slotToVirtualList.get(slot).size() == 0) {
+//                L.put(slot, 0); // 空时隙
+//                break;
+//            } else {
+//                cid1 = slotToVirtualList.get(slot).get(0).getCategoryID();
+//
+//                for(Tag tag : slotToVirtualList.get(slot)) {
+//                    if(tag.getCategoryID() != cid1) {
+//                        isSingle = false;
+//                        break;
+//                    }
+//                }
+//                if(isSingle) {
+//                    L.put(slot, 1); // 单时隙
+//
+//                } else {
+//                    L.put(slot, 2); // 表示冲突时隙
+//                }
+//            }
+//        }
 
 
     }
@@ -142,6 +132,7 @@ public class ECLS extends IdentifyTool{
 
 
         indicator.clear();
+        location.clear();
         Set<String> cids = new HashSet<>(); // 临时存放整个时隙都缺失的cid
         int i = 0; // 未能识别的冲突时隙编号
 
@@ -165,7 +156,7 @@ public class ECLS extends IdentifyTool{
                 }
 
                 indicator.put(slot, -1);
-            } else if( L.get(slot) == 1) {
+            } else if( !CidMap.get(slot).contains("X") ) {
                 // 单时隙， 识别该cid存在
                 // 标签变为不活跃状态
                 for (Tag tag : slotToVirtualList.get(slot)) {
@@ -187,6 +178,7 @@ public class ECLS extends IdentifyTool{
                 // 存在未能识别的冲突时隙，需要新一轮的识别
                 flag = true;
                 indicator.put(slot, i);
+                location.add(CidMap.get(slot).indexOf('X'));
                 i++;
             }
         }
@@ -209,59 +201,23 @@ public class ECLS extends IdentifyTool{
      * collision slot and indicates the index X index of the first
      * collision bit ‘X’ in this slot.
      */
-    protected void constructLocationAndStructureD() {
-        System.out.println("indicator");
-        printIndicator();
-        System.out.println("cid map");
-        printCidMap();
-
-
-        Vector<Integer> newLocation = new Vector<>();
-        Vector<String> newStructureD = new Vector<>();
-
-        for (Integer slotID : indicator.keySet()) {
-
-
-            if (indicator.get(slotID) != -1) {
-                int i = indicator.get(slotID);//第i个冲突时隙
-
-                System.out.println("slot:"+slotID);
-                // category-collision
-                String data = CidMap.get(slotID);
-                System.out.println("cid map data:"+data);
-                int xindex;
-                String strBeforeX;
-                if(location.isEmpty()) { // 第1次rearranged identification phase，data和cid长度相等
-                    xindex = data.indexOf('X');
-                    newLocation.add(xindex);
-                    strBeforeX = data.substring(0, data.indexOf('X'));
-                    //System.out.println("str before x:"+strBeforeX);
-                    newStructureD.add(strBeforeX);
-                } else { // 之后的rearranged identification phase，此时data比cid长度短，计算xindex时要注意
-                    // 保留上一轮的location vector, structure D
-                    logger.info("location index = "+slotID/2);
-                    logger.info("cid map index = "+slotID);
-                    xindex = location.get(slotID/2)+CidMap.get(slotID).indexOf('X')+1;
-                    //System.out.println("i :"+i);
-                    //System.out.println("new xindex:"+xindex);
-                    newLocation.add(xindex);
-                    //System.out.println("");
-                    strBeforeX = d.get(slotID/2)+CidMap.get(slotID).substring(0,CidMap.get(slotID).indexOf('X'))+((slotID)%2);
-                    //System.out.println("str before x:"+strBeforeX);
-                    newStructureD.add(strBeforeX);
-
-                }
-
-
-
-            }
-        }
-
-        location = newLocation;
-        d = newStructureD;
-
-
-    }
+//    protected void constructLocation() {
+//        System.out.println("indicator");
+//        printIndicator();
+//        System.out.println("cid map");
+//        printCidMap();
+//
+//        Vector<Integer> newLocation = new Vector<>();
+//        for (Integer slotID : indicator.keySet()) {
+//            if (indicator.get(slotID) != -1) {
+//                int i = indicator.get(slotID);//第i个冲突时隙
+//
+//                }
+//            }
+//
+//        location = newLocation;
+//
+//    }
 
     public void printCidMap() {
         for (Integer slotId : CidMap.keySet()) {
@@ -281,80 +237,66 @@ public class ECLS extends IdentifyTool{
 
     public void allocate2() {
 
-            Map<Integer, List<Tag>> newSlotToVirtualList = new HashMap<>();
-            Map<Integer, String> newCidMap = new HashMap<>();
+        //Map<Integer, List<Tag>> newSlotToVirtualList = new HashMap<>();
+        //Map<Integer, String> newCidMap = new HashMap<>();
 
         /*
-        重写：hxq, 2022-1-28
+        重写：hxq, 2022-3-5
+        重新分配，依据xindex分配，reconcile冲突时隙
          */
-            for (Tag tag : virtualList) {
-                if(tag.isActive()) {
-                    int j = indicator.get(tag.getSlotSelected());
-                    if (j != -1) {
-                        int xindex = location.get(j);
-                        int newSlot = tag.selectSlotBasedOnXIndex(j, xindex);
-                        if (!newSlotToVirtualList.containsKey(newSlot)) {
-                            List<Tag> newTagList = new ArrayList<>();
-                            newTagList.add(tag);
-                            newSlotToVirtualList.put(newSlot, newTagList);
+        for(Integer slot : indicator.keySet()) {
+            if(indicator.get(slot) != -1) {
+                int i = indicator.get(slot);
+                int xindex = location.get(i);
 
-                            newCidMap.put(newSlot, tag.getCategoryID());
-                        } else {
-                            newSlotToVirtualList.get(newSlot).add(tag);
-
-                            String code = CidMap.get(newSlot);
-                            String newCode = encode(code, tag.getCategoryID());
-                            CidMap.put(newSlot,newCode);
-                        }
+                for(Tag tag : slotToVirtualList.get(slot)) {
+                    if(tag.getCategoryID().charAt(xindex) == '0') {
+                        tag.setSlotSelected(2*i);
+                    } else {
+                        tag.setSlotSelected(2*i+1);
                     }
                 }
             }
-            slotToVirtualList = newSlotToVirtualList;
-            CidMap = newCidMap;
+        }
 
-    }
+        // 建立新的slotToVirtualList和CidMap
+        slotToVirtualList.clear();
+        CidMap.clear();
 
-    public int rearrangedIdentification() {
-        int num = 0;
+        // 所有active tag都重新选择了时隙
+        for(Tag tag : virtualList) {
+            if(tag.isActive()) {
+                int slot = tag.getSlotSelected();
 
-        constructLocationAndStructureD();
-        allocate2();
-        num = identify1();
-        return num;
-    }
+                // 这个时隙已经有标签选择
+                if(slotToVirtualList.keySet().contains(slot)) {
+                    slotToVirtualList.get(slot).add(tag);
 
+                    String code = CidMap.get(slot);
+                    String newCode = encode(code, tag.getCategoryID());
+                    CidMap.put(slot,newCode);
+                } else { // 这个时隙还没有标签选择
+                    List<Tag> l = new ArrayList<>();
+                    l.add(tag);
+                    slotToVirtualList.put(slot, l);
 
-
-
-
-
-    /**
-     * combine CID
-     *
-     * @param slotID
-     * @param after  string after x index
-     * @return CID
-     */
-    protected String combineCID(int slotID, String after) {
-
-        int j = slotID / 2;
-        String before = d.get(j);
-        String x = String.valueOf(slotID % 2);
-        //System.out.println("j = " + j + "before = " + before + "x=" + x);
-        //System.out.println();
-
-        return before + x + after;
-
+                    CidMap.put(slot, tag.getCategoryID());
+                }
+            }
+        }
+        //slotToVirtualList = newSlotToVirtualList;
+        //CidMap = newCidMap;
 
     }
 
     public int rearrangedIdentificationPhase() {
-        constructLocationAndStructureD();
-        allocate2();
-        identify1();
-        return 0;
-    }
+        int num = 0;
 
+        //constructLocationAndStructureD();
+        allocate2();
+        num = identify1();
+        return num;
+    }
 
 
     @Override

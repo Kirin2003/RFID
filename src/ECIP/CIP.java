@@ -12,6 +12,10 @@ public class CIP extends IdentifyTool{
     protected int unReadCidNum;
 
 
+    // useless
+
+    public CIP(List<Tag> tagList, int n, int f) {}
+
     public CIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
         super(tidLength, cidLength);
         this.virtualList = virtualList;
