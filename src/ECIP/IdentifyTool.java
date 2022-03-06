@@ -1,7 +1,9 @@
 package ECIP;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.util.*;
 
-public abstract class IdentifyTool {
+public abstract class IdentifyTool implements ISubject {
     protected String output = "";
     protected String analysis = "";
     protected double  time = 0;
@@ -17,6 +19,8 @@ public abstract class IdentifyTool {
     protected double te = 0.4;
     protected double tcid;
     protected double tid;
+
+    protected Vector<IObserver> iObservers = new Vector<>();
 
 
     public IdentifyTool(int tidLength, int cidLength) {
@@ -36,5 +40,36 @@ public abstract class IdentifyTool {
 
     public String getAnalysis() {
         return analysis;
+    }
+
+    @Override
+    public boolean add(IObserver iObserver) {
+        if (iObserver != null && !iObservers.contains(iObserver)) {
+
+            return iObservers.add(iObserver);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean remove(IObserver iObserver) {
+        return iObservers.remove(iObserver);
+    }
+
+    @Override
+    public void notifyAllObjects() {
+        for(IObserver iObserver : iObservers) {
+            iObserver.update(this);
+        }
+    }
+
+    @Override
+    public void setMissingCids(Set<String> missingCids) {
+        this.missingCids = missingCids;
+    }
+
+    @Override
+    public String report() {
+        return null;
     }
 }
