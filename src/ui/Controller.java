@@ -31,7 +31,7 @@ public class Controller implements IObserver{
         ui.init();
         assembleFunction();
         assembleMenu();
-        identifyTool.add(this);
+
     }
 
     public void assembleFunction() {
@@ -301,6 +301,10 @@ public class Controller implements IObserver{
     // 开始模拟
     public void start() {
         initTool();
+
+        // 注册观察者
+        identifyTool.add(this);
+
         String output = "";
 
         // 控制台区域显示文字

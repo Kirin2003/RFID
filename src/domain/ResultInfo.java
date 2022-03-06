@@ -8,7 +8,7 @@ public class ResultInfo {
     /** 缺失率 */
     public  Double missingRate = 0.9;
     /** 标签数目 */
-    public  Integer tagNum = 100000;
+    public  Integer tagNum = 10000;
     /** 时隙数目 */
     public  Integer f =160;
     /** 是否随机分配*/
@@ -16,7 +16,7 @@ public class ResultInfo {
     /** 标签/类别ID */
     public  Integer tagNumPerCid = 100;
 
-    public Integer mostMissingTagNum = 5;
+    public Integer mostMissingTagNum = 80;
 
     public String preciousCid = "10101010101010101010101010101010";
 
