@@ -11,8 +11,8 @@ public class ECIP extends CIP {
 
     protected boolean flag = false; // 是否需要新一轮识别
 
-    public ECIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
-        super(virtualList, actualList, virtualCidNum, actualCidNum, f, tidLength, cidLength);
+    public ECIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength,int warningNum, String warningCid) {
+        super(virtualList, actualList, virtualCidNum, actualCidNum, f, tidLength, cidLength,warningNum,warningCid);
 
     }
 
@@ -124,7 +124,7 @@ public class ECIP extends CIP {
 
                 // 没有识别到存在的cid认为缺失
                 if (!presentCids.contains(cid)) {
-                    missingCids.add(cid);
+                    changeMissingCids(cid);
                 }
             }
 

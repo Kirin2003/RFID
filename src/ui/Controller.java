@@ -15,7 +15,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-public class Controller {
+public class Controller implements IObserver{
     ResultInfo r = new ResultInfo();
     MainInterface ui = new MainInterface();
 
@@ -31,6 +31,7 @@ public class Controller {
         ui.init();
         assembleFunction();
         assembleMenu();
+        identifyTool.add(this);
     }
 
     public void assembleFunction() {
@@ -191,7 +192,7 @@ public class Controller {
         // 将毫秒转化为秒
         double CIPtime = CIP.time(actualCidNum)*1.0/1000;
         double ECIPtime = ECIP.time(actualCidNum)*1.0/1000;
-        IdentifyTool identifyTool = new ECLS(tagList, actualList,virtualCidNum,actualCidNum,r.f, r.tagLength, r.cidLength);
+        IdentifyTool identifyTool = new ECLS(tagList, actualList,virtualCidNum,actualCidNum,r.f, r.tagLength, r.cidLength,r.mostMissingTagNum,r.preciousCid);
         identifyTool.identifyAll();
         double ECLStime = identifyTool.getTime()*1.0/1000;
 
@@ -279,18 +280,18 @@ public class Controller {
         switch (r.getA()) {
             case Cip:
 
-                identifyTool = new CIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength);
+                identifyTool = new CIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength,r.mostMissingTagNum,r.preciousCid);
                 break;
             case Ecip:
-                identifyTool = new ECIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength);
+                identifyTool = new ECIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength, r.mostMissingTagNum,r.preciousCid);
 
                 break;
             case ECIPwithCLS:
-                identifyTool = new ECLS(tagList, actualList,virtualCidNum,actualCidNum,r.f, r.tagLength, r.cidLength);
+                identifyTool = new ECLS(tagList, actualList,virtualCidNum,actualCidNum,r.f, r.tagLength, r.cidLength,r.mostMissingTagNum,r.preciousCid);
                 break;
             case ECIPwithDLS:
             default:
-                identifyTool = new CIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength);
+                identifyTool = new CIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength,r.mostMissingTagNum,r.preciousCid);
                 break;
         }
 
@@ -325,7 +326,7 @@ public class Controller {
         System.out.println("output");
         System.out.println(output);
 
-        JOptionPane.showMessageDialog(ui.jFrame, "警告！缺失数量达到预设上限！");
+
 
     }
 
@@ -339,4 +340,8 @@ public class Controller {
         ui.controlText.setText(identifyTool.getAnalysis());
     }
 
+    @Override
+    public void update(ISubject subject, String message) {
+        JOptionPane.showMessageDialog(ui.jFrame, message);
+    }
 }

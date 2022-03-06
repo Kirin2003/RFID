@@ -11,8 +11,8 @@ public class CIP extends IdentifyTool{
     protected boolean flag = true;
 
 
-    public CIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
-        super(tidLength, cidLength);
+    public CIP(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength, int warningNum, String warningCid) {
+        super(tidLength, cidLength, warningNum,warningCid);
         this.virtualList = virtualList;
         this.actualList = actualList;
         this.virtualCidNum = virtualCidNum;
@@ -223,7 +223,7 @@ public class CIP extends IdentifyTool{
 
             // 没有识别到存在的cid认为缺失
             if (!presentCids.contains(cid)) {
-                missingCids.add(cid);
+                changeMissingCids(cid);
             }
         }
 

@@ -1,9 +1,14 @@
 package ECIP;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import sun.rmi.runtime.Log;
 
 import java.util.*;
 
 public abstract class IdentifyTool implements ISubject {
+    private static Logger logger = Logger.getLogger("IdentifyTool");
+
     protected String output = "";
     protected String analysis = "";
     protected double  time = 0;
@@ -20,12 +25,19 @@ public abstract class IdentifyTool implements ISubject {
     protected double tcid;
     protected double tid;
 
+    protected int warningNum;
+    protected String warningCid;
+    protected boolean isWarning = true; // 是否需要弹出警告框，只警告一次
+
     protected Vector<IObserver> iObservers = new Vector<>();
 
 
-    public IdentifyTool(int tidLength, int cidLength) {
+    public IdentifyTool(int tidLength, int cidLength, int warningNum, String warningCid) {
+        logger.setLevel(Level.DEBUG);
         tcid = cidLength * 0.025 + 0.4;
         tid = tidLength * 0.025 + 0.4;
+        this.warningNum = warningNum;
+        this.warningCid = warningCid;
     }
 
     public abstract double identifyAll();
@@ -57,19 +69,43 @@ public abstract class IdentifyTool implements ISubject {
     }
 
     @Override
-    public void notifyAllObjects() {
+    public void notifyAllObservers(String warningMessage) {
+        logger.debug("notify all observers()");
         for(IObserver iObserver : iObservers) {
-            iObserver.update(this);
+            iObserver.update(this, warningMessage);
         }
     }
 
-    @Override
-    public void setMissingCids(Set<String> missingCids) {
-        this.missingCids = missingCids;
+
+    public void changeMissingCids( String missingCid) {
+        missingCids.add(missingCid);
+        invoke();
     }
 
-    @Override
-    public String report() {
-        return null;
+
+    protected void invoke() {
+        logger.debug("invoke()");
+        if(!isWarning) {
+            logger.debug("return");
+            return;
+        }
+
+        int missingCidNum = missingCids.size();
+        logger.debug("missing cid num:"+missingCidNum);
+        String warningMessage = "";
+        if(missingCidNum >= warningNum && missingCidNum <= warningNum +5) {
+            warningMessage+="预警！缺失数量超过"+warningNum+"\n";
+            warningMessage+="识别时间："+time+"\n";
+        } else if (missingCids.contains(warningCid) ) {
+            warningMessage += "预警！类别："+warningCid+"缺失\n";
+            warningMessage += "识别时间："+time+"\n";
+        }
+
+        if(warningMessage.length()>0) {
+            notifyAllObservers(warningMessage);
+            logger.debug("弹出警告框");
+            isWarning = false;
+        }
+
     }
 }

@@ -6,7 +6,7 @@ public class ResultInfo {
     /** 类别ID长度 */
     public  Integer cidLength = 32; // fixed
     /** 缺失率 */
-    public  Double missingRate = 0.95;
+    public  Double missingRate = 0.9;
     /** 标签数目 */
     public  Integer tagNum = 100000;
     /** 时隙数目 */
@@ -16,7 +16,7 @@ public class ResultInfo {
     /** 标签/类别ID */
     public  Integer tagNumPerCid = 100;
 
-    public Integer mostMissingTagNum = 100;
+    public Integer mostMissingTagNum = 5;
 
     public String preciousCid = "10101010101010101010101010101010";
 

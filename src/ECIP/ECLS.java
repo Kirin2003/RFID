@@ -18,9 +18,9 @@ public class ECLS extends IdentifyTool{
 
     boolean flag = false;
 
-    public ECLS(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
+    public ECLS(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength, int warningNum,String warningCid) {
 
-        super(tidLength, cidLength);
+        super(tidLength, cidLength,  warningNum, warningCid);
         logger.setLevel(Level.DEBUG);
         this.virtualList = virtualList;
         this.actualList = actualList;
@@ -126,7 +126,7 @@ public class ECLS extends IdentifyTool{
                 for(String cid : cids) {
                     System.out.println("识别类别ID："+cid+"缺失\n");
                     output+="识别类别ID："+cid+"缺失\n";
-                    missingCids.add(cid);
+                    changeMissingCids(cid);
                     num++;
                 }
 
