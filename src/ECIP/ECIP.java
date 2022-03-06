@@ -109,7 +109,7 @@ public class ECIP extends CIP {
 
 
         }
-        // 计算时间，存储在time中
+
 
 
             Set<String> virtualCids = new HashSet<>();
@@ -186,7 +186,7 @@ public class ECIP extends CIP {
 
 
     // 计算时间, 全过程的理论时间
-    public double time() {
+    public static double time(int actualCidNum) {
 
         return 1.81 * actualCidNum;
     }
@@ -419,13 +419,4 @@ public class ECIP extends CIP {
         }
     }
 
-
-
-//    public Set<String> getCategoryIDs() {
-//        return categoryIDs;
-//    }
-
-    public void setCidMap(Map<Integer, String> CidMap) {
-        this.CidMap = CidMap;
-    }
 }

@@ -37,7 +37,7 @@ public class Tag {
      * @return categoryID
      */
     @SuppressWarnings("DuplicatedCode")
-    public String selectSlotPseudoRandom(int frameSize, int random){
+    protected String selectSlotPseudoRandom(int frameSize, int random){
         // H(CID, r) mod f
         slotSelected = (int) ((Long.parseLong(categoryID, 2) + random) % frameSize);
         return categoryID;
@@ -51,7 +51,7 @@ public class Tag {
      * @param xindex
      * @return partial categoryID
      */
-    public int selectSlotBasedOnXIndex(int j, int xindex) {
+    protected int selectSlotBasedOnXIndex(int j, int xindex) {
 //        int slot;
         //System.out.println("in Tag::selectSlotBasedOnXIndex");
         char x = categoryID.charAt(xindex);

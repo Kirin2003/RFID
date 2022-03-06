@@ -1,15 +1,14 @@
-[DEBUG] 2022-03-06 11:43:38,390(0) --> [AWT-EventQueue-1] ui.Controller.chooseAlgorithms(Controller.java:194):  enter choiceButton()  
-[DEBUG] 2022-03-06 11:43:47,234(8844) --> [AWT-EventQueue-1] ui.Controller.chooseAlgorithms(Controller.java:194):  enter choiceButton()  
-[DEBUG] 2022-03-06 11:43:57,115(18725) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:274): 第 1 轮，n/f = 19.610000000000266f = 51  
-[DEBUG] 2022-03-06 11:43:57,115(18725) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:275): 第 1 轮，时间：42.65173256311965  
-[DEBUG] 2022-03-06 11:43:57,140(18750) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 2 轮，n/f = 6.1899999999999125f = 52  
-[DEBUG] 2022-03-06 11:43:57,140(18750) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 2 轮，时间：67.09139402809298  
-[DEBUG] 2022-03-06 11:43:57,152(18762) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 3 轮，n/f = 3.6899999999999653f = -97  
-[DEBUG] 2022-03-06 11:43:57,152(18762) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 3 轮，时间：99.3780882989083  
-[DEBUG] 2022-03-06 11:43:57,176(18786) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 4 轮，n/f = 2.1899999999999973f = -473  
-[DEBUG] 2022-03-06 11:43:57,176(18786) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 4 轮，时间：135.9549544363629  
-[DEBUG] 2022-03-06 11:43:57,182(18792) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 5 轮，n/f = 1.3900000000000008f = -1234  
-[DEBUG] 2022-03-06 11:43:57,182(18792) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 5 轮，时间：159.53553328835503  
-[DEBUG] 2022-03-06 11:43:57,187(18797) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 6 轮，n/f = 1.1200000000000006f = -2138  
-[DEBUG] 2022-03-06 11:43:57,187(18797) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 6 轮，时间：167.87501196887607  
-[DEBUG] 2022-03-06 11:44:04,855(26465) --> [AWT-EventQueue-1] ui.Controller.chooseAlgorithms(Controller.java:194):  enter choiceButton()  
+[DEBUG] 2022-03-06 17:06:47,777(0) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:274): 第 1 轮，n/f = 19.610000000000266f = 51  
+[DEBUG] 2022-03-06 17:06:47,781(4) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:275): 第 1 轮，时间：41.70949988499477  
+[DEBUG] 2022-03-06 17:06:47,812(35) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 2 轮，n/f = 6.499999999999906f = 52  
+[DEBUG] 2022-03-06 17:06:47,812(35) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 2 轮，时间：71.35139028455394  
+[DEBUG] 2022-03-06 17:06:47,835(58) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 3 轮，n/f = 3.3499999999999726f = -97  
+[DEBUG] 2022-03-06 17:06:47,835(58) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 3 轮，时间：109.3510751589578  
+[DEBUG] 2022-03-06 17:06:47,849(72) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 4 轮，n/f = 2.07f = -479  
+[DEBUG] 2022-03-06 17:06:47,849(72) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 4 轮，时间：140.06766332222733  
+[DEBUG] 2022-03-06 17:06:47,857(80) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 5 轮，n/f = 1.4400000000000008f = -1149  
+[DEBUG] 2022-03-06 17:06:47,857(80) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 5 轮，时间：157.7360778886569  
+[DEBUG] 2022-03-06 17:06:47,863(86) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 6 轮，n/f = 0.9700000000000004f = -2391  
+[DEBUG] 2022-03-06 17:06:47,863(86) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 6 轮，时间：162.83971235015218  
+[DEBUG] 2022-03-06 17:06:47,869(92) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 7 轮，n/f = 1.1200000000000006f = -2664  
+[DEBUG] 2022-03-06 17:06:47,869(92) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 7 轮，时间：164.5076080862564  

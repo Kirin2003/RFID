@@ -2,9 +2,9 @@ package domain;
 
 public class ResultInfo {
     /** 标签ID长度 */
-    public  Integer tagLength = 96;
+    public  Integer tagLength = 96; // fixed
     /** 类别ID长度 */
-    public  Integer cidLength = 32;
+    public  Integer cidLength = 32; // fixed
     /** 缺失率 */
     public  Double missingRate = 0.95;
     /** 标签数目 */
@@ -12,7 +12,7 @@ public class ResultInfo {
     /** 时隙数目 */
     public  Integer f =160;
     /** 是否随机分配*/
-    public  Boolean isRandomAllocated = true;
+    public  Boolean isRandomAllocated = true; // fixed
     /** 标签/类别ID */
     public  Integer tagNumPerCid = 100;
 

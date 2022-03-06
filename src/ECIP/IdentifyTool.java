@@ -2,25 +2,23 @@ package ECIP;
 import java.util.*;
 
 public abstract class IdentifyTool {
-    public String output = "";
-    public String analysis = "";
-    public double  time = 0;
+    protected String output = "";
+    protected String analysis = "";
+    protected double  time = 0;
 
 
-    public Set<String> presentCids = new HashSet<>();
-    public Set<String> missingCids = new HashSet<>();
-    public int virtualCidNum = 0;
-    public int actualCidNum = 0;
+    protected Set<String> presentCids = new HashSet<>();
+    protected Set<String> missingCids = new HashSet<>();
+    protected int virtualCidNum = 0;
+    protected int actualCidNum = 0;
 
-    public int f;
+    protected int f;
 
-    public double te = 0.4;
-    public double tcid;
-    public double tid;
+    protected double te = 0.4;
+    protected double tcid;
+    protected double tid;
 
-    public IdentifyTool() {
 
-    }
     public IdentifyTool(int tidLength, int cidLength) {
         tcid = cidLength * 0.025 + 0.4;
         tid = tidLength * 0.025 + 0.4;
@@ -28,7 +26,15 @@ public abstract class IdentifyTool {
 
     public abstract double identifyAll();
 
-   public abstract  double time() ;
+    public double getTime() {
+        return time;
+    }
 
-   //public abstract void analysis();
+    public String getOutput() {
+        return output;
+    }
+
+    public String getAnalysis() {
+        return analysis;
+    }
 }

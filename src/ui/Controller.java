@@ -90,7 +90,11 @@ public class Controller {
         ui.adviceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                advice();
+                try {
+                    advice();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -141,7 +145,11 @@ public class Controller {
         ui.adviceMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                advice();
+                try {
+                    advice();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -160,8 +168,55 @@ public class Controller {
         warning.setVisible(true);
     }
 
-    public void advice() {
-        // TODO：检查是否输入配置
+    public void advice() throws IOException {
+        // 检查是否输入配置,如果没有输入，提示用户输入；如果有输入，打印配置参数
+        if(!r.propertiesChanged) {
+            JOptionPane.showMessageDialog(ui.jFrame, "请输入配置");
+            return ;
+
+        }
+
+        String advice = "";
+        advice+="参数配置如下：\n";
+        advice+="标签ID长度："+96+" 类别ID长度："+32+" 缺失率："+r.missingRate+" 标签数目："+r.tagNum+"平均每个类别的标签数量："+r.tagNumPerCid+"\n\n";
+
+        // 估算三个算法的时间，打印时间对比图
+        // CIP 和 ECIP 直接整体估计, ECLS需要创建对象仿真估计
+        int virtualCidNum = r.getVirtualCidNum();
+        int actualCidNum = r.getActualCidNum();
+        tagList = TagListGenerator.tagListFactory2(r.getTagLength(), r.getCidLength(), r.getTagNum(), r.getTagNumPerCid());
+        actualList = TagListGenerator.highMissingListFactory2(tagList, virtualCidNum, r.getMissingRate());
+
+
+        // 将毫秒转化为秒
+        double CIPtime = CIP.time(actualCidNum)*1.0/1000;
+        double ECIPtime = ECIP.time(actualCidNum)*1.0/1000;
+        IdentifyTool identifyTool = new ECLS(tagList, actualList,virtualCidNum,actualCidNum,r.f, r.tagLength, r.cidLength);
+        identifyTool.identifyAll();
+        double ECLStime = identifyTool.getTime()*1.0/1000;
+
+
+
+        // 推荐时间最短的
+        double minTime = ECIPtime;
+        String algorithm = "ECIP";
+        if(CIPtime < minTime) {
+            minTime = CIPtime;
+            algorithm = "CIP";
+        }
+        if(ECLStime < minTime) {
+            minTime = ECLStime;
+            algorithm = "ECLS";
+        }
+
+        advice+="估算时间如下：\n";
+        advice += "CIP:"+CIPtime+"s\n";
+        advice += "ECIP:"+ECIPtime+"s\n";
+        advice += "ECLS:"+ECLStime+"s\n\n";
+
+        advice+="推荐算法："+algorithm+"\n";
+
+        JPython.Graphic(CIPtime, ECIPtime, ECLStime,advice);
         
     }
 
@@ -264,7 +319,7 @@ public class Controller {
 
 
         identifyTool.identifyAll();
-        output+=identifyTool.output;
+        output+=identifyTool.getOutput();
 
         ui.controlText.setText(output);
         System.out.println("output");
@@ -281,7 +336,7 @@ public class Controller {
 
     // 结果分析按钮
     public void analysis() {
-        ui.controlText.setText(identifyTool.analysis);
+        ui.controlText.setText(identifyTool.getAnalysis());
     }
 
 }

@@ -6,7 +6,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 public class ECLS extends IdentifyTool{
-    public static Logger logger =  Logger.getLogger("ecls");
+    protected static Logger logger =  Logger.getLogger("ecls");
     protected List<Tag> virtualList;
     protected List<Tag> actualList;
     protected Map<Integer,List<Tag>> slotToVirtualList = new HashMap<>(); // key: slot, value: virtual tags which are allocated to the slot
@@ -30,7 +30,7 @@ public class ECLS extends IdentifyTool{
 
     }
 
-    public void allocate1(int frameSize, int random) {
+    protected void allocate1(int frameSize, int random) {
         slotToVirtualList.clear();
         CidMap.clear();
 
@@ -69,7 +69,7 @@ public class ECLS extends IdentifyTool{
      * @return overlapped CID
      */
 
-    private String encode(String s1, String s2){
+    protected String encode(String s1, String s2){
         //System.out.println("s1 = " + s1+ "s2 =" + s2);
         int i = 0;
         StringBuilder stringBuilder = new StringBuilder();
@@ -86,7 +86,7 @@ public class ECLS extends IdentifyTool{
         return stringBuilder.toString();
     }
 
-    public Set<Integer> response1() {
+    protected Set<Integer> response1() {
         Set<Integer> presentSlots = new HashSet<>();
         for (Tag tag : actualList) {
             if(tag.isActive()) {
@@ -97,7 +97,7 @@ public class ECLS extends IdentifyTool{
         return presentSlots;
     }
 
-    public int identify1() {
+    protected int identify1() {
         int num = 0;
 
 
@@ -162,7 +162,7 @@ public class ECLS extends IdentifyTool{
         return num;
     }
 
-    public int randomIdentificationPhase() {
+    protected int randomIdentificationPhase() {
         int random = (int) (100 * Math.random());
         int frameSize =f1;
         allocate1(frameSize,random);
@@ -188,7 +188,7 @@ public class ECLS extends IdentifyTool{
 
 
 
-    public void allocate2() {
+    protected void allocate2() {
         /*
         重写：hxq, 2022-3-5
         重新分配，依据xindex分配，reconcile冲突时隙
@@ -235,7 +235,7 @@ public class ECLS extends IdentifyTool{
         }
     }
 
-    public int rearrangedIdentificationPhase() {
+    protected int rearrangedIdentificationPhase() {
         int num = 0;
 
         allocate2();
@@ -334,8 +334,6 @@ public class ECLS extends IdentifyTool{
 
     }
 
-    @Override
-    public double time() {
-        return 0;
-    }
+
+
 }

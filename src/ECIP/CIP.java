@@ -254,8 +254,8 @@ public class CIP extends IdentifyTool{
         return time;
     }
 
-    @Override
-    public double time() {
+
+    public static double time(int actualCidNum) {
         return 1.53*actualCidNum;
     }
 
@@ -287,7 +287,5 @@ public class CIP extends IdentifyTool{
         }
     }
 
-//    public List<String> getCategoryIDs() {
-//        return categoryIDs;
-//    }
+
 }
