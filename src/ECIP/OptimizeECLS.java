@@ -16,10 +16,10 @@ public class OptimizeECLS {
     /**
      *
      * @param p missing rate
-     * @return 最小的识别时间对应的时隙（最优时隙）
+     * @return 最小的识别时间对应的n/f（可以求出最优时隙）
      */
     public static double optimize(double p) {
-        double minf = 0.01;
+        double minf = 0.5;
         double mint = tavg(p,minf);
         for(double f = 0.5; f < 50; f += 0.01) {
             double t = tavg(p,f);
@@ -32,6 +32,9 @@ public class OptimizeECLS {
     }
 
     public static void main(String[] args) {
-        System.out.println(OptimizeECLS.optimize(0.75));
+        double a = OptimizeECLS.optimize(0.0);
+        double Tavg = OptimizeECLS.tavg(0.0,a);
+        System.out.println(OptimizeECLS.optimize(0.0));
+        System.out.println(Tavg);
     }
 }

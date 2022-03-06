@@ -261,7 +261,7 @@ public class ECLS extends IdentifyTool{
         // 优化时隙
         unReadVirtualCidNum = virtualCidNum;
         missingRate = 1 - actualCidNum*1.0/virtualCidNum;
-        a = OptimizeECLS.optimize(missingRate);
+        a = OptimizeECLS.optimize(missingRate); // n/f
         f = (int)Math.ceil(unReadVirtualCidNum * 1.0 /a);
 
 

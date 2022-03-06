@@ -6,9 +6,9 @@ public class ResultInfo {
     /** 类别ID长度 */
     public  Integer cidLength = 32;
     /** 缺失率 */
-    public  Double missingRate = 0.0;
+    public  Double missingRate = 0.95;
     /** 标签数目 */
-    public  Integer tagNum = 10000;
+    public  Integer tagNum = 100000;
     /** 时隙数目 */
     public  Integer f =160;
     /** 是否随机分配*/
@@ -28,7 +28,7 @@ public class ResultInfo {
         ECIPwithDLS;
     }
 
-    public Algorithms a = Algorithms.ECIPwithCLS;
+    public Algorithms a = Algorithms.Cip;
 
     public boolean propertiesChanged = true;
 
