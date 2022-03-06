@@ -245,13 +245,29 @@ public class ECLS extends IdentifyTool{
         int repeated = 0;
         int round = 1;
         int num1, num2;
+        double missingRate;
+        int unReadActualCidNum;
+        int presentNum;
+        int missingNum;
+        double a; // optimize n/f
 
         System.out.println("round "+round);
         output+="第 "+round+" 轮开始（随机分配阶段）！\n";
 
+        // 优化时隙
+        unReadActualCidNum = actualCidNum;
+        missingRate = actualCidNum*1.0/virtualCidNum;
+        a = OptimizeECLS.optimize(missingRate);
+        f = (int)Math.ceil(unReadActualCidNum * 1.0 /a);
+
+
         num1 = randomIdentificationPhase();
         System.out.println("identify cids in random identification phase: "+num1);
         output+="在第 "+round+" 轮（随机分配阶段），共识别 "+num1+" 个类别ID\n\n";
+
+        // 估算时间
+        time += OptimizeECLS.tavg(missingRate,a) * num1;
+
         if(num1==0) repeated++;
 
         while(flag) {
@@ -260,10 +276,21 @@ public class ECLS extends IdentifyTool{
             System.out.println("round " + round);
             output += "第 " + round + " 轮开始（重新分配阶段）！\n";
 
+            // 优化时隙，缺失率变化，动态调整帧长
+            unReadActualCidNum -= num1;
+            presentNum = presentCids.size();
+            missingNum = missingCids.size();
+            missingRate = (actualCidNum-presentNum)*1.0/(virtualCidNum-presentNum-missingNum);
+            a = OptimizeECLS.optimize(missingRate);
+            f = (int)Math.ceil(unReadActualCidNum * 1.0 /a);
+
             num2 = rearrangedIdentificationPhase();
 
             System.out.println("identify cids in rearranged identification phase: " + num2);
             output += "在第 " + round + " 轮（重新分配阶段），共识别 " + num2 + " 个类别ID\n\n";
+
+            // 估算时间
+            time += OptimizeECLS.tavg(missingRate,a) * num2;
 
             //System.out.println("the time of round "+round+" is:"+oneRoundTime);
             System.out.println(" ");
@@ -275,23 +302,24 @@ public class ECLS extends IdentifyTool{
             }
         }
 
-            time();
 
-            int presentNum = presentCids.size();
-            int missingNum = missingCids.size();
+        System.out.println("time = "+time);
+
+             presentNum = presentCids.size();
+             missingNum = missingCids.size();
             int misidentification = 0;
 
             if(repeated < 32) { // 全部识别
                 output+="识别结束！\n";
-                output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+ String.format("%.2f", time*1.0/1000) + " s\n";
+                output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+ String.format("%.4f", time*1.0/1000) + " s\n";
                 output+="模拟结束！\n";
-                output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+                output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.4f", time*1.0/1000) + " s\n";
 
             } else { // 部分识别，因为未识别任何cid的轮次过多而停止
                 output+="由于冲突时隙，未能识别类别ID的轮次过多，提前停止！可能影响准确率！";
-                output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/missingNum)+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+                output+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 准确率：100%， 识别缺失的类别ID数目："+missingNum+", 准确率："+(misidentification*1.0/missingNum)+", 需要时间约： "+String.format("%.4f", time*1.0/1000) + " s\n";
                 output+="模拟结束！\n";
-                analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.2f", time*1.0/1000) + " s\n";
+                analysis+="需要识别的类别ID数目："+(virtualCidNum)+", 识别存在的类别ID数量："+presentNum+", 识别缺失的类别ID数目："+missingNum+", 准确率：100%"+", 需要时间约： "+String.format("%.4f", time*1.0/1000) + " s\n";
             }
             return time;
 

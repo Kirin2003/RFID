@@ -1,6 +1,0 @@
-[DEBUG] 2022-03-05 22:39:21,811(0) --> [AWT-EventQueue-1] ui.Warning.onOK(Warning.java:73): input1:  
-[DEBUG] 2022-03-05 22:39:21,814(3) --> [AWT-EventQueue-1] ui.Warning.onOK(Warning.java:90): input2 =   
-[DEBUG] 2022-03-05 22:39:37,199(15388) --> [AWT-EventQueue-1] ui.Warning.onOK(Warning.java:73): input1:11111111111111111111111111111111  
-[DEBUG] 2022-03-05 22:39:37,200(15389) --> [AWT-EventQueue-1] ui.Warning.onOK(Warning.java:86): cid:11111111111111111111111111111111  
-[DEBUG] 2022-03-05 22:39:37,201(15390) --> [AWT-EventQueue-1] ui.Warning.onOK(Warning.java:90): input2 = 12  
-[DEBUG] 2022-03-05 22:39:37,202(15391) --> [AWT-EventQueue-1] ui.Warning.onOK(Warning.java:99): a2 = 12  

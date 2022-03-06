@@ -86,6 +86,13 @@ public class Controller {
                 warn();
             }
         });
+
+        ui.adviceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                advice();
+            }
+        });
     }
 
     public void assembleMenu() {
@@ -131,6 +138,12 @@ public class Controller {
                 warn();
             }
         });
+        ui.adviceMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                advice();
+            }
+        });
     }
 
     // 新建配置表格
@@ -145,6 +158,11 @@ public class Controller {
         warning.pack();
         warning.setLocationRelativeTo(ui.jFrame);
         warning.setVisible(true);
+    }
+
+    public void advice() {
+        // TODO：检查是否输入配置
+        
     }
 
     // 保存配置按钮

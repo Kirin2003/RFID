@@ -28,7 +28,7 @@ public class ResultInfo {
         ECIPwithDLS;
     }
 
-    public Algorithms a = Algorithms.Cip;
+    public Algorithms a = Algorithms.ECIPwithCLS;
 
     public boolean propertiesChanged = true;
 
