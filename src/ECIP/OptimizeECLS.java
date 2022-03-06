@@ -31,5 +31,7 @@ public class OptimizeECLS {
         return minf;
     }
 
-
+    public static void main(String[] args) {
+        System.out.println(OptimizeECLS.optimize(0.75));
+    }
 }

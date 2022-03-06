@@ -1,0 +1,6 @@
+[DEBUG] 2022-03-06 11:23:23,329(0) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:274): 第 1 轮，n/f = 0.01f = 10000  
+[DEBUG] 2022-03-06 11:23:23,331(2) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:275): 第 1 轮，时间：Infinity  
+[DEBUG] 2022-03-06 11:23:23,338(9) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 2 轮，n/f = 0.01f = 5100  
+[DEBUG] 2022-03-06 11:23:23,338(9) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 2 轮，时间：Infinity  
+[DEBUG] 2022-03-06 11:23:23,341(12) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:300): 第 3 轮，n/f = 0.01f = 200  
+[DEBUG] 2022-03-06 11:23:23,342(13) --> [AWT-EventQueue-1] ECIP.ECLS.identifyAll(ECLS.java:301): 第 3 轮，时间：Infinity  

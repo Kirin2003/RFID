@@ -1,6 +1,8 @@
 package ECIP;
 
 import java.util.*;
+
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 public class ECLS extends IdentifyTool{
@@ -17,7 +19,9 @@ public class ECLS extends IdentifyTool{
     boolean flag = false;
 
     public ECLS(List<Tag> virtualList, List<Tag> actualList, int virtualCidNum, int actualCidNum, int f, int tidLength, int cidLength) {
+
         super(tidLength, cidLength);
+        logger.setLevel(Level.DEBUG);
         this.virtualList = virtualList;
         this.actualList = actualList;
         this.f1 = f;
@@ -246,7 +250,7 @@ public class ECLS extends IdentifyTool{
         int round = 1;
         int num1, num2;
         double missingRate;
-        int unReadActualCidNum;
+        int unReadVirtualCidNum;
         int presentNum;
         int missingNum;
         double a; // optimize n/f
@@ -255,10 +259,10 @@ public class ECLS extends IdentifyTool{
         output+="第 "+round+" 轮开始（随机分配阶段）！\n";
 
         // 优化时隙
-        unReadActualCidNum = actualCidNum;
-        missingRate = actualCidNum*1.0/virtualCidNum;
+        unReadVirtualCidNum = virtualCidNum;
+        missingRate = 1 - actualCidNum*1.0/virtualCidNum;
         a = OptimizeECLS.optimize(missingRate);
-        f = (int)Math.ceil(unReadActualCidNum * 1.0 /a);
+        f = (int)Math.ceil(unReadVirtualCidNum * 1.0 /a);
 
 
         num1 = randomIdentificationPhase();
@@ -267,6 +271,8 @@ public class ECLS extends IdentifyTool{
 
         // 估算时间
         time += OptimizeECLS.tavg(missingRate,a) * num1;
+        logger.debug("第 "+round +" 轮，n/f = "+a+"f = "+f);
+        logger.debug("第 "+round +" 轮，时间："+time);
 
         if(num1==0) repeated++;
 
@@ -277,12 +283,12 @@ public class ECLS extends IdentifyTool{
             output += "第 " + round + " 轮开始（重新分配阶段）！\n";
 
             // 优化时隙，缺失率变化，动态调整帧长
-            unReadActualCidNum -= num1;
+            unReadVirtualCidNum -= num1;
             presentNum = presentCids.size();
             missingNum = missingCids.size();
-            missingRate = (actualCidNum-presentNum)*1.0/(virtualCidNum-presentNum-missingNum);
+            missingRate = 1 - (actualCidNum-presentNum)*1.0/(virtualCidNum-presentNum-missingNum);
             a = OptimizeECLS.optimize(missingRate);
-            f = (int)Math.ceil(unReadActualCidNum * 1.0 /a);
+            f = (int)Math.ceil(unReadVirtualCidNum * 1.0 /a);
 
             num2 = rearrangedIdentificationPhase();
 
@@ -291,8 +297,9 @@ public class ECLS extends IdentifyTool{
 
             // 估算时间
             time += OptimizeECLS.tavg(missingRate,a) * num2;
+            logger.debug("第 "+round +" 轮，n/f = "+a+"f = "+f);
+            logger.debug("第 "+round +" 轮，时间："+time);
 
-            //System.out.println("the time of round "+round+" is:"+oneRoundTime);
             System.out.println(" ");
             if (num2 == 0) repeated++;
 
