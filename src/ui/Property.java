@@ -15,31 +15,23 @@ import java.util.regex.Pattern;
 public class Property {
     public JButton OK;
     private JLabel title;
-    private JTextField textField1;
-    private JLabel Label1;
-    private JPanel JPanel1;
+   // private JTextField textField1;
     public JPanel JPanel;
     private JPanel JPanel0;
     private JPanel JPanelOK;
-    private JPanel JPanel2;
     private JPanel JPanel3;
     private JPanel JPanel4;
-    private JPanel JPanel5;
     private JPanel JPanel6;
-    private JLabel Label2;
     private JLabel Label3;
     private JLabel Label4;
-    private JLabel Label5;
     private JLabel Label6;
-    private JTextField textField2;
+   // private JTextField textField2;
     private JTextField textField3;
     private JTextField textField4;
-    private JTextField textField5;
+  //  private JTextField textField5;
     private JTextField textField6;
-    private JRadioButton RadioButton1;
-    private JPanel JPanel7;
-    private JLabel Label7;
-    private JRadioButton RadioButton2;
+  //  private JRadioButton RadioButton1;
+  //  private JRadioButton RadioButton2;
 
     private ButtonGroup bg = new ButtonGroup();
 
@@ -50,8 +42,8 @@ public class Property {
 
     public Property(ResultInfo r) {
         this.r = r;
-        bg.add(RadioButton1);
-        bg.add(RadioButton2);
+      //  bg.add(RadioButton1);
+      //  bg.add(RadioButton2);
 
         jFrame.setContentPane(this.JPanel);
 
@@ -87,7 +79,7 @@ public class Property {
      */
     private void $$$setupUI$$$() {
         JPanel = new JPanel();
-        JPanel.setLayout(new GridLayoutManager(9, 1, new Insets(0, 0, 0, 0), -1, -1));
+        JPanel.setLayout(new GridLayoutManager(5, 1, new Insets(0, 0, 0, 0), -1, -1));
         JPanel0 = new JPanel();
         JPanel0.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         JPanel.add(JPanel0, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -95,23 +87,28 @@ public class Property {
         title.setHorizontalTextPosition(11);
         title.setText("配置参数");
         JPanel0.add(title, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        JPanel1 = new JPanel();
-        JPanel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1, false, true));
-        JPanel.add(JPanel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final javax.swing.JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
-        JPanel1.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        Label1 = new JLabel();
-        Label1.setText("标签ID长度");
-        panel1.add(Label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textField1 = new JTextField();
-        panel1.add(textField1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         JPanelOK = new JPanel();
         JPanelOK.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        JPanel.add(JPanelOK, new GridConstraints(8, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        JPanel.add(JPanelOK, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         OK = new JButton();
         OK.setText("确定");
         JPanelOK.add(OK);
+        JPanel4 = new JPanel();
+        JPanel4.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
+        JPanel.add(JPanel4, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        Label4 = new JLabel();
+        Label4.setText("标签数量");
+        JPanel4.add(Label4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textField4 = new JTextField();
+        JPanel4.add(textField4, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        JPanel6 = new JPanel();
+        JPanel6.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
+        JPanel.add(JPanel6, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        Label6 = new JLabel();
+        Label6.setText("平均每个类别的标签数量");
+        JPanel6.add(Label6, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textField6 = new JTextField();
+        JPanel6.add(textField6, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         JPanel3 = new JPanel();
         JPanel3.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
         JPanel.add(JPanel3, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -120,54 +117,6 @@ public class Property {
         JPanel3.add(Label3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         textField3 = new JTextField();
         JPanel3.add(textField3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        JPanel4 = new JPanel();
-        JPanel4.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
-        JPanel.add(JPanel4, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        Label4 = new JLabel();
-        Label4.setText("标签数量");
-        JPanel4.add(Label4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textField4 = new JTextField();
-        JPanel4.add(textField4, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        JPanel5 = new JPanel();
-        JPanel5.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
-        JPanel.add(JPanel5, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        Label5 = new JLabel();
-        Label5.setText("时隙数量（优化）");
-        JPanel5.add(Label5, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textField5 = new JTextField();
-        JPanel5.add(textField5, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        JPanel6 = new JPanel();
-        JPanel6.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
-        JPanel.add(JPanel6, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        Label6 = new JLabel();
-        Label6.setText("平均每个类别的标签数量");
-        JPanel6.add(Label6, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textField6 = new JTextField();
-        JPanel6.add(textField6, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        JPanel7 = new JPanel();
-        JPanel7.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
-        JPanel.add(JPanel7, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        Label7 = new JLabel();
-        Label7.setText("类别ID");
-        JPanel7.add(Label7, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final javax.swing.JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, true));
-        JPanel7.add(panel2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        RadioButton1 = new JRadioButton();
-        RadioButton1.setSelected(true);
-        RadioButton1.setText("随机分配");
-        panel2.add(RadioButton1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        RadioButton2 = new JRadioButton();
-        RadioButton2.setText("不随机分配");
-        panel2.add(RadioButton2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        JPanel2 = new JPanel();
-        JPanel2.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
-        JPanel.add(JPanel2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        Label2 = new JLabel();
-        Label2.setText("类别ID长度");
-        JPanel2.add(Label2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textField2 = new JTextField();
-        JPanel2.add(textField2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**
@@ -193,31 +142,31 @@ public class Property {
         Logger logger = Logger.getLogger(" property ui");
         logger.setLevel(org.apache.log4j.Level.ALL);
         data.propertiesChanged = true;
-        String input1 = textField1.getText();
-        logger.debug("input1:" + input1);
-        int a1 = -1;
-
-        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input1)) {
-            a1 = Integer.parseInt(input1);
-            logger.debug("a1:" + a1);
-
-        } else {
-            errorMessage += "输入类别ID长度不是正整数\n";
-            data.propertiesChanged = false;
-        }
-
-        String input2 = textField2.getText();
-        logger.debug("input2:" + input2);
-        int a2 = -1;
-
-        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input2)) {
-            a2 = Integer.parseInt(input2);
-            logger.debug("a2:" + a2);
-
-        } else {
-            errorMessage += "输入标签ID长度不是正整数\n";
-            data.propertiesChanged = false;
-        }
+//        String input1 = textField1.getText();
+//        logger.debug("input1:" + input1);
+//        int a1 = -1;
+//
+//        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input1)) {
+//            a1 = Integer.parseInt(input1);
+//            logger.debug("a1:" + a1);
+//
+//        } else {
+//            errorMessage += "输入类别ID长度不是正整数\n";
+//            data.propertiesChanged = false;
+//        }
+//
+//        String input2 = textField2.getText();
+//        logger.debug("input2:" + input2);
+//        int a2 = -1;
+//
+//        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input2)) {
+//            a2 = Integer.parseInt(input2);
+//            logger.debug("a2:" + a2);
+//
+//        } else {
+//            errorMessage += "输入标签ID长度不是正整数\n";
+//            data.propertiesChanged = false;
+//        }
         String input3 = textField3.getText();
         logger.debug("input3:" + input3);
         double a3 = -1;
@@ -242,18 +191,18 @@ public class Property {
             errorMessage += "输入标签数量不是正整数\n";
             data.propertiesChanged = false;
         }
-        String input5 = textField5.getText();
-        logger.debug("input5:" + input5);
-        int a5 = -1;
-
-        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input5)) {
-            a5 = Integer.parseInt(input5);
-            logger.debug("a5:" + a5);
-
-        } else {
-            errorMessage += "输入时隙数量不是正整数\n";
-            data.propertiesChanged = false;
-        }
+//        String input5 = textField5.getText();
+//        logger.debug("input5:" + input5);
+//        int a5 = -1;
+//
+//        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input5)) {
+//            a5 = Integer.parseInt(input5);
+//            logger.debug("a5:" + a5);
+//
+//        } else {
+//            errorMessage += "输入时隙数量不是正整数\n";
+//            data.propertiesChanged = false;
+//        }
         String input6 = textField6.getText();
         logger.debug("input6:" + input6);
         int a6 = -1;
@@ -266,20 +215,20 @@ public class Property {
             errorMessage += "输入平均每个类别的标签数量不是正整数\n";
             data.propertiesChanged = false;
         }
-        boolean random = true;
-        if (RadioButton2.isSelected()) {
-            random = false;
-        }
+//        boolean random = true;
+//        if (RadioButton2.isSelected()) {
+//            random = false;
+//        }
 
 
         if (data.propertiesChanged) {
-            data.cidLength = a1;
-            data.tagLength = a2;
+//            data.cidLength = a1;
+//            data.tagLength = a2;
             data.missingRate = a3;
             data.tagNum = a4;
-            data.f = a5;
+           // data.f = a5;
             data.tagNumPerCid = a6;
-            data.isRandomAllocated = random;
+          //  data.isRandomAllocated = random;
             jFrame.setVisible(false);
 
             systemMessage += "加载配置成功！";
