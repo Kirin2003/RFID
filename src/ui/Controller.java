@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+
 import domain.ResultInfo;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -248,17 +248,17 @@ public class Controller implements IObserver{
     //选择算法
     public void chooseAlgorithms() {
         logger.debug(" enter choiceButton()");
-        String s = (String) JOptionPane.showInputDialog(ui.jFrame, "", "选择算法", JOptionPane.DEFAULT_OPTION, null, new String[]{"CIP", "ECIP", "ECIP with CLS", "ECIP with DLS"}, "CLS");
+        String s = (String) JOptionPane.showInputDialog(ui.jFrame, "", "选择算法", JOptionPane.DEFAULT_OPTION, null, new String[]{"CIP", "ECIP", "ECLS", "EDLS"}, "CLS");
         System.out.println(s);
         ResultInfo.Algorithms a = ResultInfo.Algorithms.Cip;
         if(s == "CIP") {
             a = ResultInfo.Algorithms.Cip;
         } else if(s == "ECIP") {
             a = ResultInfo.Algorithms.Ecip;
-        } else if (s == "ECIP with CLS") {
-            a = ResultInfo.Algorithms.ECIPwithCLS;
-        } else if (s == "ECIP with DLS"){
-            a = ResultInfo.Algorithms.ECIPwithDLS;
+        } else if (s == "ECLS") {
+            a = ResultInfo.Algorithms.ECLS;
+        } else if (s == "EDLS"){
+            a = ResultInfo.Algorithms.EDLS;
         }
         r.setA(a);
     }
@@ -286,10 +286,10 @@ public class Controller implements IObserver{
                 identifyTool = new ECIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength, r.mostMissingTagNum,r.preciousCid);
 
                 break;
-            case ECIPwithCLS:
+            case ECLS:
                 identifyTool = new ECLS(tagList, actualList,virtualCidNum,actualCidNum,r.f, r.tagLength, r.cidLength,r.mostMissingTagNum,r.preciousCid);
                 break;
-            case ECIPwithDLS:
+            case EDLS:
             default:
                 identifyTool = new CIP(tagList, actualList, virtualCidNum, actualCidNum,r.f, r.tagLength,r.cidLength,r.mostMissingTagNum,r.preciousCid);
                 break;

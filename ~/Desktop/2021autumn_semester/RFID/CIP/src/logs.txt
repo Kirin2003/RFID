@@ -1,6 +1,2 @@
-[DEBUG] 2022-03-07 08:10:20,887(1) --> [AWT-EventQueue-1] ui.Property.setData(Property.java:171): input3:0.0  
-[DEBUG] 2022-03-07 08:10:20,892(6) --> [AWT-EventQueue-1] ui.Property.setData(Property.java:176): a3:0.0  
-[DEBUG] 2022-03-07 08:10:20,892(6) --> [AWT-EventQueue-1] ui.Property.setData(Property.java:183): input4:12  
-[DEBUG] 2022-03-07 08:10:20,892(6) --> [AWT-EventQueue-1] ui.Property.setData(Property.java:188): a4:12  
-[DEBUG] 2022-03-07 08:10:20,893(7) --> [AWT-EventQueue-1] ui.Property.setData(Property.java:207): input6:1  
-[DEBUG] 2022-03-07 08:10:20,893(7) --> [AWT-EventQueue-1] ui.Property.setData(Property.java:212): a6:1  
+[DEBUG] 2022-03-07 08:13:21,637(0) --> [AWT-EventQueue-1] ui.Controller.chooseAlgorithms(Controller.java:250):  enter choiceButton()  
+[DEBUG] 2022-03-07 08:13:27,179(5542) --> [AWT-EventQueue-1] ui.Controller.chooseAlgorithms(Controller.java:250):  enter choiceButton()  

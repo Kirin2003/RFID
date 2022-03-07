@@ -24,8 +24,8 @@ public class ResultInfo {
     public enum Algorithms{
         Cip,
         Ecip,
-        ECIPwithCLS,
-        ECIPwithDLS;
+        ECLS,
+        EDLS;
     }
 
     public Algorithms a = Algorithms.Cip;
