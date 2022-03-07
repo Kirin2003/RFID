@@ -1,5 +1,5 @@
 package ui;
-import ECIP.*;
+import IdentifyTool.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -248,12 +248,12 @@ public class Controller implements IObserver{
     //选择算法
     public void chooseAlgorithms() {
         logger.debug(" enter choiceButton()");
-        String s = (String) JOptionPane.showInputDialog(ui.jFrame, "", "选择算法", JOptionPane.DEFAULT_OPTION, null, new String[]{"CIP", "ECIP", "ECLS", "EDLS"}, "CLS");
+        String s = (String) JOptionPane.showInputDialog(ui.jFrame, "", "选择算法", JOptionPane.DEFAULT_OPTION, null, new String[]{"CIP", "IdentifyTool", "ECLS", "EDLS"}, "CLS");
         System.out.println(s);
         ResultInfo.Algorithms a = ResultInfo.Algorithms.Cip;
         if(s == "CIP") {
             a = ResultInfo.Algorithms.Cip;
-        } else if(s == "ECIP") {
+        } else if(s == "IdentifyTool") {
             a = ResultInfo.Algorithms.Ecip;
         } else if (s == "ECLS") {
             a = ResultInfo.Algorithms.ECLS;

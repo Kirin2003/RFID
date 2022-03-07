@@ -1,4 +1,4 @@
-package ECIP;
+package IdentifyTool;
 
 public class OptimizeECLS {
     /**

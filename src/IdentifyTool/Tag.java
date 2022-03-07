@@ -1,7 +1,4 @@
-package ECIP;
-
-import java.math.BigInteger;
-import java.util.*;
+package IdentifyTool;
 
 public class Tag {
     private String tagID = null;   //tag ID

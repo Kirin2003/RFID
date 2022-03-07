@@ -1,4 +1,4 @@
-package ECIP;
+package IdentifyTool;
 
 import java.util.*;
 import org.apache.log4j.Logger;

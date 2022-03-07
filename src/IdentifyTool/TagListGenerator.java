@@ -1,4 +1,4 @@
-package ECIP;
+package IdentifyTool;
 
 import java.util.*;
 public class TagListGenerator {

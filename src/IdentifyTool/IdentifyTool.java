@@ -1,8 +1,7 @@
-package ECIP;
+package IdentifyTool;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import sun.rmi.runtime.Log;
 
 import java.util.*;
 

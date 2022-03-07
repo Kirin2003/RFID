@@ -1,5 +1,4 @@
-package ECIP;
-import java.util.*;
+package IdentifyTool;
 
 public interface ISubject {
      boolean add(IObserver iObserver);
