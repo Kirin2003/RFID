@@ -314,7 +314,7 @@ public class Controller implements IObserver{
 
         output+="选择算法：\n";
         output+=r.a.toString()+"\n\n";
-        output+="基于以上配置，最优时隙为："+r.f+"\n\n";
+        //output+="基于以上配置，最优时隙为："+r.f+"\n\n";
         output+="模拟结果如下：\n\n";
 
         ui.controlText.setText(output);

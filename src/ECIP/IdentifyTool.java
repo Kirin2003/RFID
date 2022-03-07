@@ -95,10 +95,10 @@ public abstract class IdentifyTool implements ISubject {
         String warningMessage = "";
         if(missingCidNum >= warningNum && missingCidNum <= warningNum +5) {
             warningMessage+="预警！缺失数量超过"+warningNum+"\n";
-            warningMessage+="识别时间："+time+"\n";
+            warningMessage+="识别时间："+String.format("%.2f",time*1.0/1000)+"s\n";
         } else if (missingCids.contains(warningCid) ) {
             warningMessage += "预警！类别："+warningCid+"缺失\n";
-            warningMessage += "识别时间："+time+"\n";
+            warningMessage+="识别时间："+String.format("%.2f",time*1.0/1000)+"s\n";
         }
 
         if(warningMessage.length()>0) {
