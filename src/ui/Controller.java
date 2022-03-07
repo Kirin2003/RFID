@@ -179,7 +179,7 @@ public class Controller implements IObserver{
 
         String advice = "";
         advice+="参数配置如下：\n";
-        advice+="标签ID长度："+96+" 类别ID长度："+32+" 缺失率："+r.missingRate+" 标签数目："+r.tagNum+"平均每个类别的标签数量："+r.tagNumPerCid+"\n\n";
+        advice+="标签ID长度："+96+" 类别ID长度："+32+" 缺失率："+r.missingRate+" 标签数目："+r.tagNum+" 平均每个类别的标签数量："+r.tagNumPerCid+"\n\n";
 
         // 估算三个算法的时间，打印时间对比图
         // CIP 和 ECIP 直接整体估计, ECLS需要创建对象仿真估计
@@ -211,9 +211,9 @@ public class Controller implements IObserver{
         }
 
         advice+="估算时间如下：\n";
-        advice += "CIP:"+CIPtime+"s\n";
-        advice += "ECIP:"+ECIPtime+"s\n";
-        advice += "ECLS:"+ECLStime+"s\n\n";
+        advice += "CIP:"+String.format("%.4f",CIPtime)+"s\n";
+        advice += "ECIP:"+String.format("%.4f",ECIPtime)+"s\n";
+        advice += "ECLS:"+String.format("%.4f",ECLStime)+"s\n\n";
 
         advice+="推荐算法："+algorithm+"\n";
 
