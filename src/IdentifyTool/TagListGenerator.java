@@ -42,7 +42,7 @@ public class TagListGenerator {
      */
     public static List<Tag> highMissingListFactory2(List<Tag> tagList, int virtualCidNum, double missingRate) {
         int size = (int)Math.ceil(virtualCidNum*(1-missingRate)); // 向上取整
-
+        System.out.println("size = "+size);
 
         List<Tag> actualList = new ArrayList<>();
         long time = System.currentTimeMillis();

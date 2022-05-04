@@ -32,12 +32,17 @@ public abstract class IdentifyTool implements ISubject {
 
 
     public IdentifyTool(int tidLength, int cidLength, int warningNum, String warningCid) {
-        logger.setLevel(Level.DEBUG);
+        logger.setLevel(Level.ERROR);
         tcid = cidLength * 0.025 + 0.4;
         tid = tidLength * 0.025 + 0.4;
         this.warningNum = warningNum;
         this.warningCid = warningCid;
     }
+
+     public IdentifyTool(int tidLength, int cidLength) {
+        tcid = cidLength * 0.025 + 0.4;
+        tid = tidLength * 0.025 + 0.4;
+     }
 
     public abstract double identifyAll();
 

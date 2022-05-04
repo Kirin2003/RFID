@@ -210,12 +210,17 @@ public class Controller implements IObserver{
             algorithm = "ECLS";
         }
 
-        advice+="估算时间如下：\n";
+        advice+="估算时间：\n";
         advice += "CIP:"+String.format("%.4f",CIPtime)+"s\n";
         advice += "ECIP:"+String.format("%.4f",ECIPtime)+"s\n";
         advice += "ECLS:"+String.format("%.4f",ECLStime)+"s\n\n";
 
-        advice+="推荐算法："+algorithm+"\n";
+        advice += "估算识别准确率：\n";
+        advice += "CIP:100%\n";
+        advice += "ECIP：100%\n";
+        advice += "ECLS：100%\n\n";
+
+        advice+="综合考虑时间和准确率，推荐算法："+algorithm+"\n";
 
         JPython.Graphic(CIPtime, ECIPtime, ECLStime,advice);
         
@@ -248,7 +253,7 @@ public class Controller implements IObserver{
     //选择算法
     public void chooseAlgorithms() {
         logger.debug(" enter choiceButton()");
-        String s = (String) JOptionPane.showInputDialog(ui.jFrame, "", "选择算法", JOptionPane.DEFAULT_OPTION, null, new String[]{"CIP", "IdentifyTool", "ECLS", "EDLS"}, "CLS");
+        String s = (String) JOptionPane.showInputDialog(ui.jFrame, "", "选择算法", JOptionPane.DEFAULT_OPTION, null, new String[]{"CIP", "ECIP", "ECLS"}, "CLS");
         System.out.println(s);
         ResultInfo.Algorithms a = ResultInfo.Algorithms.Cip;
         if(s == "CIP") {
