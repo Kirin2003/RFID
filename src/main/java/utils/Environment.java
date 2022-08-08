@@ -4,6 +4,7 @@ import base.Location;
 import base.Tag;
 import base.TagListGenerator;
 import base.TagRepository;
+import jdk.javadoc.doclet.Taglet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +25,7 @@ public class Environment {
     private List<Tag> allTagList; // 期望标签+意外标签 expected tag + unexpected tag
     private List<Tag> expectedTagList; // 期望标签, 存在标签+缺失标签, present tag + missing tag
     private List<Tag> actualTagList; // 存在标签
+    private int type = 0;
 
     private Logger logger = LogManager.getLogger(Environment.class);
 
@@ -47,6 +49,7 @@ public class Environment {
     public void createType1(double length, double width, int readersInRow, int readersInColumn){
         this.length = length;
         this.width = width;
+        this.type = 0;
         this.setReaderX(readersInRow);
         this.setReaderY(readersInColumn);
 
@@ -69,19 +72,15 @@ public class Environment {
      * expected to be evenly distributed instead of randomly distributed
      * @param length Area length
      * @param width Area width
-     * @param x Number of readers in a row
-     * @param y Number of readers in a column
-     * @param expectedTagNumber Expected tag number
-     * @param tagNum Actual tag number
+     * @param readersInRow Number of readers in a row
+     * @param readersInColumn Number of readers in a column
      */
-    public void createType2(double length, double width, int x, int y, int expectedTagNumber, int tagNum){
+    public void createType2(double length, double width, int readersInRow, int readersInColumn, int expectedTagNumber, int tagNum){
         this.length = length;
         this.width = width;
-        this.setReaderX(x);
-        this.setReaderY(y);
-        TagRepository tagRepository = TagListGenerator.generateTagRepository(10, expectedTagNumber, 0, expectedTagNumber - tagNum);
-        this.expectedTagList = tagRepository.getExpectedTagList();
-        this.actualTagList = tagRepository.getActucaltagList();
+        this.type = 1;
+        this.setReaderX(readersInRow);
+        this.setReaderY(readersInColumn);
 
         //Tags are evenly distributed, particle size 10*10
         int M = 10;
@@ -116,8 +115,17 @@ public class Environment {
             expectedTagList.get(M * N * equalTagNumber + i).setLocation(location);
         }
 
+        // Randomly distribute the unknown tag list
+        List<Tag> unknownTagList = TagRepository.less(allTagList,expectedTagList);
+        for (Tag tag : unknownTagList) {
+            double xx = Math.random() * length;
+            double yy = Math.random() * width;
+            Location location = new Location(xx, yy);
+            tag.setLocation(location);
+        }
+
         //Set up the reader
-        setReaders(x, y);
+        setReaders(readersInRow, readersInColumn);
     }
 
     /**

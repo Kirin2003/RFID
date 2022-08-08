@@ -18,7 +18,7 @@ public class TagRepository {
         this.actucaltagList = actucaltagList;
     }
 
-    public List<Tag> less (List<Tag> l1, List<Tag> l2) {
+    public static List<Tag> less (List<Tag> l1, List<Tag> l2) {
         List<Tag> l3 = new ArrayList<>();
         for(Tag tag : l1)
         {
@@ -28,14 +28,14 @@ public class TagRepository {
         return l3;
     }
 
-    public List<Tag> add (List<Tag> l1, List<Tag> l2){
+    public static List<Tag> add (List<Tag> l1, List<Tag> l2){
         for (Tag tag: l2){
             l1.add(tag);
         }
         return l1;
     }
 
-    public List<Tag> remove (List<Tag> l1, List<Tag> l2){
+    public static List<Tag> remove (List<Tag> l1, List<Tag> l2){
         for (Tag tag: l2){
             if (l1.contains(tag))
                 l1.remove(tag);
