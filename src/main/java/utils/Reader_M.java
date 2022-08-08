@@ -10,7 +10,7 @@ public class Reader_M {
     protected int ID = 0;
     protected Location location = new Location();
     protected double readingRadius;
-    private List<Tag> coverExpectedTagList = new ArrayList<>();
+    private List<Tag> coverActualTagList = new ArrayList<>();
     public int realReply;
     public List<Tag> coverUnknowTagList = new ArrayList<>();
 
@@ -73,10 +73,10 @@ public class Reader_M {
     public void setReadingRadius(double readingRadius) {
         this.readingRadius = readingRadius;
     }
-    public List<Tag> getCoverExpectedTagList() {
-        return coverExpectedTagList;
+    public List<Tag> getCoverActualTagList() {
+        return coverActualTagList;
     }
-    public void setCoverExpectedTagList(List<Tag> coverExpectedTagList) {
-        this.coverExpectedTagList = coverExpectedTagList;
+    public void setCoverActualTagList(List<Tag> coverActualTagList) {
+        this.coverActualTagList = coverActualTagList;
     }
 }

@@ -2,6 +2,7 @@ package protocals;
 import base.*;
 import org.apache.logging.log4j.Logger;
 import utils.Environment;
+import utils.Reader_M;
 import utils.Recorder;
 
 
@@ -35,11 +36,9 @@ public abstract class IdentifyTool implements ISubject {
 
     public abstract void execute();
 
-    public abstract void unexpectedTagElimination(int numberOfHashFunctions, double falsePositiveRatio) ;
+    public abstract void unexpectedTagElimination(int numberOfHashFunctions, double falsePositiveRatio, List<Tag> allTagList) ;
 
-    public abstract void identify(List<Tag> expectedTagList);
-
-
+    public abstract void identify(double missRate, Reader_M reader_m);
 
     @Override
     public boolean add(IObserver iObserver) {

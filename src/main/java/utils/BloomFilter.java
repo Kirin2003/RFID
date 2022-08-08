@@ -62,7 +62,7 @@ public class BloomFilter {
     }
 
 
-    public  void membershipCheck(List<Integer> bloomFilterVector, List<Tag> tagList, int numberOfHashFunctions, List<Integer> randomInts, int bloomFilterSize){
+    public  int membershipCheck(List<Integer> bloomFilterVector, List<Tag> tagList, int numberOfHashFunctions, List<Integer> randomInts, int bloomFilterSize){
 
 
         // 消除意外标签, 在未压缩的布隆过滤器中, 如果标签对应的数不为1, 是意外标签
@@ -95,6 +95,7 @@ public class BloomFilter {
             }
         }
         logger.error("Total number of eliminated unknown tags after membership Check: [" + eliminatedTagNum + "]");
+        return eliminatedTagNum;
     }
 
     public double membershipCheckExecutionTime(List<Integer> originalBloomFilterVector) {

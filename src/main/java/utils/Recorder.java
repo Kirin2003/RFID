@@ -6,16 +6,18 @@ import java.util.List;
 public class Recorder {
     public double totalExecutionTime = 0;
 
-    public int roundCount;
-    public int slotCount;
+    public int roundCount = 0;
+    public int slotCount = 0;
 
-    public int emptySlotCount;
-    public int singletonSlotCount;
-    public int collisionSlotCount;
+    public int emptySlotCount = 0;
+    public int singletonSlotCount = 0;
+    public int collisionSlotCount = 0;
 
     public int recognizedNum = 0;
     public int recognizedMissingTagNum = 0;
     public int recognizedActualTagNum = 0;
+
+    public int eliminationNum = 0;
 
     public List<Integer> frameSizeList = new ArrayList<>();
     public List<String> missingCids = new ArrayList<>();
@@ -30,6 +32,10 @@ public class Recorder {
 
     public List<Integer> recognizeMissingNumList = new ArrayList<>();
     public List<Integer> recognizeActualNumList = new ArrayList<>();
+
+
     public List<Double> executionTimeList = new ArrayList<>();
+
+
 
 }
