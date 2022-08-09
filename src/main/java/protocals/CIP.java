@@ -3,6 +3,7 @@ package protocals;
 import base.Tag;
 import org.apache.logging.log4j.Logger;
 import utils.Environment;
+import utils.Reader_M;
 import utils.Recorder;
 
 import java.util.List;
@@ -12,8 +13,9 @@ import java.util.List;
  * @date 2022/8/8 下午10:19
  */
 public class CIP extends IdentifyTool{
-    public CIP(Logger logger, Recorder recorder, Environment environment, int warningNum, String warningCid) {
-        super(logger, recorder, environment, warningNum, warningCid);
+
+    public CIP(Logger logger, Recorder recorder, Environment environment) {
+        super(logger, recorder, environment);
     }
 
     @Override
@@ -22,12 +24,12 @@ public class CIP extends IdentifyTool{
     }
 
     @Override
-    public void unexpectedTagElimination(int numberOfHashFunctions, double falsePositiveRatio) {
+    public void unexpectedTagElimination() {
 
     }
 
     @Override
-    public void identify(List<Tag> expectedTagList) {
+    public void identify(Reader_M reader_m) {
 
     }
 }

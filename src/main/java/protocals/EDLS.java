@@ -15,11 +15,18 @@ import java.util.*;
 public class EDLS extends IdentifyTool{
     int numberOfHashFunctions = 1;//哈希函数的个数, 用于意外标签去除阶段
     double falsePositiveRatio = 0.01;//假阳性误报率, 即意外标签通过成员检查的比率
-    List<Recorder> recorders = new ArrayList<>();
+    int readerNum = 1;
+    List<Reader_M> readers;
+    Map<Reader_M, Recorder> readerToRecoder = new HashMap<>();
 
 
     public EDLS(Logger logger, Recorder recorder, Environment environment) {
         super(logger, recorder, environment);
+        readers = environment.getReaderList();
+        readerNum = readers.size();
+        for(Reader_M reader_m : readers){
+            readerToRecoder.put(reader_m,new Recorder());
+        }
     }
 
     /**
@@ -40,48 +47,44 @@ public class EDLS extends IdentifyTool{
             reader.coverActualTagList = reader.getReaderMOwnTagList(environment.getActualTagList());
         }
 
-        // 为每一个阅读器初始化一个记录器
-        int readerNum = environment.getReaderList().size();
-        List<Reader_M> readers= environment.getReaderList();
-        for(int i = 0; i < readerNum; ++i) {
-            recorders.add(new Recorder());
-        }
 
-        unexpectedTagElimination(environment);
+        unexpectedTagElimination();
 
         // 第一阶段所有阅读器用时中最长的作为第一阶段的时间
         double maxTime = 0;
-        for(int i = 0; i < readerNum; ++i) {
-            if(recorders.get(i).totalExecutionTime > maxTime) {
-                maxTime = recorders.get(i).totalExecutionTime;
+        for(Reader_M reader_m : readerToRecoder.keySet()) {
+            double t1 = readerToRecoder.get(reader_m).totalExecutionTime;
+            if(t1 > maxTime) {
+                maxTime = t1;
             }
         }
         recorder.totalExecutionTime = maxTime;
-
-
+        for(Reader_M reader_m : readerToRecoder.keySet()) {
+            readerToRecoder.get(reader_m).totalExecutionTime = maxTime;
+        }
 
         for (Reader_M reader : environment.getReaderList()) {
             logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
             // 每一次需要reset(),将环境中所有预期标签设为活跃, 因为有些标签在其他阅读器中识别为缺失, 但在某个阅读器中识别为存在, 这个标签是存在的
             environment.reset();
-            identify(environment, reader);
+            identify( reader);
         }
 
         // 第二阶段所有阅读器中用时最长的作为第二阶段的时间
-
+        double maxTime2 = 0;
+        for(Reader_M reader_m : readerToRecoder.keySet()) {
+            double t1 = readerToRecoder.get(reader_m).totalExecutionTime;
+            if(t1 > maxTime2) {
+                maxTime2 = t1;
+            }
+        }
+        recorder.totalExecutionTime = maxTime2;
     }
+
+
 
     @Override
     public void unexpectedTagElimination() {
-
-    }
-
-    @Override
-    public void identify(double missRate, Reader_M reader_m) {
-
-    }
-
-    public void unexpectedTagElimination(Environment environment) {
         //第一阶段, 所有阅读器同时工作, 去除意外标签, 等待所有阅读器工作完毕再进行下一阶段, 这样意外标签去除的多, 对下一阶段干扰的就少
         BloomFilter bf = new BloomFilter(logger);
         List<Tag> expectedTagList = environment.getExpectedTagList();
@@ -99,12 +102,14 @@ public class EDLS extends IdentifyTool{
             logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader.getID() + " >>>>>>>>>>>>>>>>>>>");
             bf.membershipCheck(bloomFilterVector,reader.coveredAllTagList,numberOfHashFunctions,randomInts,bloomFilterSize);
             double t1 = bf.membershipCheckExecutionTime(bloomFilterVector);
-            recorders.get(i).totalExecutionTime += t1;
+            readerToRecoder.get(reader).totalExecutionTime += t1;
         }
 
     }
 
-    public void identify(Environment environment, Reader_M reader_m){
+    @Override
+    public void identify(Reader_M reader_m){
+        Recorder recorder = readerToRecoder.get(reader_m);
         // 第几轮
         recorder.roundCount ++;
         double missRate = (double) (environment.getExpectedTagList().size() - environment.getActualTagList().size()) / environment.getExpectedTagList().size();
