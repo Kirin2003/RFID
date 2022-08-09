@@ -12,6 +12,7 @@ public class Recorder {
     public int emptySlotCount = 0; // 总空时隙数
     public int singletonSlotCount = 0; // 总单时隙数
     public int collisionSlotCount = 0; // 总冲突时隙数
+    public int noResult = 0;
 
     public int recognizedNum = 0; // 识别到的标签总数
     public int recognizedMissingTagNum = 0; // 识别到的缺失标签总数
