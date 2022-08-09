@@ -13,8 +13,8 @@ import java.util.*;
  * @date 2022/8/8 下午10:19
  */
 public class EDLS extends IdentifyTool{
-    int numberOfHashFunctions = 1;
-    double falsePositiveRatio = 0.01;
+    int numberOfHashFunctions = 1;//哈希函数的个数, 用于意外标签去除阶段
+    double falsePositiveRatio = 0.01;//假阳性误报率, 即意外标签通过成员检查的比率
 
 
     public EDLS(Logger logger, Recorder recorder, Environment environment) {
@@ -28,51 +28,54 @@ public class EDLS extends IdentifyTool{
      */
     @Override
     public void execute(){
-        // 初始化环境和阅读器
+        // 初始化环境和阅读器的位置
         readerMInit(environment);
-        for (Reader_M reader : environment.getReaderList()){
+        // 初始化阅读器的全部标签,期望标签,存在标签
+        for (Reader_M reader : environment.getReaderList()) {
+            // 阅读器的期望标签是环境中的全部期望标签, 因为阅读器对期望标签的分布没有多余的知识
+            reader.expectedTagList = environment.getExpectedTagList();
+            // 阅读器的覆盖范围的全部标签和存在标签分别是环境中的全部标签和存在标签的一部分
+            reader.coveredAllTagList = reader.getReaderMOwnTagList(environment.getActualTagList());
+            reader.coverActualTagList = reader.getReaderMOwnTagList(environment.getActualTagList());
+        }
+
+
+        double missRate = (double) (environment.getExpectedTagList().size() - environment.getActualTagList().size()) / environment.getExpectedTagList().size();
+        logger.info("Miss rate is: " + missRate);
+        for (Reader_M reader : environment.getReaderList()) {
             logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
+            // 每一次需要reset(),将环境中所有预期标签设为活跃, 因为有些标签在其他阅读器中识别为缺失, 但在某个阅读器中识别为存在, 这个标签是存在的
             environment.reset();
-            // 每个阅读器范围内的标签列表
-            List<Tag> coveredAllTagList = reader.getReaderMOwnTagList(environment.getAllTagList());
-
-            reader.setCoverActualTagList(environment.getActualTagList());
-
-            unexpectedTagElimination(numberOfHashFunctions,falsePositiveRatio,coveredAllTagList);
-            
-
-            //Phase Two, 识别缺失标签和存在标签
-            double missRate = (double) (environment.getExpectedTagList().size() - environment.getActualTagList().size()) / environment.getExpectedTagList().size();
-            logger.info("Missing rate is: " + missRate);
             identify(missRate, reader);
         }
     }
 
     @Override
-    public void unexpectedTagElimination(int numberOfHashFunctions, double falsePositiveRatio,List<Tag> coveredAllTagList) {
-        //Phase One, 去掉意外标签
+    public void unexpectedTagElimination() {
+        //第一阶段, 所有阅读器同时工作, 去除意外标签, 等待所有阅读器工作完毕再进行下一阶段, 这样意外标签去除的多, 对下一阶段干扰的就少
         BloomFilter bf = new BloomFilter(logger);
-        int bloomFilterSize = (int) Math.ceil((-environment.getExpectedTagList().size() * numberOfHashFunctions) / Math.log(1 - Math.pow(falsePositiveRatio, 1.0 / numberOfHashFunctions)));
-        logger.info("bloom filter size (phase one):"+bloomFilterSize);
+        List<Tag> expectedTagList = environment.getExpectedTagList();
+        int bloomFilterSize = (int) Math.ceil((-expectedTagList.size() * numberOfHashFunctions) / Math.log(1 - Math.pow(falsePositiveRatio, 1.0 / numberOfHashFunctions)));
         Random random = new Random(System.currentTimeMillis());
         List<Integer> randomInts = new ArrayList<>();
         for(int i = 0; i < numberOfHashFunctions; i++) {
             randomInts.add(random.nextInt(100));
         }
         List<Integer> bloomFilterVector = bf.genFilterVector(numberOfHashFunctions,bloomFilterSize,randomInts,environment.getExpectedTagList());
+        for (Reader_M reader : environment.getReaderList()){
+            logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
+            bf.membershipCheck(bloomFilterVector,reader.coveredAllTagList,numberOfHashFunctions,randomInts,bloomFilterSize);
+            double t1 = bf.membershipCheckExecutionTime(bloomFilterVector);
+            // TODO 到底怎么记录呢? 传入一个recorder?
+        }
 
-        int eliminationNum = bf.membershipCheck(bloomFilterVector,coveredAllTagList,numberOfHashFunctions,randomInts,bloomFilterSize);
-        double t1 = bf.membershipCheckExecutionTime(bloomFilterVector);
-        
-        recorder.totalExecutionTime += t1;
-        recorder.eliminationNum = eliminationNum;
-        
     }
 
     @Override
-    public void identify(double missRate, Reader_M reader_m){
+    public void identify(Environment environment, Reader_M reader_m){
         // 第几轮
         recorder.roundCount ++;
+        double missRate = (double) (environment.getExpectedTagList().size() - environment.getActualTagList().size()) / environment.getExpectedTagList().size();
 
         // 期望的标签列表, 可能有缺失；每个阅读器只覆盖了一个小范围, 但期望的标签列表是整个仓库的
         List<Tag> expectedTagList = environment.getExpectedTagList();
@@ -101,17 +104,7 @@ public class EDLS extends IdentifyTool{
         // 实际回复的, 只能识别空时隙, 单时隙, 冲突时隙, 因此分别记录0,1,>=2的
         int[] realReply = new int[]{0, 0, 0};
 
-        // 比较filter vector中预期的标签回应情况和实际标签回应情况, 识别存在的标签和缺失的标签
-        int twoTurnToZero = 0;
-        int threeTurnToZero = 0;
-        int twoTurnToOne = 0;
-        int twoTurnToTwo = 0;
-        int threeTurnToOne = 0;
-        int threeTurnToTwo = 0;
-        int threeTurnToThree = 0;
 
-        int resolvedFromTwoCollision = 0; // 将冲突时隙变成非冲突时隙的数目, 解决了冲突的时隙的数目, 主要用于SFMTI
-        int resolvedFromThreeCollision = 0;
 
         Map<Integer, List<Tag>> collisionTagListMap = new HashMap<>(); // 冲突时隙的时隙-标签列表映射
         int collisionTagListIndex = 0;

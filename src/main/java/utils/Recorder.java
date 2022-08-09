@@ -23,11 +23,6 @@ public class Recorder {
     public List<String> missingCids = new ArrayList<>(); // 识别到的缺失标签列表
     public List<String> actualCids = new ArrayList<>(); // 识别到的存在标签列表
 
-    /**
-     * 每一轮的已经识别的数目
-     * The number of tags identified in each round
-     */
-
     public List<Integer> recognizeNumList = new ArrayList<>();//每一轮的识别标签的总数
 
     public List<Integer> recognizeMissingNumList = new ArrayList<>(); // 每一轮的识别的缺失标签的总数
@@ -35,7 +30,4 @@ public class Recorder {
 
 
     public List<Double> executionTimeList = new ArrayList<>(); // 每一轮的执行时间
-
-
-
 }

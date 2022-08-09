@@ -16,7 +16,6 @@ public abstract class IdentifyTool implements ISubject {
     Recorder recorder; //记录器
 
     Environment environment; // 环境
-    double falsePositiveRatio; // 假阳性误报率, 即意外标签通过成员检查的概率
     int instanceNum; // 模拟次数
 
 
@@ -35,7 +34,7 @@ public abstract class IdentifyTool implements ISubject {
 
     public abstract void execute();
 
-    public abstract void unexpectedTagElimination(int numberOfHashFunctions, double falsePositiveRatio, List<Tag> allTagList) ;
+    public abstract void unexpectedTagElimination() ;
 
     public abstract void identify(double missRate, Reader_M reader_m);
 

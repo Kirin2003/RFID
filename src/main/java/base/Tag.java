@@ -116,6 +116,8 @@ public class Tag {
         return slotSelected;
     }
 
+
+
     /**
      * Newly added hash function used for bloom filter
      * @param frameSize Frame Size
@@ -128,6 +130,23 @@ public class Tag {
         for(int i = 0; i < tagID.length(); i++){
             hash = Math.abs((int) (hash * 13331 + (tagID.charAt(i) == '0' ? 0 : p + 131 * i * tagID.charAt(i))));
             p = Math.abs(p * 131 + i * tagID.charAt(i));
+        }
+        slotSelected = Math.abs(hash % frameSize);
+        return slotSelected;
+    }
+
+    /**
+     * Similar to hash1, the only difference is this hash function uses category id instead of tag id
+     * @param frameSize Frame Size
+     * @param random Random NUmber
+     * @return
+     */
+    public int hash2(int frameSize, int random){
+        int p = random;
+        int hash = 0;
+        for(int i = 0; i < categoryID.length(); i++){
+            hash = Math.abs((int) (hash * 13331 + (categoryID.charAt(i) == '0' ? 0 : p + 131 * i * categoryID.charAt(i))));
+            p = Math.abs(p * 131 + i * categoryID.charAt(i));
         }
         slotSelected = Math.abs(hash % frameSize);
         return slotSelected;
