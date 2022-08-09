@@ -17,24 +17,25 @@ public class EDLS extends IdentifyTool{
     double falsePositiveRatio = 0.01;
 
 
-    public EDLS(Logger logger, Recorder recorder, Environment environment, int warningNum, String warningCid) {
-        super(logger, recorder, environment, warningNum, warningCid);
+    public EDLS(Logger logger, Recorder recorder, Environment environment) {
+        super(logger, recorder, environment);
     }
 
     /**
-     * Main entry point. Single Reader and Multi reader codes are almost same, we only give one reader for the environment
+     * 多阅读器场景
+     * 第一阶段, 所有阅读器同时工作, 去除意外标签, 等待所有阅读器工作完毕再进行下一阶段, 这样意外标签去除的多, 对下一阶段干扰的就少
+     * 第二阶段, 所有阅读器同时工作, 识别存在标签, 所有阅读器工作完毕后, 所有阅读器识别的存在标签之和是存在标签, 不再存在标签中的是缺失标签
      */
     @Override
     public void execute(){
         // 初始化环境和阅读器
         readerMInit(environment);
-        // 单阅读器场景, 所以阅读器范围内的标签列表就是环境中的标签列表, reader.setCoverTagList(environment.getTagList());
         for (Reader_M reader : environment.getReaderList()){
             logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
             environment.reset();
             // 每个阅读器范围内的标签列表
             List<Tag> coveredAllTagList = reader.getReaderMOwnTagList(environment.getAllTagList());
-            //TODO Modified
+
             reader.setCoverActualTagList(environment.getActualTagList());
 
             unexpectedTagElimination(numberOfHashFunctions,falsePositiveRatio,coveredAllTagList);

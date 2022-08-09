@@ -13,25 +13,24 @@ import java.util.Vector;
 
 public abstract class IdentifyTool implements ISubject {
     Logger logger;
-    Recorder recorder;
+    Recorder recorder; //记录器
 
-    Environment environment;
-    double falsePositiveRatio;
+    Environment environment; // 环境
+    double falsePositiveRatio; // 假阳性误报率, 即意外标签通过成员检查的概率
     int instanceNum; // 模拟次数
 
 
-    protected int warningNum;
-    protected String warningCid;
+    protected int warningNum = 1000000; // 预警数目
+    protected String warningCid = ""; // 预警类别id
     protected boolean isWarning = true; // 是否需要弹出警告框，只警告一次
 
     protected Vector<IObserver> iObservers = new Vector<>();
 
-    public IdentifyTool(Logger logger, Recorder recorder, Environment environment, int warningNum, String warningCid) {
+    public IdentifyTool(Logger logger, Recorder recorder, Environment environment) {
         this.logger = logger;
         this.recorder = recorder;
         this.environment = environment;
-        this.warningNum = warningNum;
-        this.warningCid = warningCid;
+
     }
 
     public abstract void execute();

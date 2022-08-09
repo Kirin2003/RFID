@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Reader_M {
-    protected int ID = 0;
-    protected Location location = new Location();
-    protected double readingRadius;
-    private List<Tag> coverActualTagList = new ArrayList<>();
+    protected int ID = 0;//阅读器id
+    protected Location location = new Location(); // 位置坐标
+    protected double readingRadius; // 阅读器作用半径,
+    private List<Tag> coverActualTagList = new ArrayList<>(); // 覆盖范围内的存在标签, 主要用于识别存在和缺失标签
     public int realReply;
-    public List<Tag> coverUnknowTagList = new ArrayList<>();
+    public List<Tag> coveredAllTagList = new ArrayList<>(); // 覆盖范围内的全部标签, 主要用于意外标签去除阶段
+    public List<Tag> expectedTagList = new ArrayList<>(); // 期望标签, 其实是环境中全部的期望标签, 而不是覆盖范围内的期望标签, 因为阅读器对期望标签的分布并没有多余的知识
 
 
     public Reader_M(){
