@@ -5,7 +5,6 @@ import base.Tag;
 import org.apache.logging.log4j.Logger;
 import utils.*;
 
-import java.io.Reader;
 import java.util.*;
 
 /**
@@ -15,18 +14,12 @@ import java.util.*;
 public class EDLS extends IdentifyTool{
     int numberOfHashFunctions = 1;//哈希函数的个数, 用于意外标签去除阶段
     double falsePositiveRatio = 0.01;//假阳性误报率, 即意外标签通过成员检查的比率
-    int readerNum = 1;
-    List<Reader_M> readers;
-    Map<Reader_M, Recorder> readerToRecoder = new HashMap<>();
+
 
 
     public EDLS(Logger logger, Recorder recorder, Environment environment) {
         super(logger, recorder, environment);
-        readers = environment.getReaderList();
-        readerNum = readers.size();
-        for(Reader_M reader_m : readers){
-            readerToRecoder.put(reader_m,new Recorder());
-        }
+
     }
 
     /**
@@ -36,44 +29,29 @@ public class EDLS extends IdentifyTool{
      */
     @Override
     public void execute(){
-        // 初始化环境和阅读器的位置
-        readerMInit(environment);
-        // 初始化阅读器的全部标签,期望标签,存在标签
-        for (Reader_M reader : environment.getReaderList()) {
-            // 阅读器的期望标签是环境中的全部期望标签, 因为阅读器对期望标签的分布没有多余的知识
-            reader.expectedTagList = environment.getExpectedTagList();
-            // 阅读器的覆盖范围的全部标签和存在标签分别是环境中的全部标签和存在标签的一部分
-            reader.coveredAllTagList = reader.getReaderMOwnTagList(environment.getActualTagList());
-            reader.coverActualTagList = reader.getReaderMOwnTagList(environment.getActualTagList());
-        }
-
+        List<Reader_M> readers = environment.getReaderList();
 
         unexpectedTagElimination();
 
         // 第一阶段所有阅读器用时中最长的作为第一阶段的时间
         double maxTime = 0;
-        for(Reader_M reader_m : readerToRecoder.keySet()) {
-            double t1 = readerToRecoder.get(reader_m).totalExecutionTime;
+        for(Reader_M reader_m : readers) {
+            double t1 = reader_m.recorder.totalExecutionTime;
             if(t1 > maxTime) {
                 maxTime = t1;
             }
         }
         recorder.totalExecutionTime = maxTime;
-        for(Reader_M reader_m : readerToRecoder.keySet()) {
-            readerToRecoder.get(reader_m).totalExecutionTime = maxTime;
+        for(Reader_M reader_m : readers) {
+            reader_m.recorder.totalExecutionTime = maxTime;
         }
 
-        for (Reader_M reader : environment.getReaderList()) {
-            logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
-            // 每一次需要reset(),将环境中所有预期标签设为活跃, 因为有些标签在其他阅读器中识别为缺失, 但在某个阅读器中识别为存在, 这个标签是存在的
-            environment.reset();
-            identify( reader);
-        }
+        identify();
 
         // 第二阶段所有阅读器中用时最长的作为第二阶段的时间
         double maxTime2 = 0;
-        for(Reader_M reader_m : readerToRecoder.keySet()) {
-            double t1 = readerToRecoder.get(reader_m).totalExecutionTime;
+        for(Reader_M reader_m : readers) {
+            double t1 = reader_m.recorder.totalExecutionTime;
             if(t1 > maxTime2) {
                 maxTime2 = t1;
             }
@@ -83,33 +61,24 @@ public class EDLS extends IdentifyTool{
 
 
 
-    @Override
+
     public void unexpectedTagElimination() {
-        //第一阶段, 所有阅读器同时工作, 去除意外标签, 等待所有阅读器工作完毕再进行下一阶段, 这样意外标签去除的多, 对下一阶段干扰的就少
-        BloomFilter bf = new BloomFilter(logger);
-        List<Tag> expectedTagList = environment.getExpectedTagList();
-        int bloomFilterSize = (int) Math.ceil((-expectedTagList.size() * numberOfHashFunctions) / Math.log(1 - Math.pow(falsePositiveRatio, 1.0 / numberOfHashFunctions)));
-        Random random = new Random(System.currentTimeMillis());
-        List<Integer> randomInts = new ArrayList<>();
-        for(int i = 0; i < numberOfHashFunctions; i++) {
-            randomInts.add(random.nextInt(100));
-        }
-        List<Integer> bloomFilterVector = bf.genFilterVector(numberOfHashFunctions,bloomFilterSize,randomInts,environment.getExpectedTagList());
-        int readerNum = environment.getReaderList().size();
-        List<Reader_M> readers = environment.getReaderList();
-        for (int i  = 0; i < readerNum; ++i){
-            Reader_M reader = readers.get(i);
-            logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader.getID() + " >>>>>>>>>>>>>>>>>>>");
-            bf.membershipCheck(bloomFilterVector,reader.coveredAllTagList,numberOfHashFunctions,randomInts,bloomFilterSize);
-            double t1 = bf.membershipCheckExecutionTime(bloomFilterVector);
-            readerToRecoder.get(reader).totalExecutionTime += t1;
-        }
+        UnexpectedTagEliminationMethod.BloomFilterMethod(numberOfHashFunctions, falsePositiveRatio,environment,logger);
 
     }
 
-    @Override
+    public void identify() {
+        for (Reader_M reader : environment.getReaderList()) {
+            logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
+            // 每一次需要reset(),将环境中所有预期标签设为活跃, 因为有些标签在其他阅读器中识别为缺失, 但在某个阅读器中识别为存在, 这个标签是存在的
+            environment.reset();
+            identify( reader);
+        }
+    }
+
+    
     public void identify(Reader_M reader_m){
-        Recorder recorder = readerToRecoder.get(reader_m);
+        Recorder recorder = reader_m.recorder;
         // 第几轮
         recorder.roundCount ++;
         double missRate = (double) (environment.getExpectedTagList().size() - environment.getActualTagList().size()) / environment.getExpectedTagList().size();
@@ -734,60 +703,36 @@ public class EDLS extends IdentifyTool{
         return filterVector;
     }
 
-    protected void readerMInit(Environment environment)
-    {
-        List<Reader_M> readerMList = environment.getReaderList();
+//    protected void readerMInit(Environment environment)
+//    {
+//        List<Reader_M> readerMList = environment.getReaderList();
+//
+//        //  设置期望列表
+//        for(Reader_M reader : readerMList)
+//        {
+//            reader.expectedTagList.addAll(environment.getExpectedTagList());
+//        }
+//
+//        //  设置,覆盖范围,针对expectedTagList，实际可能不存在
+//        for(Reader_M reader : readerMList)
+//        {
+//            int realReply =0;
+//            for(Tag tag : environment.getExpectedTagList())
+//            {
+//                double x = reader.getLocation().getX() - tag.getLocation().getX();
+//                double y = reader.getLocation().getY() - tag.getLocation().getY();
+//                if(reader.getCoverActualTagList()== null) { reader.setCoverActualTagList(new ArrayList<Tag>());  }
+//                if(x * x + y * y < reader.getReadingRadius() * reader.getReadingRadius())
+//                {
+//                    reader.getCoverActualTagList().add(tag);
+//                    if(environment.getActualTagList().contains(tag)) { realReply++; }
+//                }
+//            }
+//            reader.realReply = realReply;
+//        }
+//    }
 
-        //  设置期望列表
-        for(Reader_M reader : readerMList)
-        {
-            reader.expectedTagList.addAll(environment.getExpectedTagList());
-        }
 
-        //  设置,覆盖范围,针对expectedTagList，实际可能不存在
-        for(Reader_M reader : readerMList)
-        {
-            int realReply =0;
-            for(Tag tag : environment.getExpectedTagList())
-            {
-                double x = reader.getLocation().getX() - tag.getLocation().getX();
-                double y = reader.getLocation().getY() - tag.getLocation().getY();
-                if(reader.getCoverActualTagList()== null) { reader.setCoverActualTagList(new ArrayList<Tag>());  }
-                if(x * x + y * y < reader.getReadingRadius() * reader.getReadingRadius())
-                {
-                    reader.getCoverActualTagList().add(tag);
-                    if(environment.getActualTagList().contains(tag)) { realReply++; }
-                }
-            }
-            reader.realReply = realReply;
-        }
-    }
-
-    public double memberCheckExecutionTime(List<Integer> bloomFilterVector) {
-        /*计算压缩后的布隆过滤器长度*/
-        StringBuilder sb = new StringBuilder();
-
-        for(Integer i : bloomFilterVector) {
-            sb.append(i.toString());
-        }
-
-        String[] segments = sb.toString().split("1");
-
-        int maxlen = 0;
-        for(String segment : segments) {
-            if(segment.length() > maxlen) {
-                maxlen = segment.length();
-            }
-        }
-        // 把每个segement(0字符串)压缩成l-bit, 如000...00(10个0)压缩成1010, l=4
-        int l = (int)Math.ceil(Math.log(maxlen+1)/Math.log(2));
-        int compLen = segments.length*l;
-        System.out.println("The compressed filter vector length:"+compLen);
-
-        double executionTime = 2.4 * segments.length / (96*1.0 / l);
-        System.out.println("Phase one (membership check) execution time:"+executionTime);
-        return executionTime;
-    }
 
     /** 一轮SFMTI的执行时间
      *

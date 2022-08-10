@@ -34,9 +34,9 @@ public abstract class IdentifyTool implements ISubject {
 
     public abstract void execute();
 
-    public abstract void unexpectedTagElimination() ;
 
-    public abstract void identify(Reader_M reader_m);
+
+
 
     @Override
     public boolean add(IObserver iObserver) {

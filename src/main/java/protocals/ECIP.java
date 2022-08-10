@@ -23,12 +23,10 @@ public class ECIP extends IdentifyTool{
 
     }
 
-    @Override
     public void unexpectedTagElimination() {
 
     }
 
-    @Override
     public void identify(Reader_M reader_m) {
 
     }

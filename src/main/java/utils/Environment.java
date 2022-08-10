@@ -53,8 +53,6 @@ public class Environment {
         this.setReaderX(readersInRow);
         this.setReaderY(readersInColumn);
 
-
-
         //Random allocation of tags
         for (Tag tag : allTagList) {
             double xx = Math.random() * length;
@@ -65,6 +63,9 @@ public class Environment {
 
         //Set up the reader
         setReaders(readersInRow, readersInColumn);
+
+        // 初始化阅读器半径范围内的标签
+        readerMInit();
     }
 
     /**
@@ -126,6 +127,44 @@ public class Environment {
 
         //Set up the reader
         setReaders(readersInRow, readersInColumn);
+
+        // 初始化阅读器半径范围内的标签
+        readerMInit();
+    }
+
+    /**
+     * 初始化阅读器半径范围内的标签
+     */
+    public void readerMInit()
+    {
+        List<Reader_M> readerMList = getReaderList();
+
+        //  设置期望列表
+        for(Reader_M reader : readerMList)
+        {
+            reader.expectedTagList.addAll(getExpectedTagList());
+            reader.coverActualTagList = reader.getReaderMOwnTagList(actualTagList);
+            reader.coveredAllTagList = reader.getReaderMOwnTagList(allTagList);
+            reader.realReply = reader.coverActualTagList.size();
+        }
+
+//        //  设置,覆盖范围,针对expectedTagList，实际可能不存在
+//        for(Reader_M reader : readerMList)
+//        {
+//            int realReply =0;
+//            for(Tag tag : getExpectedTagList())
+//            {
+//                double x = reader.getLocation().getX() - tag.getLocation().getX();
+//                double y = reader.getLocation().getY() - tag.getLocation().getY();
+//                if(reader.getCoverActualTagList()== null) { reader.setCoverActualTagList(new ArrayList<Tag>());  }
+//                if(x * x + y * y < reader.getReadingRadius() * reader.getReadingRadius())
+//                {
+//                    reader.coverActualTagList.add(tag);
+//                    if(getActualTagList().contains(tag)) { realReply++; }
+//                }
+//            }
+//            reader.realReply = realReply;
+//        }
     }
 
     /**
