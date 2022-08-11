@@ -2,9 +2,7 @@ package utils;
 
 import base.Location;
 import base.Tag;
-import base.TagListGenerator;
 import base.TagRepository;
-import jdk.javadoc.doclet.Taglet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,12 +25,23 @@ public class Environment {
     private List<Tag> actualTagList; // 存在标签
     private int type = 0;
 
+    private int expectedCidNum = 0; // 期望类别数
+    private int actualCidNum = 0; // 真实存在的类别数
+    private int missingCidNum = 0; // 缺失的类别数
+
     private Logger logger = LogManager.getLogger(Environment.class);
 
     public Environment(List<Tag> allTagList, List<Tag> expectedTagList, List<Tag> actualTagList){
         this.allTagList = allTagList;
         this.expectedTagList = expectedTagList;
         this.actualTagList = actualTagList;
+    }
+
+    public Environment (List<Tag> allTagList, List<Tag> expectedTagList, List<Tag> actualTagList, int expectedCidNum) {
+        this.allTagList = allTagList;
+        this.expectedTagList = expectedTagList;
+        this.actualTagList = actualTagList;
+        this.expectedCidNum = expectedCidNum;
     }
 
     /**
@@ -65,7 +74,7 @@ public class Environment {
         setReaders(readersInRow, readersInColumn);
 
         // 初始化阅读器半径范围内的标签
-        readerMInit();
+        initReaderM();
     }
 
     /**
@@ -129,13 +138,13 @@ public class Environment {
         setReaders(readersInRow, readersInColumn);
 
         // 初始化阅读器半径范围内的标签
-        readerMInit();
+        initReaderM();
     }
 
     /**
      * 初始化阅读器半径范围内的标签
      */
-    public void readerMInit()
+    public void initReaderM()
     {
         List<Reader_M> readerMList = getReaderList();
 
@@ -320,5 +329,37 @@ public class Environment {
     }
     public void setAllTagList(List<Tag> allTagList) {
         this.allTagList = allTagList;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getExpectedCidNum() {
+        return expectedCidNum;
+    }
+
+    public void setExpectedCidNum(int expectedCidNum) {
+        this.expectedCidNum = expectedCidNum;
+    }
+
+    public int getActualCidNum() {
+        return actualCidNum;
+    }
+
+    public void setActualCidNum(int actualCidNum) {
+        this.actualCidNum = actualCidNum;
+    }
+
+    public int getMissingCidNum() {
+        return missingCidNum;
+    }
+
+    public void setMissingCidNum(int missingCidNum) {
+        this.missingCidNum = missingCidNum;
     }
 }

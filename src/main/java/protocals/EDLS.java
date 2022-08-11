@@ -78,9 +78,9 @@ public class EDLS extends IdentifyTool{
 
     
     public void identify(Reader_M reader_m){
-        Recorder recorder = reader_m.recorder;
+        Recorder recorder1 = reader_m.recorder;
         // 第几轮
-        recorder.roundCount ++;
+        recorder1.roundCount ++;
         double missRate = (double) (environment.getExpectedTagList().size() - environment.getActualTagList().size()) / environment.getExpectedTagList().size();
 
         // 期望的标签列表, 可能有缺失；每个阅读器只覆盖了一个小范围, 但期望的标签列表是整个仓库的
@@ -158,10 +158,10 @@ public class EDLS extends IdentifyTool{
             logger.info("frameSize = ["+frameSize + "] random1 = ["+random1 + "] random2 = ["+random2 + "]");
             List<Integer> filterVector;
             if (useCLS){ // 使用cls算法生成filter vector
-                filterVector = this.CLS_genFilterVector(frameSize, random1, expectedTagList, beforeFilter, afterFilter, recorder);
+                filterVector = this.CLS_genFilterVector(frameSize, random1, expectedTagList, beforeFilter, afterFilter, recorder1);
                 logger.warn("use CLS");
             }else { // 使用sfmti算法生成filter vector
-                filterVector = this.SFMTI_genFilterVector(frameSize, random1, random2, expectedTagList, beforeFilter, afterFilter, recorder);
+                filterVector = this.SFMTI_genFilterVector(frameSize, random1, random2, expectedTagList, beforeFilter, afterFilter, recorder1);
                 logger.warn("use SFMTI");
             }
 
@@ -257,7 +257,7 @@ public class EDLS extends IdentifyTool{
                         }
                     }
 
-                    recorder.slotCount ++;
+                    recorder1.slotCount ++;
                     // 分析实际得到的回应情况
                     if (slotResponseList.size() == 0) { // 有0个标签回应
                         realReply[0]++;
@@ -278,13 +278,13 @@ public class EDLS extends IdentifyTool{
                         recognizedMissingTag.addAll(tmplist);
                         recognizedMissRound = tmplist.size();
                         logger.debug("slotID=" + (i-value0) + " slotResult=empty, missing tag="+str.toString());
-                        recorder.emptySlotCount ++; //统计为空Slot的总数
+                        recorder1.emptySlotCount ++; //统计为空Slot的总数
 
                     } else if (slotResponseList.size() == 1) { // 有1个标签回应
                         realReply[1]++;
                         if (useCLS){
                             if(filterVector.get(i) == 1){ // use CLS, 预期是1, 结果是1
-                                recorder.singletonSlotCount ++;
+                                recorder1.singletonSlotCount ++;
                                 logger.debug("slotID=" + (i-value0) + " slotResult=singleton" + slotResponseList.get(0).getContent());
                                 slotResponseList.get(0).getTag().setActive(false);
                                 recognizedCurrentRound++;
@@ -301,7 +301,7 @@ public class EDLS extends IdentifyTool{
                                     if(!tag.getTagID().equals(slotResponseList.get(0).getContent()))
                                         str.add(tag.getTagID());
                                 }
-                                recorder.noResult ++;
+                                recorder1.noResult ++;
                                 logger.debug("slotID=" + (i-value0) + " slotResult=noResult " + slotResponseList.get(0).getContent()+":others="+str);
                                 collisionTagListMap.put(collisionTagListIndex++, tmplist);
 
@@ -310,7 +310,7 @@ public class EDLS extends IdentifyTool{
                             slotResponseList.get(0).getTag().setActive(false);
                             recognizedCurrentRound++;
                             logger.debug("slotID="+(i-value0) + " slotResult=single "+slotResponseList.get(0).getContent());
-                            recorder.singletonSlotCount ++;
+                            recorder1.singletonSlotCount ++;
                         }
                     } else { // 有多个标签回应
                         realReply[2]++;
@@ -329,7 +329,7 @@ public class EDLS extends IdentifyTool{
                         }
 
                         logger.debug("slotID=" + (i-value0) + " slotResult=collision tagID=" + strTag);
-                        recorder.collisionSlotCount++; //统计为collision的总数
+                        recorder1.collisionSlotCount++; //统计为collision的总数
 
                         // 期望标签的映射, 即便有缺失的, 不知道是哪个缺失, 这里把期望标签全部记录到了冲突时隙-标签列表中
                         List<Tag> tmplist = expMap.get(i-value0);
@@ -350,7 +350,7 @@ public class EDLS extends IdentifyTool{
             logger.info("Round's slot number: " + roundSlotCount);
             logger.info("After round slot number: " + slotSumNum);
 
-            recorder.recognizedNum +=recognizedCurrentRound;
+            recorder1.recognizedTagNum +=recognizedCurrentRound;
             recognized+=recognizedCurrentRound;
 
             if(expectedTagNum > recognized) {
@@ -378,7 +378,7 @@ public class EDLS extends IdentifyTool{
         logger.info("2-->：resolvedFromTwoCollision: "+ resolvedFromTwoCollision);
         logger.info("3-->：resolvedFromThreeCollision: "+ resolvedFromThreeCollision);
         logger.info("Total vector length：FILTER_VECTOR_LENGTH: "+ filterVectorLength);
-        logger.error("TOTAL EXECUTION TIME: [" + recorder.totalExecutionTime+ " ms]");
+        logger.error("TOTAL EXECUTION TIME: [" + recorder1.totalExecutionTime+ " ms]");
 
         
     }
