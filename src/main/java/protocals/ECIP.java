@@ -86,6 +86,7 @@ public class ECIP extends IdentifyTool{
         boolean flag = false; // 是否循环
 
 
+        recorder1.roundCount ++;
         // 1 优化时隙
         f1 = optimizeFrameSize(unReadCidNum);
         // 2 标签选择时隙(随机)
@@ -135,10 +136,152 @@ public class ECIP extends IdentifyTool{
             }
         }
 
-            // 4 构造indicator, location, structure d
-            // 5 标签选择时隙(重排)
-            // 6 识别
+        recorder1.recognizedCidNumList.add(readCidNumInOneRound);
+        recorder1.executionTimeList.add(calculateTime(readCidNumInOneRound));
+        unReadCidNum -= readCidNumInOneRound;
+        // 清零, 以便继续循环识别标签类别
+        readCidNumInOneRound = 0;
 
+        while(flag) {
+            flag = false;
+
+            // 4 构造indicator, location, structure d
+            // 构造indicator
+            int i1 = 0; // 第i个无法识别类别的时隙(category-collision slot)
+            for(Integer slotId : CidMap.keySet()) {
+                String[] strs = decodeCID(CidMap.get(slotId));
+                int l = strs.length;
+                if(l == 1 || l == 2){
+                    indicator.put(slotId, -1);
+                } else {
+                    indicator.put(slotId,i1);
+                }
+            }
+            i1 = 0; // 清零
+
+            // 构造location
+            Vector<Integer> newLocation = new Vector<>();
+            Vector<String > newStructureD = new Vector<>();
+            for (Integer slotID : indicator.keySet()) {
+
+                if (indicator.get(slotID) != -1) {
+                    int i = indicator.get(slotID);//第i个冲突时隙
+
+                    // category-collision
+                    String data = CidMap.get(slotID);
+                    int xindex;
+                    String strBeforeX;
+                    if(location.isEmpty()) { // 第1次rearranged identification phase，data是完整的cid
+                        xindex = data.indexOf('X');
+                        newLocation.add(xindex);
+                        strBeforeX = data.substring(0, data.indexOf('X'));
+                        newStructureD.add(strBeforeX);
+                    } else { // 之后的rearranged identification phase，此时data是部分cid，计算xindex时要注意
+                        // 保留上一轮的location vector, structure D
+                        xindex = location.get(slotID/2)+CidMap.get(slotID).indexOf('X')+1;
+                        newLocation.add(xindex);
+                        strBeforeX = d.get(slotID/2)+CidMap.get(slotID).substring(0,CidMap.get(slotID).indexOf('X'))+((slotID)%2);
+                        newStructureD.add(strBeforeX);
+                    }
+                }
+            }
+            location = newLocation;
+            d = newStructureD;
+
+            // 5 标签选择时隙(重排)
+
+            CidMap.clear();
+            Map<Integer, List<Tag>> newSlotToTagList = new HashMap<>();
+
+            for(Tag tag : actualTagList) {
+                if (tag.isActive()) {
+                    int oldslot = tag.getSlotSelected();
+                    int j = indicator.get(oldslot);
+                    if(j!=-1) {
+                        int xindex = location.get(j);
+                        tag.selectSlotBasedOnXIndex(j,xindex);
+                        String partialCid = tag.getCategoryID().substring(xindex + 1);
+
+                        // 构造CidMap和slotToTagList
+                        int slotSelected = tag.getSlotSelected();
+
+                        // the slot is empty
+                        if (!CidMap.containsKey(slotSelected)){
+                            CidMap.put(slotSelected, partialCid);
+                            List<Tag> tagList = new ArrayList<>();
+                            tagList.add(tag);
+                            newSlotToTagList.put(slotSelected, tagList);
+                        }
+                        else { // the slot already has tag and CID
+                            // overlap CID
+
+                            String newData = encode(CidMap.get(slotSelected), partialCid);
+                            CidMap.put(slotSelected, newData);
+                            newSlotToTagList.get(slotSelected).add(tag);
+                        }
+                    }
+                }
+
+            }
+            slotToTagList = newSlotToTagList;
+
+            // 6 识别
+            indicator.clear();
+            for(Integer slotId : CidMap.keySet()) {
+                String[] strs = decodeCID(CidMap.get(slotId));
+                int l = strs.length;
+
+                // category-compatible slot
+                if (l == 1) {
+                    for (Tag tag : slotToTagList.get(slotId)) {
+                        tag.setActive(false);
+
+                    }
+                    // recognize CID and construct indicator
+                    String cid1 =combineCID(slotId,strs[0],d);
+                    recorder1.recognizedActualCidNum ++;
+                    recorder1.actualCids.add(cid1);
+
+                    readCidNumInOneRound++;
+
+                } else if( l == 2) {
+                    for(Tag tag : slotToTagList.get(slotId)) {
+                        tag.setActive(false);
+                    }
+                    String cid1 =combineCID(slotId,strs[0],d);
+                    String cid2 =combineCID(slotId,strs[1],d);
+                    recorder1.actualCids.add(cid1);
+                    recorder1.actualCids.add(cid2);
+                    recorder1.recognizedActualCidNum +=2;
+                    readCidNumInOneRound += 2;
+
+                } else {
+
+
+                    flag = true; // 需要新一轮识别
+                }
+            }
+            }
+        }
+
+
+        
+    /**
+     * combine CID
+     *
+     * @param slotID
+     * @param after  string after x index
+     * @return CID
+     */
+    protected String combineCID(int slotID, String after, Vector<String> d) {
+
+        int j = slotID / 2;
+        String before = d.get(j);
+        String x = String.valueOf(slotID % 2);
+        //System.out.println("j = " + j + "before = " + before + "x=" + x);
+        //System.out.println();
+
+        return before + x + after;
 
 
     }

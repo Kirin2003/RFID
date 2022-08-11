@@ -153,6 +153,24 @@ public class Tag {
     }
 
     /**
+     * in ecip rearranged identification phase
+     * if the char at xindex of tag's categoryID is '0',it will respond in 2*j-th time slot, otherwise (2*j+1)-th
+     *  and responds its partialCategoryID in this slot
+     * @param j
+     * @param xindex
+     * @return partial categoryID
+     */
+    public void selectSlotBasedOnXIndex(int j, int xindex) {
+        char x = categoryID.charAt(xindex);
+        if (x == '0') {
+            slotSelected = 2*j;
+        } else {
+            slotSelected = 2*j+1;
+        }
+        String partialCid = categoryID.substring(xindex+1);
+    }
+
+    /**
      * Tag Selects a Slot
      * @param slotID selected slot
      * @return slotID
