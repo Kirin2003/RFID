@@ -12,17 +12,29 @@ import java.util.*;
  * @date 2022/8/8 下午10:19
  */
 public class EDLS extends IdentifyTool{
-    int numberOfHashFunctions = 1;//哈希函数的个数, 用于意外标签去除阶段
-    double falsePositiveRatio = 0.01;//假阳性误报率, 即意外标签通过成员检查的比率
+    /**
+     * 哈希函数的个数, 用于意外标签去除阶段
+     */
+    int numberOfHashFunctions = 1;
+    /**
+     * 假阳性误报率, 即意外标签通过成员检查的比率
+     */
+    double falsePositiveRatio = 0.01;
 
 
-
+    /**
+     * EDLS构造函数
+     * @param logger 记录算法运行中的信息, 便于调试
+     * @param recorder 记录器, 记录算法输出结果
+     * @param environment 环境,里面有标签的数目,标签id和类别id列表,位置等信息和阅读器的数目,位置等信息
+     */
     public EDLS(Logger logger, Recorder recorder, Environment environment) {
         super(logger, recorder, environment);
 
     }
 
     /**
+     * EDLS算法执行入口
      * 多阅读器场景
      * 第一阶段, 所有阅读器同时工作, 去除意外标签, 等待所有阅读器工作完毕再进行下一阶段, 这样意外标签去除的多, 对下一阶段干扰的就少
      * 第二阶段, 所有阅读器同时工作, 识别存在标签, 所有阅读器工作完毕后, 所有阅读器识别的存在标签之和是存在标签, 不再存在标签中的是缺失标签
@@ -31,9 +43,12 @@ public class EDLS extends IdentifyTool{
     public void execute(){
         List<Reader_M> readers = environment.getReaderList();
 
+        /**
+         * 第一阶段, 意外标签去除阶段
+         */
         unexpectedTagElimination();
 
-        // 第一阶段所有阅读器用时中最长的作为第一阶段的时间
+        // 第一阶段的时间: 所有阅读器的执行时间中最长的作为第一阶段的时间
         double maxTime = 0;
         for(Reader_M reader_m : readers) {
             double t1 = reader_m.recorder.totalExecutionTime;
@@ -46,9 +61,12 @@ public class EDLS extends IdentifyTool{
             reader_m.recorder.totalExecutionTime = maxTime;
         }
 
+        /**
+         * 第二阶段, 识别存在的类别和缺失的类别的阶段
+         */
         identify();
 
-        // 第二阶段所有阅读器中用时最长的作为第二阶段的时间
+        // 第二阶段所有阅读器的执行时间中最长的作为第二阶段的时间
         double maxTime2 = 0;
         for(Reader_M reader_m : readers) {
             double t1 = reader_m.recorder.totalExecutionTime;
@@ -59,14 +77,17 @@ public class EDLS extends IdentifyTool{
         recorder.totalExecutionTime = maxTime2;
     }
 
-
-
-
+    /**
+     * 第一阶段, 意外标签去除阶段, 使用布隆过滤器
+     */
     public void unexpectedTagElimination() {
         UnexpectedTagEliminationMethod.BloomFilterMethod(numberOfHashFunctions, falsePositiveRatio,environment,logger);
 
     }
 
+    /**
+     * 第二阶段, 识别类别阶段(多阅读器)
+     */
     public void identify() {
         for (Reader_M reader : environment.getReaderList()) {
             logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
@@ -76,7 +97,10 @@ public class EDLS extends IdentifyTool{
         }
     }
 
-    
+    /**
+     * 第二阶段, 识别类别阶段(每个阅读器识别它范围内的类别)
+     * @param reader_m 阅读器
+     */
     public void identify(Reader_M reader_m){
         Recorder recorder1 = reader_m.recorder;
         // 第几轮

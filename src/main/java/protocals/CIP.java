@@ -11,25 +11,52 @@ import java.util.*;
  * @date 2022/8/8 下午10:19
  */
 public class CIP extends IdentifyTool{
-    int numberOfHashFunctions = 1;//哈希函数的个数, 用于意外标签去除阶段
-    double falsePositiveRatio = 0.01;//假阳性误报率, 即意外标签通过成员检查的比率
+    /**
+     * 哈希函数的个数, 用于意外标签去除阶段
+     */
+    int numberOfHashFunctions = 1;
+    /**
+     * 假阳性误报率, 即意外标签通过成员检查的比率
+     */
+    double falsePositiveRatio = 0.01;
 
-    protected Map<Integer, String> CidMap = new HashMap<>(); //store the slotId and the overlapped cid
+    /**
+     * 键为时隙, 值为选择该时隙的真实存在的标签的类别id编码后的数据
+     */
+    protected Map<Integer, String> CidMap = new HashMap<>();
+    /**
+     * 键为时隙, 值为选择该时隙的真实存在的标签列表
+     */
     protected Map<Integer,List<Tag>> slotToTagList = new HashMap<>();
 
 
+    /**
+     * CIP构造函数
+     * @param logger 记录算法运行中的信息, 便于调试
+     * @param recorder 记录器, 记录算法输出结果
+     * @param environment 环境,里面有标签的数目,标签id和类别id列表,位置等信息和阅读器的数目,位置等信息
+     */
     public CIP(Logger logger, Recorder recorder, Environment environment) {
         super(logger, recorder, environment);
 
     }
 
+    /**
+     * CIP算法执行的入口
+     * 多阅读器场景
+     * 第一阶段, 所有阅读器同时工作, 去除意外标签, 等待所有阅读器工作完毕再进行下一阶段, 这样意外标签去除的多, 对下一阶段干扰的就少
+     * 第二阶段, 所有阅读器同时工作, 识别存在标签, 所有阅读器工作完毕后, 所有阅读器识别的存在标签之和是存在标签, 不再存在标签中的是缺失标签
+     */
     @Override
     public void execute() {
         List<Reader_M> readers = environment.getReaderList();
 
+        /**
+         * 第一阶段, 意外标签去除阶段
+          */
         unexpectedTagElimination();
 
-        // 第一阶段所有阅读器用时中最长的作为第一阶段的时间
+        // 第一阶段的时间: 所有阅读器的执行时间中最长的作为第一阶段的时间
         double maxTime = 0;
         for(Reader_M reader_m : readers) {
             double t1 = reader_m.recorder.totalExecutionTime;
@@ -42,9 +69,12 @@ public class CIP extends IdentifyTool{
             reader_m.recorder.totalExecutionTime = maxTime;
         }
 
+        /**
+         * 第二阶段, 识别存在的类别和缺失的类别的阶段
+          */
         identify();
 
-        // 第二阶段所有阅读器中用时最长的作为第二阶段的时间
+        // 第二阶段所有阅读器的执行时间中最长的作为第二阶段的时间
         double maxTime2 = 0;
         for(Reader_M reader_m : readers) {
             double t1 = reader_m.recorder.totalExecutionTime;
@@ -56,11 +86,17 @@ public class CIP extends IdentifyTool{
     }
 
 
+    /**
+     * 第一阶段, 意外标签去除阶段, 使用布隆过滤器
+     */
     public void unexpectedTagElimination() {
         UnexpectedTagEliminationMethod.BloomFilterMethod(numberOfHashFunctions, falsePositiveRatio,environment,logger);
 
     }
 
+    /**
+     * 第二阶段, 识别类别阶段(多阅读器)
+     */
     public void identify() {
         for (Reader_M reader : environment.getReaderList()) {
             logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
@@ -71,6 +107,10 @@ public class CIP extends IdentifyTool{
     }
 
 
+    /**
+     * 第二阶段, 识别类别阶段(每个阅读器识别它范围内的类别)
+     * @param reader_m 阅读器
+     */
     public void identify(Reader_M reader_m) {
         Recorder recorder1 = reader_m.recorder;
         int repeated = 0; // 没有识别到一个标签类别的轮数
@@ -84,11 +124,16 @@ public class CIP extends IdentifyTool{
         boolean flag = true; // 是否循环
         while(flag) {
             flag = false;
-            // 1 优化时隙
+
+            /**
+             * 1 优化时隙
+              */
             f1 = optimizeFrameSize(unReadCidNum);
 
 
-            // 2 标签选择时隙
+            /**
+             * 2 标签选择时隙
+              */
             int random = (int)(Math.random());
             for(Tag tag:actualTagList) {
                 if(tag.isActive()) {
@@ -108,8 +153,10 @@ public class CIP extends IdentifyTool{
                     }
                 }
             }
-            // 3 识别
 
+            /**
+             * 3 识别
+              */
             for(Integer slotId : CidMap.keySet()) {
                 String[] strs = decodeCID(CidMap.get(slotId));
                 int l = strs.length;
@@ -147,8 +194,12 @@ public class CIP extends IdentifyTool{
             }
 
             recorder1.recognizedActualCidNumList.add(readCidNumInOneRound);
+            recorder1.recognizedCidNumList.add(readCidNumInOneRound);
+            recorder1.recognizedMissingCidNumList.add(0); // cip只识别存在标签,不识别缺失标签,最后没有识别到的标签都认为是缺失标签
+            recorder1.recognizedActualCidNum += readCidNumInOneRound;
+            recorder1.recognizedCidNum += readCidNumInOneRound;
             recorder1.roundCount ++;
-            recorder1.executionTimeList.add(calculateTime(readCidNumInOneRound));
+            recorder1.executionTimeList.add(calculateTime(readCidNumInOneRound)); // 每一轮的时间
             unReadCidNum -= readCidNumInOneRound;
             // 清零, 以便继续循环识别标签类别
             readCidNumInOneRound = 0;
@@ -156,14 +207,24 @@ public class CIP extends IdentifyTool{
             slotToTagList.clear();
 
         }
-        // 所有没有被识别为存在的标签类别认为不存在
 
+        /**
+         * 最后一轮识别完毕后, 所有没有被识别为存在的标签类别认为不存在
+          */
+        int missingCidNum = 0; // 记录缺失的类别数目
         for(Tag tag : environment.getExpectedTagList()) {
             String cid = tag.getCategoryID();
             if(!recorder1.actualCids.contains(cid)) {
                 changeMissingCids(cid);
+                missingCidNum ++;
             }
         }
+        recorder1.recognizedMissingCidNum +=missingCidNum;
+        recorder1.recognizedCidNum += missingCidNum;
+        recorder1.recognizedMissingCidNumList.set(recorder1.roundCount-1,missingCidNum);
+        int cidNumInLastRound = recorder1.recognizedCidNum;
+        cidNumInLastRound += missingCidNum;
+        recorder1.recognizedCidNumList.set(recorder1.roundCount -1, cidNumInLastRound);
 
         // 总时间
         recorder1.totalExecutionTime = calculateTime(recorder1.recognizedCidNum);
@@ -172,6 +233,11 @@ public class CIP extends IdentifyTool{
     }
 
 
+    /**
+     * 计算cip每一轮的理论时间或总时间
+     * @param readCidNum 该轮识别到的cid数或所有轮次识别到的cid总数
+     * @return 理论时间
+     */
     public double calculateTime(int readCidNum) {
         if(readCidNum > 0) {
             return 2.31 * readCidNum;
@@ -190,14 +256,13 @@ public class CIP extends IdentifyTool{
     }
 
     /**
-     * overlap category ID
-     * @param s1
-     * @param s2
-     * @return overlapped CID
+     * 对cid编码
+     * @param s1 cid1
+     * @param s2 cid2
+     * @return 编码后的cid (overlapped cid)
      */
 
     private String encode(String s1, String s2){
-        //System.out.println("s1 = " + s1+ "s2 =" + s2);
         int i = 0;
         StringBuilder stringBuilder = new StringBuilder();
         while(i < s1.length()){
@@ -215,8 +280,9 @@ public class CIP extends IdentifyTool{
 
 
     /**
-     * exploit Manchester coding scheme to decode the aggregated signals received in collision slots.
-     * @param data:
+     * 使用曼彻斯特编码来解码时隙中得到的编码数据
+     * @param data 时隙中得到的编码数据
+     * @return 解码得到的cid, 如果是空时隙或无法识别cid的时隙, 返回空的数组, 如果是单时隙, 返回包含一个cid的数组, 如果是多时隙, 返回包含两个cid的数组
      */
     protected String[] decodeCID(String data){
         // empty slot
