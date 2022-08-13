@@ -70,6 +70,8 @@ public class Tag {
         }
     }
 
+
+
     /**
      * Fill the map and save the correspondence between the Expected Tag ID and The Chosen Slot by Tag
      * @param map
@@ -167,7 +169,6 @@ public class Tag {
         } else {
             slotSelected = 2*j+1;
         }
-        String partialCid = categoryID.substring(xindex+1);
     }
 
     /**
@@ -176,8 +177,20 @@ public class Tag {
      * @return slotID
      */
     public SlotResponse executeSlot(int slotID){
-        if (active == true){
+        if (active){
             return slotID == slotSelected ? new SlotResponse(0, tagID, this) : null;
+        }
+        return null;
+    }
+
+    /**
+     * Similar to executeSlot, the only difference is that it uses "category id" to execute slot
+     * @param slotID selected slot
+     * @return slotID
+     */
+    public String executeSlot2(int slotID){
+        if (active){
+            return slotID == slotSelected ? categoryID : null;
         }
         return null;
     }

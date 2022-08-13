@@ -18,6 +18,11 @@ public class SlotResponse {
         this.tag = tag;
     }
 
+    public SlotResponse(int type, String content) {
+        this.type = type;
+        this.content = content;
+    }
+
     //Sets and Gets
     public void setType(int type) {
         this.type = type;

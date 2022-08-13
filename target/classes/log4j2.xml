@@ -1,0 +1,18 @@
+<Configuration status="info">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%m%n"></PatternLayout>
+        </Console>
+
+        <File name = "DLS" fileName = "edls.log" append = "true">
+            <PatternLayout pattern="%m%n"></PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="debug" >
+            <AppenderRef ref="console" level = "info"/>
+            <AppenderRef ref="DLS" level = "debug"/>
+        </Root>
+    </Loggers>
+</Configuration>
+

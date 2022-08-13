@@ -69,7 +69,7 @@ public class TagListGenerator {
     private static String getRandomID(int IDLength){
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < IDLength; i++)
-            sb.append((int)(Math.random()>0.5?'1':'0'));
+            sb.append((Math.random()>0.5?'1':'0'));
         return sb.toString();
     }
 

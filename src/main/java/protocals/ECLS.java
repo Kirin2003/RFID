@@ -419,7 +419,7 @@ public class ECLS extends IdentifyTool{
         // 本轮标签将会有回应的时隙数量
         int responseNum = 0;
 
-        VectorMap vectorMap = VectorMap.genBaseVectorMap(frameSize, random1, 0, theTagList);
+        VectorMap vectorMap = VectorMap.genBaseVectorMap2(frameSize, random1, 0, theTagList);
         List<Integer> filterVector = vectorMap.getFilterVector();
         Map<Integer, List<Tag>> resultMap = vectorMap.getResultMap();
         // 统计在使用CLS前, filter vector中各类时隙有多少, 比如, 空时隙有多少, 单时隙有多少, 等等
