@@ -41,7 +41,7 @@ public class EDLS_Main {
 
 
             //Single Reader and Multi reader codes are almost same, we only give one reader for the environment
-            Environment environment = new Environment(allTagList, expectedTagList, tagList);
+            Environment environment = new Environment(allTagList, expectedTagList, tagList,expectedTagNum/10);
 
             // single reader
             environment.createType1(4000, 1600, 2, 5);
