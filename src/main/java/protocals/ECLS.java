@@ -91,6 +91,16 @@ public class ECLS extends IdentifyTool{
         recorder.totalExecutionTime = maxTime2;
         logger.error("第二阶段结束, 所有阅读器的总时间:[ "+maxTime2+" ]ms");
 
+        for(Reader_M reader : readers) {
+            recorder.actualCids.addAll(reader.recorder.actualCids);
+        }
+
+        for(Tag tag : environment.getExpectedTagList()) {
+            String cid = tag.getCategoryID();
+            if(!recorder.actualCids.contains(cid)){
+                recorder.missingCids.add(cid);
+            }
+        }
     }
 
     /**
@@ -192,14 +202,7 @@ public class ECLS extends IdentifyTool{
              * 1 优化时隙
              */
             logger.error("missRate : " + missRate);
-//            if (missRate > 0.679){ // 缺失率>0.679, 使用cls, 优化时隙
-//                frameSize = CLS_OptimizeFrame(missRate,expectedCidNum,recognizedCidNum);
-//                useCLS = true;
-//            }else{ // 缺失率<=0.679, 使用SFMTI, 优化时隙
-//                // TODO
-//                frameSize = SFMTI_OptimizeFrame(expectedCidNum,recognizedCidNum);
-//                useCLS = false;
-//            }
+
 
             frameSize = CLS_OptimizeFrame(missRate,expectedCidNum,recognizedCidNum);
             useCLS = true;

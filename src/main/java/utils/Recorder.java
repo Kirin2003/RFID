@@ -28,7 +28,7 @@ public class Recorder {
 
     public List<Integer> frameSizeList = new ArrayList<>(); // 每一轮的时隙长度
     public Set<String> missingCids = new HashSet<>(); // 识别到的缺失标签列表
-    public List<String> actualCids = new ArrayList<>(); // 识别到的存在标签列表
+    public Set<String> actualCids = new HashSet<>(); // 识别到的存在标签列表
 
     public List<Integer> recognizedTagNumList = new ArrayList<>();//每一轮的识别标签的总数
 
@@ -40,4 +40,22 @@ public class Recorder {
 
     public List<Double> executionTimeList = new ArrayList<>(); // 每一轮的执行时间
     public List<Double> missingRateList = new ArrayList<>(); // 每一轮的缺失率
+
+    /**
+     * 识别结束后得到结果分析
+     * @return
+     */
+    public String getAnalysis() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("-----------------------识别结果-----------------------\n");
+        sb.append("识别存在的类别如下:\n");
+        for(String str : actualCids) {
+            sb.append(str+"\n");
+        }
+        sb.append("识别缺失的类别如下:\n");
+        for(String str : missingCids) {
+            sb.append(str+"\n");
+        }
+        return sb.toString();
+    }
 }

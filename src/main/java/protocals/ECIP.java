@@ -59,6 +59,17 @@ public class ECIP extends IdentifyTool{
         recorder.totalExecutionTime = maxTime2;
         logger.error("第二阶段结束, 所有阅读器的总时间:[ "+maxTime2+" ]ms");
 
+        for(Reader_M reader : readers) {
+            recorder.actualCids.addAll(reader.recorder.actualCids);
+        }
+
+        for(Tag tag : environment.getExpectedTagList()) {
+            String cid = tag.getCategoryID();
+            if(!recorder.actualCids.contains(cid)){
+                recorder.missingCids.add(cid);
+            }
+        }
+
     }
 
     public void identify() {
@@ -107,6 +118,7 @@ public class ECIP extends IdentifyTool{
 
         // 1 优化时隙
         f1 = optimizeFrameSize(unReadCidNum);
+        recorder1.frameSizeList.add(f1);
         logger.info("-----------------------优化时隙-----------------------");
         logger.info("本轮最优帧长:["+f1+"]");
 
@@ -207,6 +219,13 @@ public class ECIP extends IdentifyTool{
             for(Integer slot : indicator.keySet()){
                 logger.debug("slot:"+slot+"indicator:"+indicator.get(slot));
             }
+
+            int f2 = 0;
+            for(Integer key : indicator.keySet()){
+                int value = indicator.get(key);
+                if(value != 0) f2++;
+            }
+            recorder1.frameSizeList.add(f2*2);
 
             // 构造location
             Vector<Integer> newLocation = new Vector<>();

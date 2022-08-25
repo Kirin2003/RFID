@@ -27,8 +27,6 @@ public class Controller implements IObserver{
 
     IdentifyTool identifyTool = null;
 
-    List<Tag> tagList = null;
-    List<Tag> actualList = null;
 
     Logger logger = LogManager.getLogger(Controller.class);
 
@@ -290,10 +288,6 @@ public class Controller implements IObserver{
 
     // 构造identifyTool
     public void initTool() {
-
-
-        int actualCidNum = r.getActualCidNum();
-
         TagRepository tagRepository = TagListGenerator.generateTagRepository(r.tagIDLength, r.categoryIDLength, r.tagNum, r.tagNumPerCid,r.getUnknownTagNumber(), r.getMissingTagNum());
         List<Tag> allTagList = tagRepository.getAllTagList();
         List<Tag> expectedTagList = tagRepository.getExpectedTagList();
@@ -346,7 +340,6 @@ public class Controller implements IObserver{
 
         output+="选择算法：\n";
         output+=r.a.toString()+"\n\n";
-        //output+="基于以上配置，最优时隙为："+r.f+"\n\n";
         output+="模拟结果如下：\n\n";
 
         ui.controlText.setText(output);
@@ -356,13 +349,9 @@ public class Controller implements IObserver{
 
 
         identifyTool.execute();
-        output+=identifyTool.getOutput();
+        output+=identifyTool.recorder.getAnalysis();
 
         ui.controlText.setText(output);
-        System.out.println("output");
-        System.out.println(output);
-
-
 
     }
 
@@ -373,7 +362,7 @@ public class Controller implements IObserver{
 
     // 结果分析按钮
     public void analysis() {
-        ui.controlText.setText(identifyTool.getAnalysis());
+        ui.controlText.setText(identifyTool.recorder.getAnalysis());
     }
 
     @Override

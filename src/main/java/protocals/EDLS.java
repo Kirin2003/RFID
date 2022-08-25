@@ -91,6 +91,16 @@ public class EDLS extends IdentifyTool{
         recorder.totalExecutionTime = maxTime2;
         logger.error("第二阶段结束, 所有阅读器的总时间:[ "+maxTime2+" ]ms");
 
+        for(Reader_M reader : readers) {
+            recorder.actualCids.addAll(reader.recorder.actualCids);
+        }
+
+        for(Tag tag : environment.getExpectedTagList()) {
+            String cid = tag.getCategoryID();
+            if(!recorder.actualCids.contains(cid)){
+                recorder.missingCids.add(cid);
+            }
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ import base.Tag;
 import org.apache.logging.log4j.Logger;
 import utils.*;
 
+import java.io.Reader;
 import java.util.*;
 
 /**
@@ -85,6 +86,17 @@ public class CIP extends IdentifyTool{
         }
         recorder.totalExecutionTime = maxTime2;
         logger.error("第二阶段结束, 所有阅读器的总时间:[ "+maxTime2+" ]ms");
+
+        for(Reader_M reader : readers) {
+            recorder.actualCids.addAll(reader.recorder.actualCids);
+        }
+
+        for(Tag tag : environment.getExpectedTagList()) {
+            String cid = tag.getCategoryID();
+            if(!recorder.actualCids.contains(cid)){
+                recorder.missingCids.add(cid);
+            }
+        }
     }
 
 
@@ -143,6 +155,7 @@ public class CIP extends IdentifyTool{
              * 1 优化时隙
               */
             f1 = optimizeFrameSize(unReadCidNum);
+            recorder1.frameSizeList.add(f1);
             logger.info("-----------------------优化时隙-----------------------");
             logger.info("本轮最优帧长:["+f1+"]");
 
