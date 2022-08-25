@@ -73,7 +73,7 @@ public class TagListGenerator {
         return sb.toString();
     }
 
-    //TODO Check this function more, when it is used?
+
     public static List<Tag> removeTag(List<Tag> tagList, int unknown){
         List<Tag> tagList0 = new ArrayList<>(tagList);
         for (int i = 0; i < unknown; i++){

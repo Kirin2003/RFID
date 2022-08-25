@@ -14,7 +14,7 @@ import java.util.List;
  * @author Kirin Huang
  * @date 2022/8/12 下午4:53
  */
-public class EDLS_Main {
+public class CIP_Main {
     public static void main(String[] args) {
         int instanceNumber = 1;
         int allTagNumber = 5000;
@@ -23,7 +23,7 @@ public class EDLS_Main {
         int missingTagNumber = 4900;
         int tagIDLength = 14;
         int categoryIDLength = 32;
-        Logger logger = LogManager.getLogger(EDLS_Main.class);
+        Logger logger = LogManager.getLogger(CIP_Main.class);
 
         logger.error("Total number of tags: [" + allTagNumber + "]");
         logger.error("Total number of expected tags: [" + (allTagNumber - unknownTagNumber) + "]");
@@ -40,13 +40,11 @@ public class EDLS_Main {
             List<Tag> tagList = tagRepository.getActucaltagList();
 
 
-            //Single Reader and Multi reader codes are almost same, we only give one reader for the environment
             Environment environment = new Environment(allTagList, expectedTagList, tagList,expectedTagNum/10);
 
-            // single reader
             environment.createType1(4000, 1600, 2, 5);
 
-            EDLS edls = new EDLS(logger,recorder,environment);
+            IdentifyTool edls = new CIP(logger,recorder,environment);
             edls.execute();
         }
     }

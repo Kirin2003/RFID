@@ -1,7 +1,9 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Recorder {
     public double totalExecutionTime = 0; // 总执行时间
@@ -25,7 +27,7 @@ public class Recorder {
 
 
     public List<Integer> frameSizeList = new ArrayList<>(); // 每一轮的时隙长度
-    public List<String> missingCids = new ArrayList<>(); // 识别到的缺失标签列表
+    public Set<String> missingCids = new HashSet<>(); // 识别到的缺失标签列表
     public List<String> actualCids = new ArrayList<>(); // 识别到的存在标签列表
 
     public List<Integer> recognizedTagNumList = new ArrayList<>();//每一轮的识别标签的总数

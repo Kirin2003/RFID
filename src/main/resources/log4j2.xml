@@ -4,13 +4,21 @@
             <PatternLayout pattern="%m%n"></PatternLayout>
         </Console>
 
-        <File name = "DLS" fileName = "edls.log" append = "true">
+
+
+        <File name = "CIP" fileName = "cip.log" append = "true">
             <PatternLayout pattern="%m%n"></PatternLayout>
         </File>
+
+        <File name = "DLS" fileName = "cip.log" append = "false">
+            <PatternLayout pattern="%m%n"></PatternLayout>
+        </File>
+
+
     </Appenders>
     <Loggers>
         <Root level="debug" >
-            <AppenderRef ref="console" level = "info"/>
+            <AppenderRef ref="console" level = "debug"/>
             <AppenderRef ref="DLS" level = "debug"/>
         </Root>
     </Loggers>

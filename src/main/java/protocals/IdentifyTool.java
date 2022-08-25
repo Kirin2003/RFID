@@ -12,8 +12,8 @@ import java.util.Set;
 import java.util.Vector;
 
 public abstract class IdentifyTool implements ISubject {
-    Logger logger;
-    Recorder recorder; //记录器
+    public Logger logger;
+    public Recorder recorder; //记录器
 
     Environment environment; // 环境
     int instanceNum; // 模拟次数
@@ -54,7 +54,6 @@ public abstract class IdentifyTool implements ISubject {
 
     @Override
     public void notifyAllObservers(String warningMessage) {
-        logger.debug("notify all observers()");
         for(IObserver iObserver : iObservers) {
             iObserver.update(this, warningMessage);
         }
@@ -68,14 +67,11 @@ public abstract class IdentifyTool implements ISubject {
 
 
     protected void invoke() {
-        logger.debug("invoke()");
         if(!isWarning) {
-            logger.debug("return");
             return;
         }
 
         int missingCidNum = recorder.missingCids.size();
-        logger.debug("missing cid num:"+missingCidNum);
         String warningMessage = "";
         if(missingCidNum >= warningNum && missingCidNum <= warningNum +5) {
             warningMessage+="预警！缺失数量超过"+warningNum+"\n";

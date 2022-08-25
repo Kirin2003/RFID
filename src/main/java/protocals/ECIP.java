@@ -40,6 +40,8 @@ public class ECIP extends IdentifyTool{
             }
         }
         recorder.totalExecutionTime = maxTime;
+        logger.error("第一阶段结束, 所有阅读器的总时间:[ "+maxTime+" ]ms");
+
         for(Reader_M reader_m : readers) {
             reader_m.recorder.totalExecutionTime = maxTime;
         }
@@ -55,11 +57,13 @@ public class ECIP extends IdentifyTool{
             }
         }
         recorder.totalExecutionTime = maxTime2;
+        logger.error("第二阶段结束, 所有阅读器的总时间:[ "+maxTime2+" ]ms");
+
     }
 
     public void identify() {
         for (Reader_M reader : environment.getReaderList()) {
-            logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader + " >>>>>>>>>>>>>>>>>>>");
+            logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader.getID() + " >>>>>>>>>>>>>>>>>>>");
             // 每一次需要reset(),将环境中所有预期标签设为活跃, 因为有些标签在其他阅读器中识别为缺失, 但在某个阅读器中识别为存在, 这个标签是存在的
             environment.reset();
             identify( reader);
@@ -75,7 +79,6 @@ public class ECIP extends IdentifyTool{
         int repeated = 0; // 没有识别到一个标签类别的轮数
         int f1 = 0; // 时隙
         int expectedTagNum = environment.getExpectedTagList().size();// 预期标签数目
-        int unReadCidNum = environment.getExpectedCidNum();// 没有识别完的类别数目, 初始值为系统预期的类别数目
         int readCidNumInOneRound = 0;
         Map<Integer, String> CidMap = new HashMap<>(); // 键为时隙, 值为编码之后的标签id
         Map<Integer, List<Tag>> slotToTagList = new HashMap<>(); // 键为时隙, 值为在这个时隙回应的标签列表(是存在的标签)
@@ -85,10 +88,28 @@ public class ECIP extends IdentifyTool{
         List<Tag> actualTagList = environment.getActualTagList();
         boolean flag = false; // 是否循环
 
+        Set<String> expectedCidSet = new HashSet<>();
+        Set<String> actualCidSet = new HashSet<>();
+        for(Tag tag : environment.getExpectedTagList()){
+            expectedCidSet.add(tag.getCategoryID());
+        }
+        int unReadCidNum = expectedCidSet.size();
+        for(Tag tag : reader_m.getCoverActualTagList()){
+            actualCidSet.add(tag.getCategoryID());
+        }
+        int actualCidNum = actualCidSet.size();
+        logger.info("期望识别的类别数:[ "+unReadCidNum+" ],实际存在的类别数:[ "+actualCidNum+" ],缺失的类别数:[ "+(unReadCidNum-actualCidNum)+" ]");
+
+
 
         recorder1.roundCount ++;
+        logger.info("################### 第 " + recorder1.roundCount + " 轮#######################");
+
         // 1 优化时隙
         f1 = optimizeFrameSize(unReadCidNum);
+        logger.info("-----------------------优化时隙-----------------------");
+        logger.info("本轮最优帧长:["+f1+"]");
+
         // 2 标签选择时隙(随机)
         int random = (int) (Math.random());
         for (Tag tag : actualTagList) {
@@ -110,7 +131,13 @@ public class ECIP extends IdentifyTool{
             }
         }
         // 3 识别
-        for (Integer slotId : CidMap.keySet()) {
+        logger.info("-----------------------识别结果-----------------------");
+
+        List<Integer> slots = new ArrayList<>(CidMap.keySet());
+        slots.sort((integer, t1) -> integer > t1 ? 1 : -1);
+
+
+        for (Integer slotId : slots) {
             String[] strs = decodeCID(CidMap.get(slotId));
             int l = strs.length;
 
@@ -122,6 +149,8 @@ public class ECIP extends IdentifyTool{
                 recorder1.recognizedActualCidNum++;
                 recorder1.actualCids.add(strs[0]);
                 readCidNumInOneRound++;
+                logger.info("时隙: ["+slotId+"] 识别存在的类别: "+strs[0]);
+
             } else if (l == 2) {
                 for (Tag tag : slotToTagList.get(slotId)) {
                     tag.setActive(false);
@@ -130,23 +159,33 @@ public class ECIP extends IdentifyTool{
                 recorder1.actualCids.add(strs[1]);
                 recorder1.recognizedActualCidNum += 2;
                 readCidNumInOneRound += 2;
+                logger.info("时隙: ["+slotId+"] 识别存在的类别: ["+strs[0]+", "+strs[1]+"]");
+
             } else {
                 // 有冲突时隙
                 flag = true; // 需要新一轮识别
+                logger.info("时隙: ["+slotId+"] 冲突时隙!");
+
             }
         }
 
         recorder1.recognizedCidNumList.add(readCidNumInOneRound);
-        recorder1.executionTimeList.add(calculateTime(readCidNumInOneRound));
+        double executionTimeCurrentRound = calculateTime(readCidNumInOneRound);
+        recorder1.executionTimeList.add(executionTimeCurrentRound); // 每一轮的时间
+        logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + " 缺失的类别数: [0], 花费的时间:["+executionTimeCurrentRound+"] ms");
         unReadCidNum -= readCidNumInOneRound;
         // 清零, 以便继续循环识别标签类别
+        recorder1.roundCount++;
         readCidNumInOneRound = 0;
 
         while(flag) {
+            logger.info("################### 第 " + recorder1.roundCount + " 轮#######################");
+
             flag = false;
 
             // 4 构造indicator, location, structure d
             // 构造indicator
+            indicator.clear();
             int i1 = 0; // 第i个无法识别类别的时隙(category-collision slot)
             for(Integer slotId : CidMap.keySet()) {
                 String[] strs = decodeCID(CidMap.get(slotId));
@@ -155,9 +194,19 @@ public class ECIP extends IdentifyTool{
                     indicator.put(slotId, -1);
                 } else {
                     indicator.put(slotId,i1);
+                    i1++;
                 }
             }
             i1 = 0; // 清零
+
+            logger.debug("打印CidMap:");
+            for(Integer slot : CidMap.keySet()){
+                logger.debug("slot:"+slot+"overlapped cid:"+CidMap.get(slot));
+            }
+            logger.debug("打印indicator:");
+            for(Integer slot : indicator.keySet()){
+                logger.debug("slot:"+slot+"indicator:"+indicator.get(slot));
+            }
 
             // 构造location
             Vector<Integer> newLocation = new Vector<>();
@@ -187,6 +236,10 @@ public class ECIP extends IdentifyTool{
             }
             location = newLocation;
             d = newStructureD;
+            logger.debug("打印location:");
+            logger.debug(location);
+            logger.debug("打印structure d:");
+            logger.debug(d);
 
             // 5 标签选择时隙(重排)
 
@@ -226,8 +279,14 @@ public class ECIP extends IdentifyTool{
             slotToTagList = newSlotToTagList;
 
             // 6 识别
+            logger.info("-----------------------识别结果-----------------------");
+
+            List<Integer> slots2 = new ArrayList<>(CidMap.keySet());
+            slots2.sort((integer, t1) -> integer > t1 ? 1 : -1);
+
+
             indicator.clear();
-            for(Integer slotId : CidMap.keySet()) {
+            for(Integer slotId : slots2) {
                 String[] strs = decodeCID(CidMap.get(slotId));
                 int l = strs.length;
 
@@ -243,6 +302,8 @@ public class ECIP extends IdentifyTool{
                     recorder1.actualCids.add(cid1);
 
                     readCidNumInOneRound++;
+                    logger.info("时隙: ["+slotId+"] 识别存在的类别: "+strs[0]);
+
 
                 } else if( l == 2) {
                     for(Tag tag : slotToTagList.get(slotId)) {
@@ -254,13 +315,34 @@ public class ECIP extends IdentifyTool{
                     recorder1.actualCids.add(cid2);
                     recorder1.recognizedActualCidNum +=2;
                     readCidNumInOneRound += 2;
+                    logger.info("时隙: ["+slotId+"] 识别存在的类别: ["+strs[0]+", "+strs[1]+"]");
+
 
                 } else {
 
 
                     flag = true; // 需要新一轮识别
+                    logger.info("时隙: ["+slotId+"] 冲突时隙!");
+
                 }
             }
+
+            recorder1.recognizedActualCidNumList.add(readCidNumInOneRound);
+            recorder1.recognizedCidNumList.add(readCidNumInOneRound);
+            recorder1.recognizedMissingCidNumList.add(0); // cip只识别存在标签,不识别缺失标签,最后没有识别到的标签都认为是缺失标签
+            recorder1.recognizedActualCidNum += readCidNumInOneRound;
+            recorder1.recognizedCidNum += readCidNumInOneRound;
+            executionTimeCurrentRound = calculateTime(readCidNumInOneRound);
+            recorder1.executionTimeList.add(executionTimeCurrentRound); // 每一轮的时间
+            logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + " ],缺失的类别数: [0], 花费的时间:["+executionTimeCurrentRound+"] ms");
+            unReadCidNum -= readCidNumInOneRound;
+
+            // 清零, 以便继续循环识别标签类别
+            recorder1.roundCount ++;
+            readCidNumInOneRound = 0;
+            slotToTagList.clear();
+
+
             }
         }
 
@@ -286,7 +368,7 @@ public class ECIP extends IdentifyTool{
 
     }
 
-    public double calculateTime(int readCidNum) {
+    public static double calculateTime(int readCidNum) {
         if(readCidNum > 0) {
             return 2.31 * readCidNum;
         } else {
@@ -297,10 +379,8 @@ public class ECIP extends IdentifyTool{
 
     public int optimizeFrameSize(int unReadCidNum) {
         int f1 = (int)(Math.ceil(0.98*unReadCidNum));
-        if (f1 > 10) {
-            f1 = 10;
-        }
-        return f1;
+
+        return Math.max(f1,15);
     }
 
     /**

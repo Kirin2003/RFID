@@ -1,6 +1,5 @@
 package protocals;
 
-import base.SlotResponse;
 import base.Tag;
 import org.apache.logging.log4j.Logger;
 import utils.*;
@@ -31,6 +30,19 @@ public class EDLS extends IdentifyTool{
     public EDLS(Logger logger, Recorder recorder, Environment environment) {
         super(logger, recorder, environment);
 
+        int expectedActualCidNum = 0;
+        Set<String> expectedActualCidSet = new HashSet<>();
+        for(Tag tag : environment.getActualTagList()) {
+            expectedActualCidSet.add(tag.getCategoryID());
+        }
+        expectedActualCidNum = expectedActualCidSet.size();
+
+        Set<String> expectedCidSet = new HashSet<>();
+        for(Tag tag : environment.getExpectedTagList()) {
+            expectedCidSet.add(tag.getCategoryID());
+        }
+        int expectedCidNum = expectedCidSet.size();
+        logger.debug("expectedCidNum="+expectedCidNum+" expectedActualCidNum="+expectedActualCidNum);
     }
 
     /**
@@ -57,6 +69,8 @@ public class EDLS extends IdentifyTool{
             }
         }
         recorder.totalExecutionTime = maxTime;
+        logger.error("第一阶段结束, 所有阅读器的总时间:[ "+maxTime+" ]ms");
+
         for(Reader_M reader_m : readers) {
             reader_m.recorder.totalExecutionTime = maxTime;
         }
@@ -75,6 +89,8 @@ public class EDLS extends IdentifyTool{
             }
         }
         recorder.totalExecutionTime = maxTime2;
+        logger.error("第二阶段结束, 所有阅读器的总时间:[ "+maxTime2+" ]ms");
+
     }
 
     /**
@@ -104,7 +120,7 @@ public class EDLS extends IdentifyTool{
     public void identify(Reader_M reader_m){
         Recorder recorder1 = reader_m.recorder;
         // 第几轮
-        double missRate = (double) (environment.getExpectedTagList().size() - environment.getActualTagList().size()) / environment.getExpectedTagList().size();
+//        double missRate = (double) (environment.getExpectedTagList().size() - environment.getActualTagList().size()) / environment.getExpectedTagList().size();
 
         // 期望的标签列表, 可能有缺失；每个阅读器只覆盖了一个小范围, 但期望的标签列表是整个仓库的
         List<Tag> expectedTagList = environment.getExpectedTagList();
@@ -116,15 +132,11 @@ public class EDLS extends IdentifyTool{
         int recognizedCidNumCurrentRound = 0; // 在一轮中识别的类别数目
         int recognizedMissCidNumCurrentRound = 0;
         int recognizedActualCidNumCurrentRound = 0;
-        int expectedCidNum = environment.getExpectedCidNum(); // 还没有识别的类别数目
         int filterVectorLength = 0; // filter vector长度
         int slotSumNum = 0; // 时隙数目
 
         // filter generation phase之前, 时隙中期望标签为0,1,2,3,>3的个数
         int[] beforeFilter = new int[]{0, 0, 0, 0, 0};
-        // SFMTI : filter generation phase之后, 空时隙和未解决冲突的时隙的数目, 原本就是单时隙的时隙数目, 已经解决冲突的的2-collision个数,已经解决冲突的的3-collision个数,>3的冲突时隙个数
-        // CLS: filter generation phase之后, 空时隙, 单时隙, 2-collision时隙, 3-collision时隙, >3的冲突时隙个数
-        // SFMTI和CLS的一个区别就是:SFMTI有调和冲突, CLS没有!
         int[] afterFilter = new int[]{0, 0, 0, 0, 0};
         // 实际回复的, 只能识别空时隙, 单时隙, 冲突时隙, 因此分别记录0,1,>=2的
         int[] realReply = new int[]{0, 0, 0};
@@ -139,6 +151,21 @@ public class EDLS extends IdentifyTool{
 
         int resolvedFromTwoCollision = 0;
         int resolvedFromThreeCollision = 0;
+
+        int expectedActualCidNum = 0;
+        Set<String> expectedActualCidSet = new HashSet<>();
+        for(Tag tag : coveredActualTagList) {
+            expectedActualCidSet.add(tag.getCategoryID());
+        }
+        expectedActualCidNum = expectedActualCidSet.size();
+
+        Set<String> expectedCidSet = new HashSet<>();
+        for(Tag tag : expectedTagList) {
+            expectedCidSet.add(tag.getCategoryID());
+        }
+        int expectedCidNum = expectedCidSet.size();
+        logger.debug("expectedCidNum=["+expectedCidNum+"] expectedActualCidNum=["+expectedActualCidNum+"]");
+        double missRate = (expectedCidNum - expectedActualCidNum) * 1.0 / expectedCidNum;
 
 
         Map<Integer, List<Tag>> collisionTagListMap = new HashMap<>(); // 冲突时隙的时隙-标签列表映射
@@ -206,24 +233,23 @@ public class EDLS extends IdentifyTool{
                 }
             }
 
-
-
-
-
             logger.debug("exp map");
             Map<Integer, Set<String>> expSlotToCidSet = new HashMap<>();
             for(Integer slot : expMap.keySet()) {
                 List<Tag> expTagList = expMap.get(slot);
                 for(Tag tag : expTagList) {
-                    if(!expSlotToCidSet.keySet().contains(slot)) {
-                        Set<String> cidSet = new HashSet<>();
-                        cidSet.add(tag.getCategoryID());
-                        expSlotToCidSet.put(slot,cidSet);
-                    } else {
-                        Set<String> cidSet = expSlotToCidSet.get(slot);
-                        cidSet.add(tag.getCategoryID());
-                        expSlotToCidSet.put(slot,cidSet);
+                    if(tag.isActive()) {
+                        if(!expSlotToCidSet.keySet().contains(slot)) {
+                            Set<String> cidSet = new HashSet<>();
+                            cidSet.add(tag.getCategoryID());
+                            expSlotToCidSet.put(slot,cidSet);
+                        } else {
+                            Set<String> cidSet = expSlotToCidSet.get(slot);
+                            cidSet.add(tag.getCategoryID());
+                            expSlotToCidSet.put(slot,cidSet);
+                        }
                     }
+
                 }
             }
 
@@ -256,7 +282,7 @@ public class EDLS extends IdentifyTool{
                     logger.debug(strList.get(i));
             }
 
-            // TODO 去掉filter vector中为0的元素
+            // TODO add: 去掉filter vector中为0的元素
             filterVector.removeIf(integer -> integer == 0);
 
             // 键: 时隙, 值: 回应的标签列表, 只有存在的标签, 没有缺失的标签
@@ -266,7 +292,6 @@ public class EDLS extends IdentifyTool{
             for (Tag tag: coveredActualTagList) {
                 if(tag.isActive()){
                     int afterSlot = tag.getSlotSelected();
-//                    logger.debug("[inner] categpry ID: "+tag.getCategoryID()+" Slot: "+tag.getSlotSelected());
                     if (resultMap.containsKey(afterSlot)){
                         resultMap.get(afterSlot).add(tag);
                         actualSlotToCidSet.get(afterSlot).add(tag.getCategoryID());
@@ -305,10 +330,9 @@ public class EDLS extends IdentifyTool{
                     slotSumNum++;
 
 
-                    // TODO 可能有错! 这里记录的是一轮的还是所有的?
                     recorder1.slotCount ++;
                     // 分析实际得到的回应情况
-                    if (actualSlotToCidSet.get(i).size() == 0) { // 有0个类别回应
+                    if (!actualSlotToCidSet.containsKey(i)) { // 有0个类别回应
                         realReply[0]++;
                         if(filterVector.get(i) == 2){ // Unreconcilable 2 Collisions
                             twoTurnToZero++;
@@ -357,15 +381,21 @@ public class EDLS extends IdentifyTool{
                                 }
                                 recorder1.noResult ++;
                                 logger.debug("slotID=" + (i) + " slotResult=noResult " + actualSlotToCidSet.get(i).toString()+":others="+str);
-                                //TODO what is it doing?
                                 collisionTagListMap.put(collisionTagListIndex++, tmplist);
 
                             }
                         }else{ // use SFMTI, 只有一个标签回应必然是单时隙, 不可能是有缺失的冲突时隙, 因为SFMTI已经解决冲突了, 没解决的设置为filterVector.get(i) == 0
-                            for(Tag tag : expMap.get(i))
-                            {
-                                tag.setActive(false);
+//                            for(Tag tag : expMap.get(i))
+//                            {
+//                                tag.setActive(false);
+//                            }
+                            // TODO
+                            for(Tag tag : reader_m.coveredAllTagList) {
+                                if(tag.getCategoryID() .equals( expMap.get(i).get(0).getCategoryID())) {
+                                    tag.setActive(false);
+                                }
                             }
+
                             recognizedCidNumCurrentRound++;
                             recognizedCidNum ++;
                             logger.debug("slotID="+(i) + " slotResult=single "+actualSlotToCidSet.get(i).toString());
@@ -383,11 +413,6 @@ public class EDLS extends IdentifyTool{
                             threeTurnToThree++;  // 3->3
                         }
 
-                        // 打印slotResponseList
-//                        String strCid = "";
-//                        for (Integer slot : slotToCidSet.keySet()) {
-//                            strCid += slotToCidSet.get(i).toString();
-//                        }
 
                         logger.debug("slotID=" + (i) + " slotResult=collision category ID=" + actualSlotToCidSet.get(i).toString());
                         recorder1.collisionSlotCount++; //统计为collision的总数
@@ -408,14 +433,10 @@ public class EDLS extends IdentifyTool{
             logger.info("After round fliterVector total length: " + filterVectorLength);
             logger.info("After round Resolved from 2 collision: " + resolvedFromTwoCollision);
             logger.info("After round resolved from 3 collision:" + resolvedFromThreeCollision);
+            logger.info("Current round the reader recognizes actual cid:"+recognizedActualCidNumCurrentRound + " missing cid:"+recognizedMissCidNumCurrentRound);
             logger.info("Round's slot number: " + roundSlotCount);
             logger.info("After round slot number: " + slotSumNum);
 
-            if(expectedCidNum > recognizedCidNum) {
-                //TODO 缺失率怎么算?
-                missRate = (expectedCidNum - recognizedCidNum)*1.0 / expectedCidNum;
-//                missRate = 1.0*((expectedTagNum - recognizedTagNum) - (coveredActualTagList.size() - (recognizedTagNum-recognizedMissingTag.size()))) / (expectedTagNum - recognizedTagNum);
-            }
             logger.debug("Reader miss rate: "+missRate);
             logger.debug("Frame Size: " + frameSize+"; Filter Size: " + filterVector.size() + ";");
             logger.debug("Recognized missing cid: "+recognizedMissCidNumCurrentRound+"; Number of cid present: "+(recognizedActualCidNumCurrentRound) + ";");
@@ -426,7 +447,16 @@ public class EDLS extends IdentifyTool{
 
             recorder1.recognizedMissingCidNumList.add(recognizedMissCidNumCurrentRound);
             recorder1.recognizedActualCidNumList.add(recognizedActualCidNumCurrentRound);
-            recorder1.recognizedCidNumList.add(recognizedMissCidNumCurrentRound,recognizedActualCidNumCurrentRound);
+            recorder1.recognizedCidNumList.add(recognizedMissCidNumCurrentRound+recognizedActualCidNumCurrentRound);
+            recorder1.recognizedActualCidNum = recorder1.actualCids.size();
+            recorder1.recognizedMissingCidNum = recorder1.missingCids.size();
+            recorder1.recognizedCidNum = recorder1.actualCids.size() + recorder1.missingCids.size();
+
+            if(expectedCidNum > recognizedCidNum) {
+                //TODO 修改缺失率计算方法,缺失率为类别的缺失率而非标签的缺失率
+                missRate = (expectedCidNum - expectedActualCidNum - recorder1.recognizedMissingCidNum)*1.0 / (expectedCidNum - recognizedCidNum);
+//                missRate = 1.0*((expectedTagNum - recognizedTagNum) - (coveredActualTagList.size() - (recognizedTagNum-recognizedMissingTag.size()))) / (expectedTagNum - recognizedTagNum);
+            }
         }
 
 
@@ -451,14 +481,15 @@ public class EDLS extends IdentifyTool{
         recorder1.recognizedCidNum = recorder1.actualCids.size() + recorder1.missingCids.size();
     }
 
-    private int SFMTI_OptimizeFrame(int expectedTagNum, int recognizedTagNum) {
-
-        return (int)Math.ceil(((double)(expectedTagNum - recognizedTagNum)) / 1.68);
+    private int SFMTI_OptimizeFrame(int expectedCidNum, int recognizedCidNum) {
+        int f = (int)Math.ceil(((double)(expectedCidNum - recognizedCidNum)) / 1.68);
+        return Math.max(f, 15);
     }
 
     private int CLS_OptimizeFrame(double missRate, int expectedTagNum, int recognizedTagNum) {
         double rho = RHOUtils.getBestRho(missRate,"rho-opt-TSA.txt");
-        return (int)Math.ceil(((double)(expectedTagNum - recognizedTagNum)) / rho);
+        int f = (int)Math.ceil(((double)(expectedTagNum - recognizedTagNum)) / rho);
+        return Math.max(f,15);
     }
 
     private void SFMTI_SelectSlot(Tag tag, int random1, int random2, int frameSize, List<Integer> filterVector, int X, Map<Integer, List<Tag>> expMap, Map<Integer, List<String>> verMap) {
@@ -479,13 +510,13 @@ public class EDLS extends IdentifyTool{
         String tmpStr;
         switch (filterVector.get(index)){
             case 0:
-                tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 0 (则afterSlot直接赋值 -1)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + " afterSlot = -1 tagID = " + tag.getCategoryID();
+                tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 0 (则afterSlot直接赋值 -1)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + " afterSlot = -1 category ID = " + tag.getCategoryID();
                 tag.fillMap(expMap, -1, tag);
                 tag.fillMap(verMap, index, tmpStr);
                 tag.setSlotSelected(-1);
                 break;
             case 1:
-                tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 1 (则afterSlot应等于x1 + x2 + x3)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + " afterSlot = "+sumX+" tagID = " + tag.getCategoryID();
+                tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 1 (则afterSlot应等于x1 + x2 + x3)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + " afterSlot = "+sumX+" category ID  = " + tag.getCategoryID();
                 tag.fillMap(expMap, sumX, tag);
                 tag.fillMap(verMap, index, tmpStr);
                 tag.setSlotSelected(sumX);
@@ -493,13 +524,13 @@ public class EDLS extends IdentifyTool{
             case 2:
                 int indexApp2 = tag.hash2(2,  random2);
                 if (indexApp2 == 0){
-                    tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 2 secondSlot = 0"+ " (则afterSlot应等于x1 + x2 + x3)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + " afterSlot = "+sumX+" tagID = " + tag.getCategoryID();
+                    tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 2 secondSlot = 0"+ " (则afterSlot应等于x1 + x2 + x3)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + " afterSlot = "+sumX+" category ID  = " + tag.getCategoryID();
                     tag.fillMap(expMap, sumX, tag);
                     tag.fillMap(verMap, index, tmpStr);
                     tag.setSlotSelected(sumX);
                 }else {
                     int tmpSlot = X + x2 + x3 * 2;
-                    tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 2 secondSlot = "+indexApp2+ " (则afterSlot应等于X + x2 + x3 * 2)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + "X = "+X+" afterSlot = "+tmpSlot+" tagID = " + tag.getCategoryID();
+                    tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 2 secondSlot = "+indexApp2+ " (则afterSlot应等于X + x2 + x3 * 2)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + "X = "+X+" afterSlot = "+tmpSlot+" category ID  = " + tag.getCategoryID();
                     tag.fillMap(expMap, tmpSlot, tag);
                     tag.fillMap(verMap, index, tmpStr);
                     tag.setSlotSelected(tmpSlot);
@@ -508,13 +539,13 @@ public class EDLS extends IdentifyTool{
             case 3:
                 int indexApp3 = tag.hash2(3,  random2);
                 if (indexApp3 == 0){
-                    tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 3 secondSlot = 0 (则afterSlot应等于x1 + x2 +x3)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + " afterSlot = "+sumX+" tagID = " + tag.getCategoryID();
+                    tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 3 secondSlot = 0 (则afterSlot应等于x1 + x2 +x3)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + " afterSlot = "+sumX+" category ID  = " + tag.getCategoryID();
                     tag.fillMap(expMap, sumX, tag);
                     tag.fillMap(verMap, index, tmpStr);
                     tag.setSlotSelected(sumX);
                 }else {
                     int thrSlot = X + x2 + x3 * 2 + indexApp3 - 1;
-                    tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 3 secondSlot = "+indexApp3+" (则afterSlot应等于X + x2 + x3 * 2 + secondSlot - 1)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + "X = "+X+ " afterSlot = "+thrSlot+" tagID = " + tag.getCategoryID();
+                    tmpStr = "[inner]slot = "+index+" 对应vector中的值 = 3 secondSlot = "+indexApp3+" (则afterSlot应等于X + x2 + x3 * 2 + secondSlot - 1)"+" x1 = " + x1 + " X2 = "+x2 +"  X3 = "+x3 + "X = "+X+ " afterSlot = "+thrSlot+" category ID  = " + tag.getCategoryID();
                     tag.fillMap(expMap, thrSlot, tag);
                     tag.fillMap(verMap, index, tmpStr);
                     tag.setSlotSelected(thrSlot);
@@ -586,6 +617,8 @@ public class EDLS extends IdentifyTool{
 
     // 实现时, CLS 使用前后, filter vector没变, 论文中提到0->00, 1->01, >=2 -> 1, 实现时只在计算时间部分考虑了
     public List<Integer> CLS_genFilterVector(int frameSize, int random1, List<Tag> theTagList,int[] beforeFilter, int[] afterFilter, Recorder recorder){
+        int[] before = new int[]{0,0,0,0,0};
+        int[] after = new int[]{0,0,0,0,0};
         // 本轮标签将会有回应的时隙数量
         int responseNum = 0;
 
@@ -597,21 +630,26 @@ public class EDLS extends IdentifyTool{
             int tmpValue = filterVector.get(i);
             if (tmpValue == 0) {
                 beforeFilter[0]++;
+                before[0] ++;
             }
             else if (tmpValue == 1) {
                 beforeFilter[1]++;
+                before[1]++;
             }
             else if (tmpValue == 2) {
                 beforeFilter[2]++;
+                before[2]++;
             }
             else if (tmpValue == 3) {
                 beforeFilter[3]++;
+                before[3]++;
             }
             else if (tmpValue > 3) {
                 beforeFilter[4]++;
+                before[4]++;
             }
         }
-        logger.info("Before using CLS. Slot types in the current round 0,1,2,3,>3: 0:["+beforeFilter[0]+"个] 1:["+beforeFilter[1]+"个]"+" 2:["+beforeFilter[2]+"个] 3:["+beforeFilter[3]+"个] >3:["+beforeFilter[4]+"个]");
+        logger.info("Before using CLS. Slot types in the current round 0,1,2,3,>3: 0:["+before[0]+"个] 1:["+before[1]+"个]"+" 2:["+before[2]+"个] 3:["+before[3]+"个] >3:["+before[4]+"个]");
 
         int len = filterVector.size();
         logger.info("Generating Filter Vector: ");
@@ -621,16 +659,13 @@ public class EDLS extends IdentifyTool{
             if (element >= 2) {
                 List<String> tagStr = new ArrayList<>();
                 for (int i = 0; i < resultMap.get(k).size(); i++)
-                    tagStr.add(resultMap.get(k).get(i).getTagID());
-                logger.debug("Slot = " + k + " tagID = " + tagStr.toString());
+                    tagStr.add(resultMap.get(k).get(i).getCategoryID());
+                logger.debug("Slot = " + k + " category ID = " + tagStr.toString());
             } else if (element == 1) {
-                if (resultMap.get(k).size() != 1) {
-                    logger.error("ERROR！");
-                    logger.info("ERROR！");
-                }
-                logger.debug("Slot = " + k + " tagID = " + resultMap.get(k).get(0).getTagID());
+
+                logger.debug("Slot = " + k + " category ID = " + resultMap.get(k).get(0).getCategoryID());
             } else if (element == 0) {
-                logger.debug("Slot = " + k);
+                logger.debug("Slot = " + k+"element = 0");
             }
         }
 
@@ -641,17 +676,22 @@ public class EDLS extends IdentifyTool{
             int tmpValue = filterVector.get(i);
             if (tmpValue == 0) {
                 afterFilter[0]++;
+                after[0]++;
             } else if (tmpValue == 1) {
                 afterFilter[1]++;
+                after[1]++;
                 responseNum++;
             } else if (tmpValue == 2) {
                 afterFilter[2]++;
+                after[2]++;
                 responseNum++;
             } else if (tmpValue == 3) {
                 afterFilter[3]++;
+                after[3]++;
                 responseNum++;
             } else if (tmpValue > 3) {
                 afterFilter[4]++;
+                after[4]++;
                 responseNum++;
             }
         }
@@ -659,7 +699,7 @@ public class EDLS extends IdentifyTool{
         double t1 = clsRoundExecutionTime(filterVector, responseNum);
         recorder.totalExecutionTime += t1;
         logger.info("Round Execution Time: " + t1);
-        logger.info("After using CLS. Slot types in the current round 0,1,2,3,>3: 0:["+afterFilter[0]+"个] 1:["+afterFilter[1]+"个]"+" 2:["+afterFilter[2]+"个] 3:["+afterFilter[3]+"个] >3:["+afterFilter[4]+"个]");
+        logger.info("After using CLS. Slot types in the current round 0,1,2,3,>3: 0:["+after[0]+"个] 1:["+after[1]+"个]"+" 2:["+after[2]+"个] 3:["+after[3]+"个] >3:["+after[4]+"个]");
         return filterVector;
     }
 
@@ -677,6 +717,7 @@ public class EDLS extends IdentifyTool{
         Map<Integer, List<Tag>> resultMap = vectorMap.getResultMap();
         Map<Integer, Set<String>> slotToCidSet = vectorMap.getSlotToCidSet();
 
+        logger.debug("filter vector size:"+filterVector.size());
         for (int i = 0; i <filterVector.size(); i++){
             int tmpValue = filterVector.get(i);
             if (tmpValue == 0) {
@@ -703,7 +744,8 @@ public class EDLS extends IdentifyTool{
         logger.info("Before using SFMTI. Slot types in the current round 0,1,2,3,>3: 0:["+before[0]+"个] 1:["+before[1]+"个]"+" 2:["+before[2]+"个] 3:["+before[3]+"个] >3:["+before[4]+"个]");
 
         logger.info("Generating Filter Vector: ");
-        for (int k = 0; k < filterVector.size(); k++){
+        int oriFilterVectorSize = filterVector.size();
+        for (int k = 0; k < oriFilterVectorSize; k++){
             int element = filterVector.get(k);
             if(element > 3){
                 filterVector.set(k, 0); // 大于3的冲突时隙设为0, 忽略
@@ -727,11 +769,6 @@ public class EDLS extends IdentifyTool{
                             secondSlotToCidSet.get(secondSlot).add(tag.getCategoryID());
                         }
 
-//                        if (map.containsKey(secondSlot)){
-//                            map.put(secondSlot, map.get(secondSlot) + 1);
-//                        } else{
-//                            map.put(secondSlot, 1);
-//                        }
                     }
 
                 }
@@ -742,19 +779,33 @@ public class EDLS extends IdentifyTool{
                     Integer value = secondSlotToCidSet.get(key).size();
                     logger.debug("[inner] secondSlotToCidSet key = "+key+" value = "+value);
                 }
-                if (secondSlotToCidSet.size()<element){// 没有调和成功, map的长度小于element数目, 根据抽屉原理, 必然有多个标签又选择同一个时隙, 再次起冲突
-                    filterVector.set(k, 0);
-                }else if(secondSlotToCidSet.size() == element){ // 调和成功
-                    // append vector
-                    // 不需要filterVector.set(k,1), 最后还要统计调和了的2-collision和3-collision
-                    for (int m = 0; m < total - 1; m++)
-                        filterVector.add(1);
+
+                // TODO
+                boolean flag = true;
+                if(secondSlotToCidSet.size() < element) {
+                    flag = false;
 
                 }
+                else {
+                    for(Integer key :secondSlotToCidSet.keySet()) {
+                        if (secondSlotToCidSet.get(key).size() != 1) {
+                            flag = false;
+
+                            break;
+                        }
+                    }
+                }
+                if(flag) {
+                    for (int m = 0; m < total - 1; m++)
+                        filterVector.add(1);
+                } else {
+                    filterVector.set(k, 0);
+                }
+
+
             }else if (element == 1) {
-//                if(resultMap.get(k).size() != 1)
-//                    logger.error("ERROR！");
-//                logger.debug("Slot = " + k + " tagID = "+resultMap.get(k).get(0).getTagID());
+                logger.debug("k = "+k);
+                logger.debug("Slot = " + k + " category ID = "+resultMap.get(k).get(0).getCategoryID());
             }else if(element == 0){
                 logger.debug("Slot = " + k);
             }
@@ -795,39 +846,12 @@ public class EDLS extends IdentifyTool{
         double t1= sfmtiRoundExecutionTime(filterVector, after[1]+after[2]+after[3]);
         recorder.totalExecutionTime += t1;
         logger.info("Round Execution Time: " + t1);
+        logger.debug("After using SFMTI. filter vector:"+filterVector);
         logger.info("After using SFMTI. Slot types in the current round 0,1,2,3,>3: 0:["+after[0]+"个] 1:["+after[1]+"个]"+" 2:["+after[2]+"个] 3:["+after[3]+"个] >3:["+after[4]+"个]");
         logger.info("After using SFMTI. Slot types number until now 0,1,2,3,>3: 0:["+afterFilter[0]+"个] 1:["+afterFilter[1]+"个]"+" 2:["+afterFilter[2]+"个] 3:["+afterFilter[3]+"个] >3:["+afterFilter[4]+"个]");
         return filterVector;
     }
 
-//    protected void readerMInit(Environment environment)
-//    {
-//        List<Reader_M> readerMList = environment.getReaderList();
-//
-//        //  设置期望列表
-//        for(Reader_M reader : readerMList)
-//        {
-//            reader.expectedTagList.addAll(environment.getExpectedTagList());
-//        }
-//
-//        //  设置,覆盖范围,针对expectedTagList，实际可能不存在
-//        for(Reader_M reader : readerMList)
-//        {
-//            int realReply =0;
-//            for(Tag tag : environment.getExpectedTagList())
-//            {
-//                double x = reader.getLocation().getX() - tag.getLocation().getX();
-//                double y = reader.getLocation().getY() - tag.getLocation().getY();
-//                if(reader.getCoverActualTagList()== null) { reader.setCoverActualTagList(new ArrayList<Tag>());  }
-//                if(x * x + y * y < reader.getReadingRadius() * reader.getReadingRadius())
-//                {
-//                    reader.getCoverActualTagList().add(tag);
-//                    if(environment.getActualTagList().contains(tag)) { realReply++; }
-//                }
-//            }
-//            reader.realReply = realReply;
-//        }
-//    }
 
 
 

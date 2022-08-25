@@ -90,7 +90,6 @@ public class VectorMap {
 
             filterVector.set(slot,slotToCidSet.get(slot).size());
         }
-
         return new VectorMap(filterVector, resultMap,slotToCidSet);
     }
 
