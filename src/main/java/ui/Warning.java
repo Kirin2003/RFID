@@ -3,12 +3,11 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import domain.ResultInfo;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class Warning extends JDialog {
@@ -68,10 +67,8 @@ public class Warning extends JDialog {
         // add your code here
         String errorMessage = "";
         Logger logger = Logger.getLogger(" warning ui");
-        logger.setLevel(Level.DEBUG);
         data.warningChanged = true;
         String input1 = textArea1.getText();
-        logger.debug("input1:" + input1);
         String cid = "";
 
         if (!Pattern.matches("^[0|1]*$", input1)) {
@@ -84,11 +81,9 @@ public class Warning extends JDialog {
             data.warningChanged = false;
         } else {
             cid = input1;
-            logger.debug("cid:" + cid);
         }
 
         String input2 = textField2.getText();
-        logger.debug("input2 = " + input2);
         int a2 = -1;
 
         if (!Pattern.matches("^[0-9]*[1-9][0-9]*$", input2)) {
@@ -97,7 +92,6 @@ public class Warning extends JDialog {
 
         } else {
             a2 = Integer.parseInt(input2);
-            logger.debug("a2 = " + a2);
         }
 
         if (data.warningChanged) {

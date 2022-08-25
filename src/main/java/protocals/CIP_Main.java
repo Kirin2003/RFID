@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import utils.Environment;
 import utils.Recorder;
 
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -25,14 +26,10 @@ public class CIP_Main {
         int categoryIDLength = 32;
         Logger logger = LogManager.getLogger(CIP_Main.class);
 
-        logger.error("Total number of tags: [" + allTagNumber + "]");
-        logger.error("Total number of expected tags: [" + (allTagNumber - unknownTagNumber) + "]");
-        logger.error("Actual number of tags: [" + (allTagNumber - missingTagNumber - unknownTagNumber) + "]");
-
         Recorder recorder = new Recorder();
 
         for (int r = 0; r < instanceNumber; r++){
-            logger.error("<<<<<<<<<<<<<<<<<<<< Instance: " + r + ">>>>>>>>>>>>>>>>>>>");
+            logger.error("<<<<<<<<<<<<<<<<<<<< 模拟次数: " + r + ">>>>>>>>>>>>>>>>>>>");
 
             TagRepository tagRepository = TagListGenerator.generateTagRepository(tagIDLength, categoryIDLength, allTagNumber, 10,unknownTagNumber, missingTagNumber);
             List<Tag> allTagList = tagRepository.getAllTagList();
@@ -46,6 +43,7 @@ public class CIP_Main {
 
             IdentifyTool edls = new CIP(logger,recorder,environment);
             edls.execute();
+
         }
     }
 }

@@ -85,7 +85,7 @@ public class Environment {
      * @param readersInRow Number of readers in a row
      * @param readersInColumn Number of readers in a column
      */
-    public void createType2(double length, double width, int readersInRow, int readersInColumn, int expectedTagNumber, int tagNum){
+    public void createType2(double length, double width, int readersInRow, int readersInColumn){
         this.length = length;
         this.width = width;
         this.type = 1;
@@ -99,6 +99,7 @@ public class Environment {
         double lengthDivide = length / (double) M;
         double widthDivide = width / (double) N;
 
+        int expectedTagNumber = expectedTagList.size();
         int equalTagNumber = expectedTagNumber / (M * N);
         int rest = expectedTagNumber % (M * N);
 

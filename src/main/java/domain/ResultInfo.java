@@ -2,16 +2,16 @@ package domain;
 
 public class ResultInfo {
     /** 标签ID长度 */
-    public  Integer tagIDLength = 96; // fixed
+    public  Integer tagIDLength = 96;
     /** 类别ID长度 */
-    public  Integer categoryIDLength = 32; // fixed
+    public  Integer categoryIDLength = 32;
     /** 缺失率 */
     public  Double missingRate = 0.8;
     /** 标签数目 */
     public  Integer tagNum = 10000;
 
     /** 是否随机分配*/
-    public  Boolean isRandomAllocated = true; // fixed
+    public  Boolean isRandomAllocated = true;
     /** 标签/类别ID */
     public  Integer tagNumPerCid = 100;
 
@@ -21,7 +21,20 @@ public class ResultInfo {
     /** 意外标签占的比例*/
     public Double unknownRate = 0.1;
 
-    // 计算期望标签数, 存在的标签数
+    /** 仓库长度*/
+    public Integer repository_leng = 4000;
+
+    /** 仓库宽度*/
+    public Integer repository_wid = 2000;
+
+    /** 每行的阅读器数目*/
+    public Integer readerInRow = 5;
+
+    /** 每列的阅读器数目*/
+    public Integer readerInCol = 2;
+
+    /** 标签随机分布/均匀分布*/
+    public boolean isTagRandomlyDistributed = true;
 
 
     public Integer mostMissingTagNum = 80;

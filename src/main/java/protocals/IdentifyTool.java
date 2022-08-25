@@ -61,7 +61,6 @@ public abstract class IdentifyTool implements ISubject {
 
 
     public void changeMissingCids(String missingCid) {
-        recorder.missingCids.add(missingCid);
         invoke();
     }
 
@@ -83,7 +82,6 @@ public abstract class IdentifyTool implements ISubject {
 
         if(warningMessage.length()>0) {
             notifyAllObservers(warningMessage);
-            logger.debug("弹出警告框");
             isWarning = false;
         }
 

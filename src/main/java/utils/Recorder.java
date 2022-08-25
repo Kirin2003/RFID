@@ -26,7 +26,7 @@ public class Recorder {
     public int eliminationTagNum = 0;// 总去除的意外标签数
 
 
-    public List<Integer> frameSizeList = new ArrayList<>(); // 每一轮的时隙长度
+    public List<Integer> roundSlotCountList = new ArrayList<>(); // 每一轮的时隙长度
     public Set<String> missingCids = new HashSet<>(); // 识别到的缺失标签列表
     public Set<String> actualCids = new HashSet<>(); // 识别到的存在标签列表
 

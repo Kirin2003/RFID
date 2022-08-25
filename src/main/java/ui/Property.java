@@ -3,7 +3,6 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import domain.ResultInfo;
-import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,10 +36,8 @@ public class Property {
 
     String systemMessage = "";
 
-    public Property(ResultInfo r) {
+    public Property(final ResultInfo r) {
         this.r = r;
-        //  bg.add(RadioButton1);
-        //  bg.add(RadioButton2);
 
         jFrame.setContentPane(this.JPanel);
 
@@ -48,7 +45,7 @@ public class Property {
         jFrame.pack();
         jFrame.setLocationRelativeTo(null);//居中
 
-        OK.addActionListener(new ActionListener() {
+        OK.addActionListener(  new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setData(r);

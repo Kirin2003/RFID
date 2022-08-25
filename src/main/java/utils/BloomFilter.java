@@ -94,7 +94,7 @@ public class BloomFilter {
                 }
             }
         }
-        logger.error("Total number of eliminated unknown tags after membership Check: [" + eliminatedTagNum + "]");
+        logger.error("消除的意外标签: [" + eliminatedTagNum + "]");
         return eliminatedTagNum;
     }
 

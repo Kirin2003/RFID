@@ -24,8 +24,9 @@ public class UnexpectedTagEliminationMethod {
         }
         List<Integer> bloomFilterVector = bf.genFilterVector(numberOfHashFunctions,bloomFilterSize,randomInts,environment.getExpectedTagList());
         for (Reader_M reader : environment.getReaderList()){
-            logger.error("<<<<<<<<<<<<<<<<<<<< Reader: " + reader.getID() + " >>>>>>>>>>>>>>>>>>>");
-            bf.membershipCheck(bloomFilterVector,reader.coveredAllTagList,numberOfHashFunctions,randomInts,bloomFilterSize);
+            logger.error("<<<<<<<<<<<<<<<<<<<< 阅读器: " + reader.getID() + " >>>>>>>>>>>>>>>>>>>");
+            int num = bf.membershipCheck(bloomFilterVector,reader.coveredAllTagList,numberOfHashFunctions,randomInts,bloomFilterSize);
+            reader.recorder.eliminationTagNum = num;
             double t1 = bf.membershipCheckExecutionTime(bloomFilterVector);
             reader.recorder.totalExecutionTime += t1;
         }

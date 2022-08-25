@@ -111,14 +111,16 @@ public class ECIP extends IdentifyTool{
         int actualCidNum = actualCidSet.size();
         logger.info("期望识别的类别数:[ "+unReadCidNum+" ],实际存在的类别数:[ "+actualCidNum+" ],缺失的类别数:[ "+(unReadCidNum-actualCidNum)+" ]");
 
-
+        actualCidNum -= readCidNumInOneRound;
+        double missRate = 1-actualCidNum*1.0/unReadCidNum;
+        recorder1.missingRateList.add(missRate);
 
         recorder1.roundCount ++;
         logger.info("################### 第 " + recorder1.roundCount + " 轮#######################");
 
         // 1 优化时隙
         f1 = optimizeFrameSize(unReadCidNum);
-        recorder1.frameSizeList.add(f1);
+        recorder1.roundSlotCountList.add(f1);
         logger.info("-----------------------优化时隙-----------------------");
         logger.info("本轮最优帧长:["+f1+"]");
 
@@ -158,7 +160,6 @@ public class ECIP extends IdentifyTool{
                 for (Tag tag : slotToTagList.get(slotId)) {
                     tag.setActive(false);
                 }
-                recorder1.recognizedActualCidNum++;
                 recorder1.actualCids.add(strs[0]);
                 readCidNumInOneRound++;
                 logger.info("时隙: ["+slotId+"] 识别存在的类别: "+strs[0]);
@@ -169,7 +170,6 @@ public class ECIP extends IdentifyTool{
                 }
                 recorder1.actualCids.add(strs[0]);
                 recorder1.actualCids.add(strs[1]);
-                recorder1.recognizedActualCidNum += 2;
                 readCidNumInOneRound += 2;
                 logger.info("时隙: ["+slotId+"] 识别存在的类别: ["+strs[0]+", "+strs[1]+"]");
 
@@ -180,8 +180,14 @@ public class ECIP extends IdentifyTool{
 
             }
         }
+        actualCidNum -= readCidNumInOneRound;
+        recorder1.recognizedCidNum += readCidNumInOneRound;
+        recorder1.recognizedActualCidNum += readCidNumInOneRound;
+        missRate = 1-actualCidNum*1.0/unReadCidNum;
+        recorder1.missingRateList.add(missRate);
 
         recorder1.recognizedCidNumList.add(readCidNumInOneRound);
+        recorder1.recognizedActualCidNumList.add(readCidNumInOneRound);
         double executionTimeCurrentRound = calculateTime(readCidNumInOneRound);
         recorder1.executionTimeList.add(executionTimeCurrentRound); // 每一轮的时间
         logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + " 缺失的类别数: [0], 花费的时间:["+executionTimeCurrentRound+"] ms");
@@ -189,6 +195,10 @@ public class ECIP extends IdentifyTool{
         // 清零, 以便继续循环识别标签类别
         recorder1.roundCount++;
         readCidNumInOneRound = 0;
+
+        if (unReadCidNum == 0)
+                flag = false;
+
 
         while(flag) {
             logger.info("################### 第 " + recorder1.roundCount + " 轮#######################");
@@ -225,7 +235,7 @@ public class ECIP extends IdentifyTool{
                 int value = indicator.get(key);
                 if(value != 0) f2++;
             }
-            recorder1.frameSizeList.add(f2*2);
+            recorder1.roundSlotCountList.add(f2*2);
 
             // 构造location
             Vector<Integer> newLocation = new Vector<>();
@@ -317,7 +327,6 @@ public class ECIP extends IdentifyTool{
                     }
                     // recognize CID and construct indicator
                     String cid1 =combineCID(slotId,strs[0],d);
-                    recorder1.recognizedActualCidNum ++;
                     recorder1.actualCids.add(cid1);
 
                     readCidNumInOneRound++;
@@ -332,7 +341,6 @@ public class ECIP extends IdentifyTool{
                     String cid2 =combineCID(slotId,strs[1],d);
                     recorder1.actualCids.add(cid1);
                     recorder1.actualCids.add(cid2);
-                    recorder1.recognizedActualCidNum +=2;
                     readCidNumInOneRound += 2;
                     logger.info("时隙: ["+slotId+"] 识别存在的类别: ["+strs[0]+", "+strs[1]+"]");
 
@@ -345,6 +353,9 @@ public class ECIP extends IdentifyTool{
 
                 }
             }
+            actualCidNum -= readCidNumInOneRound;
+            missRate = 1-actualCidNum*1.0/unReadCidNum;
+            recorder1.missingRateList.add(missRate);
 
             recorder1.recognizedActualCidNumList.add(readCidNumInOneRound);
             recorder1.recognizedCidNumList.add(readCidNumInOneRound);
@@ -363,7 +374,23 @@ public class ECIP extends IdentifyTool{
 
 
             }
-        }
+
+            for (Tag tag : environment.getExpectedTagList()) {
+                String cid = tag.getCategoryID();
+                if(!recorder1.actualCids.contains(cid)){
+                    recorder1.missingCids.add(cid);
+                }
+            }
+            recorder1.recognizedMissingCidNum += recorder1.missingCids.size();
+            recorder1.recognizedMissingCidNumList.set(recorder1.roundCount-1,recorder1.missingCids.size());
+            recorder1.recognizedCidNum += recorder1.missingCids.size();
+            int recognizedCidNumLastRound = recorder1.recognizedCidNumList.get(recorder1.roundCount-1)+recorder1.missingCids.size();
+            recorder1.recognizedCidNumList.set(recorder1.roundCount-1,recognizedCidNumLastRound);
+            recorder1.totalExecutionTime = calculateTime(recorder1.recognizedCidNum);
+
+            logger.error("总时间: [" + recorder1.totalExecutionTime+ " ms]");
+
+    }
 
 
 

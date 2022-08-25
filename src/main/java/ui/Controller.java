@@ -161,7 +161,8 @@ public class Controller implements IObserver{
 
     // 新建配置表格
     public void load() {
-        Property property = new Property(r);
+        ui.Property property = new ui.Property(r);
+
         property.jFrame.setVisible(true);
     }
 
@@ -199,8 +200,12 @@ public class Controller implements IObserver{
         //Single Reader and Multi reader codes are almost same, we only give one reader for the environment
         Environment environment = new Environment(allTagList, expectedTagList, tagList,expectedTagList.size()/r.tagNumPerCid);
 
-        //
-        environment.createType1(4000, 1600, 2, 5);
+        if(r.isTagRandomlyDistributed) {
+            environment.createType1(r.repository_leng, r.repository_wid, r.readerInRow, r.readerInRow);
+        } else {
+            environment.createType2(r.repository_leng, r.repository_wid, r.readerInRow, r.readerInRow);
+        }
+
         Recorder recorder = new Recorder();
 
         // 将毫秒转化为秒
