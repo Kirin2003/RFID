@@ -209,8 +209,12 @@ public class Controller implements IObserver{
         Recorder recorder = new Recorder();
 
         // 将毫秒转化为秒
-        double CIPtime = CIP.calculateTime(actualCidNum)*1.0/1000;
-        double ECIPtime = ECIP.calculateTime(actualCidNum)*1.0/1000;
+        IdentifyTool cip = new CIP(logger,recorder,environment);
+        cip.execute();
+        double CIPtime = cip.recorder.totalExecutionTime*1.0/1000;
+        IdentifyTool ecip = new ECIP(logger,recorder,environment);
+        ecip.execute();
+        double ECIPtime = ecip.recorder.totalExecutionTime*1.0/1000;
         IdentifyTool ecls = new ECLS(logger,recorder,environment);
         ecls.execute();
         double ECLStime = ecls.recorder.totalExecutionTime*1.0/1000;
@@ -351,8 +355,6 @@ public class Controller implements IObserver{
         ui.controlText.setSelectedTextColor(Color.BLUE);
 
         //开始模拟
-
-
         identifyTool.execute();
         output+=identifyTool.recorder.getAnalysis();
 
