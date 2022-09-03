@@ -18,10 +18,10 @@ import java.util.List;
 public class CIP_Main {
     public static void main(String[] args) {
         int instanceNumber = 1;
-        int allTagNumber = 5000;
+        int allTagNumber = 50000;
         int unknownTagNumber = 0;
         int expectedTagNum = allTagNumber - unknownTagNumber;
-        int missingTagNumber = 4900;
+        int missingTagNumber = 49000;
         int tagIDLength = 14;
         int categoryIDLength = 32;
         Logger logger = LogManager.getLogger(CIP_Main.class);

@@ -162,7 +162,6 @@ public class CIP extends IdentifyTool{
             logger.info("-----------------------优化时隙-----------------------");
             logger.info("本轮最优帧长:["+f1+"]");
 
-
             /**
              * 2 标签选择时隙
               */
@@ -185,6 +184,11 @@ public class CIP extends IdentifyTool{
                     }
                 }
             }
+
+            int empty = f1 - CidMap.size();
+            double executionTimeOneRound = empty * 0.4 + CidMap.size() * 1.2;
+            recorder1.totalExecutionTime += executionTimeOneRound;
+            recorder1.executionTimeList.add(executionTimeOneRound);
 
             List<Integer> slots = new ArrayList<>(CidMap.keySet());
             slots.sort((integer, t1) -> integer > t1 ? 1 : -1);
@@ -230,9 +234,7 @@ public class CIP extends IdentifyTool{
             recorder1.recognizedMissingCidNumList.add(0); // cip只识别存在标签,不识别缺失标签,最后没有识别到的标签都认为是缺失标签
             recorder1.recognizedActualCidNum += readCidNumInOneRound;
             recorder1.recognizedCidNum += readCidNumInOneRound;
-            double executionTimeCurrentRound = calculateTime(readCidNumInOneRound);
-            recorder1.executionTimeList.add(executionTimeCurrentRound); // 每一轮的时间
-            logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + " 缺失的类别数: [0], 花费的时间:["+executionTimeCurrentRound+"] ms");
+            logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + "] 缺失的类别数: [0], 花费的时间:["+executionTimeOneRound+"] ms");
             unReadCidNum -= readCidNumInOneRound;
             // 清零, 以便继续循环识别标签类别
             recorder1.roundCount ++;
@@ -272,7 +274,7 @@ public class CIP extends IdentifyTool{
         recorder1.recognizedCidNumList.set(recorder1.roundCount-1,recognizedCidNumLastRound);
 
         // 总时间
-        recorder1.totalExecutionTime = calculateTime(recorder1.recognizedCidNum);
+//        recorder1.totalExecutionTime = calculateTime(recorder1.recognizedCidNum);
         logger.error("总时间: [" + recorder1.totalExecutionTime+ " ms]");
 
 

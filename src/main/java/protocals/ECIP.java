@@ -144,6 +144,12 @@ public class ECIP extends IdentifyTool{
                 }
             }
         }
+
+        int empty = f1 - CidMap.size();
+        double executionTimeOneRound = empty * 0.4 + CidMap.size() * 1.2;
+        recorder1.totalExecutionTime += executionTimeOneRound;
+        recorder1.executionTimeList.add(executionTimeOneRound);
+
         // 3 识别
         logger.info("-----------------------识别结果-----------------------");
 
@@ -188,9 +194,8 @@ public class ECIP extends IdentifyTool{
 
         recorder1.recognizedCidNumList.add(readCidNumInOneRound);
         recorder1.recognizedActualCidNumList.add(readCidNumInOneRound);
-        double executionTimeCurrentRound = calculateTime(readCidNumInOneRound);
-        recorder1.executionTimeList.add(executionTimeCurrentRound); // 每一轮的时间
-        logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + " 缺失的类别数: [0], 花费的时间:["+executionTimeCurrentRound+"] ms");
+        recorder1.recognizedMissingCidNumList.add(0);
+        logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + " 缺失的类别数: [0], 花费的时间:["+executionTimeOneRound+"] ms");
         unReadCidNum -= readCidNumInOneRound;
         // 清零, 以便继续循环识别标签类别
         recorder1.roundCount++;
@@ -220,15 +225,6 @@ public class ECIP extends IdentifyTool{
                 }
             }
             i1 = 0; // 清零
-
-            logger.debug("打印CidMap:");
-            for(Integer slot : CidMap.keySet()){
-                logger.debug("slot:"+slot+"overlapped cid:"+CidMap.get(slot));
-            }
-            logger.debug("打印indicator:");
-            for(Integer slot : indicator.keySet()){
-                logger.debug("slot:"+slot+"indicator:"+indicator.get(slot));
-            }
 
             int f2 = 0;
             for(Integer key : indicator.keySet()){
@@ -305,6 +301,12 @@ public class ECIP extends IdentifyTool{
                 }
 
             }
+
+            int empty2 = f2*2 - CidMap.size();
+            double executionTimeOneRound2 = empty2 * 0.4 + CidMap.size() * 1.2;
+            recorder1.totalExecutionTime += executionTimeOneRound2;
+            recorder1.executionTimeList.add(executionTimeOneRound2);
+
             slotToTagList = newSlotToTagList;
 
             // 6 识别
@@ -362,9 +364,7 @@ public class ECIP extends IdentifyTool{
             recorder1.recognizedMissingCidNumList.add(0); // cip只识别存在标签,不识别缺失标签,最后没有识别到的标签都认为是缺失标签
             recorder1.recognizedActualCidNum += readCidNumInOneRound;
             recorder1.recognizedCidNum += readCidNumInOneRound;
-            executionTimeCurrentRound = calculateTime(readCidNumInOneRound);
-            recorder1.executionTimeList.add(executionTimeCurrentRound); // 每一轮的时间
-            logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + " ],缺失的类别数: [0], 花费的时间:["+executionTimeCurrentRound+"] ms");
+            logger.info("第 ["+recorder1.roundCount+"] 轮,识别到的存在的类别数: ["+readCidNumInOneRound + " ],缺失的类别数: [0], 花费的时间:["+executionTimeOneRound2+"] ms");
             unReadCidNum -= readCidNumInOneRound;
 
             // 清零, 以便继续循环识别标签类别
@@ -382,11 +382,13 @@ public class ECIP extends IdentifyTool{
                 }
             }
             recorder1.recognizedMissingCidNum += recorder1.missingCids.size();
-            recorder1.recognizedMissingCidNumList.set(recorder1.roundCount-1,recorder1.missingCids.size());
+        System.out.println(recorder1.roundCount-1);
+        System.out.println(recorder1.recognizedMissingCidNumList.size());
+            recorder1.recognizedMissingCidNumList.set(recorder1.roundCount-2,recorder1.missingCids.size());
             recorder1.recognizedCidNum += recorder1.missingCids.size();
-            int recognizedCidNumLastRound = recorder1.recognizedCidNumList.get(recorder1.roundCount-1)+recorder1.missingCids.size();
-            recorder1.recognizedCidNumList.set(recorder1.roundCount-1,recognizedCidNumLastRound);
-            recorder1.totalExecutionTime = calculateTime(recorder1.recognizedCidNum);
+            int recognizedCidNumLastRound = recorder1.recognizedCidNumList.get(recorder1.roundCount-2)+recorder1.missingCids.size();
+            recorder1.recognizedCidNumList.set(recorder1.roundCount-2,recognizedCidNumLastRound);
+//            recorder1.totalExecutionTime = calculateTime(recorder1.recognizedCidNum);
 
             logger.error("总时间: [" + recorder1.totalExecutionTime+ " ms]");
 
