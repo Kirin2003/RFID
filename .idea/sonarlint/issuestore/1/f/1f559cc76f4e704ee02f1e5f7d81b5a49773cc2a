@@ -1,0 +1,27 @@
+
+>
+java:S1604""(Make this anonymous inner class a lambda(‚ş–—
+C
+java:S1604)"(Make this anonymous inner class a lambda(ò¨™Òıÿÿÿÿ
+C
+java:S1604:"(Make this anonymous inner class a lambda(ıĞ‰ÿÿÿÿÿ
+k
+java:S1104"VMake textField2 a static final constant or non-public and provide accessors if needed.(½ÇÖd
+k
+java:S1104"UMake textArea1 a static final constant or non-public and provide accessors if needed.(´úé×
+t
+java:S1104"YMake systemMessage a static final constant or non-public and provide accessors if needed.(ÍæÓşşÿÿÿÿ
+c
+java:S1104"MMake r a static final constant or non-public and provide accessors if needed.(Á¥´ø
+9
+java:S1948"#Make "r" transient or serializable.(Á¥´ø
+Q	java:S125"<This block of commented-out lines of code should be removed.(„ÜÉ
+P
+java:S1854E":Remove this useless assignment to local variable "logger".(üøåÂ
+A
+java:S1481E"+Remove this unused "logger" local variable.(üøåÂ
+X	java:S125k"<This block of commented-out lines of code should be removed.(®µ¦¨8Á¸‹º°0
+{
+java:S1171z"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ8Ã¸‹º°0
+p	java:S100ˆ"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–­Œßúÿÿÿÿ8Ä¸‹º°0
+p	java:S100°"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘ ¨úúÿÿÿÿ8Ñ¸‹º°0

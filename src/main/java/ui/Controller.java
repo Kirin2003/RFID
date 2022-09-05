@@ -334,8 +334,10 @@ public class Controller implements IObserver{
         environment.createType1(4000, 1600, 2, 5);
         Recorder recorder = new Recorder();
 
-        IdentifyTool ecls = new ECLS(logger,recorder,environment);
-        ecls.execute();
+        environment.reset();
+        for(Reader_M reader : environment.getReaderList()) {
+            reader.recorder = new Recorder();
+        }
 
         switch (r.getA()) {
             case Cip:

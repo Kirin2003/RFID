@@ -1,0 +1,18 @@
+
+b	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ºÓÊÁ
+T
+java:S2629"7Use the built-in formatting to construct this argument.(“°ÀÎ8×–“Æ°0
+Y
+java:S2629"7Use the built-in formatting to construct this argument.(¼£ë×ýÿÿÿÿ8Ø–“Æ°0
+Y
+java:S2629"7Use the built-in formatting to construct this argument.(Ù¢è‹üÿÿÿÿ8Ø–“Æ°0
+Y
+java:S2629#"7Use the built-in formatting to construct this argument.(‡Žó²ûÿÿÿÿ8Ø–“Æ°0
+^
+java:S3457"AFormat specifiers should be used instead of string concatenation.(“°ÀÎ8á–“Æ°0
+c
+java:S3457"AFormat specifiers should be used instead of string concatenation.(¼£ë×ýÿÿÿÿ8á–“Æ°0
+c
+java:S3457"AFormat specifiers should be used instead of string concatenation.(Ù¢è‹üÿÿÿÿ8á–“Æ°0
+c
+java:S3457#"AFormat specifiers should be used instead of string concatenation.(‡Žó²ûÿÿÿÿ8â–“Æ°0

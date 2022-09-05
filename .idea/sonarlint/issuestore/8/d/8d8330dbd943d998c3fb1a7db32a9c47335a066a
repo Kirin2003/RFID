@@ -1,0 +1,24 @@
+
+o
+java:S1104"RMake logger a static final constant or non-public and provide accessors if needed.(¬íÜ€8™³ˆº°0
+q
+java:S1104"TMake recorder a static final constant or non-public and provide accessors if needed.(äÖÕ©8™³ˆº°0
+t
+java:S1104"WMake environment a static final constant or non-public and provide accessors if needed.(È‚ÊÐ8ç©ìÄ°0
+[
+java:S5993"9Change the visibility of this constructor to "protected".(éñ·ìÿÿÿÿÿ8§³ˆº°0
+‡
+java:S1149"eReplace the synchronized class "Vector" by an unsynchronized one such as "ArrayList" or "LinkedList".(£­šûýÿÿÿÿ8©³ˆº°0
+S
+java:S1172:"1Remove this unused method parameter "missingCid".(Ä‹¼Æùÿÿÿÿ8¯³ˆº°0
+>
+java:S1128"!Remove this unused import 'base'.(Òò¢É8³³ˆº°0
+M
+java:S1128"+Remove this unused import 'utils.Reader_M'.(ù‹¢çúÿÿÿÿ8³³ˆº°0
+J
+java:S1128	".Remove this unused import 'java.util.HashSet'.(Ê‚êX8³³ˆº°0
+M
+java:S1128
+"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8³³ˆº°0
+L
+java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤þÿÿÿÿ8³³ˆº°0

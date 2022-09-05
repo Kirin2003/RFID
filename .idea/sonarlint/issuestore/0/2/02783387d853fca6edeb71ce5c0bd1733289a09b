@@ -1,0 +1,29 @@
+
+J
+java:S3740"/Provide the parametrized type for this generic.(Šıªöşÿÿÿÿ
+J
+java:S3740"/Provide the parametrized type for this generic.(«ÂÀúÿÿÿÿ
+J
+java:S3740K"/Provide the parametrized type for this generic.(Œ˜†¢ûÿÿÿÿ
+J
+java:S3740X"/Provide the parametrized type for this generic.(Ï²öµüÿÿÿÿ
+2
+java:S1643\"Use a StringBuilder instead.(·úè¢
+l
+java:S3008	"WRename this field "TYPE_UNKNOWN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êøÖ
+
+q
+java:S3008
+"VRename this field "HIDDEN_FILE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤Ææûÿÿÿÿ
+q
+java:S1149"VReplace the synchronized class "Hashtable" by an unsynchronized one such as "HashMap".(Šıªöşÿÿÿÿ
+7
+java:S11168"Remove this empty statement.(Åñ­õşÿÿÿÿ
+7
+java:S1116D"Remove this empty statement.(Åñ­õşÿÿÿÿ
+E
+java:S1068	"0Remove this unused "TYPE_UNKNOWN" private field.(êøÖ
+
+J
+java:S1068
+"/Remove this unused "HIDDEN_FILE" private field.(¤Ææûÿÿÿÿ

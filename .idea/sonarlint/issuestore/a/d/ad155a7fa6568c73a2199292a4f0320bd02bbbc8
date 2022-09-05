@@ -1,0 +1,67 @@
+
+m
+java:S1192Ó"JDefine a constant instead of duplicating this literal "æ—¶éš™: [" 3 times.(Ùé’Öüÿÿÿÿ8€üËÃ°0
+l	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²Çˆ+8…üËÃ°0
+n	java:S117…"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§âá²8•üËÃ°0
+S
+java:S2629D"7Use the built-in formatting to construct this argument.(™ÊƒO8¢üËÃ°0
+T
+java:S2629W"7Use the built-in formatting to construct this argument.(ÇûØë8¢üËÃ°0
+T
+java:S2629“"7Use the built-in formatting to construct this argument.(½®}8£üËÃ°0
+Z
+java:S2629˜"7Use the built-in formatting to construct this argument.(ãŠô¢ùÿÿÿÿ8£üËÃ°0
+Z
+java:S2629£"7Use the built-in formatting to construct this argument.(¥¡ËÌÿÿÿÿÿ8£üËÃ°0
+Z
+java:S2629Ó"7Use the built-in formatting to construct this argument.(Ùé’Öüÿÿÿÿ8£üËÃ°0
+T
+java:S2629Û"7Use the built-in formatting to construct this argument.(éÓÏ8¤üËÃ°0
+Z
+java:S2629ß"7Use the built-in formatting to construct this argument.(¢ˆÚÖşÿÿÿÿ8¤üËÃ°0
+U
+java:S2629ì"7Use the built-in formatting to construct this argument.(õéà»8¤üËÃ°0
+Z
+java:S2629"7Use the built-in formatting to construct this argument.(Â£ªÆüÿÿÿÿ8¤üËÃ°0
+Z
+java:S2629•"7Use the built-in formatting to construct this argument.(Ñäâ€ùÿÿÿÿ8¤üËÃ°0
+m	java:S116"QRename this field "CidMap" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶ØÌÛ8¬€ÌÃ°0
+]
+java:S3457D"AFormat specifiers should be used instead of string concatenation.(™ÊƒO8½€ÌÃ°0
+^
+java:S3457W"AFormat specifiers should be used instead of string concatenation.(ÇûØë8¾€ÌÃ°0
+c
+java:S3457s"AFormat specifiers should be used instead of string concatenation.(Üšœêûÿÿÿÿ8Á€ÌÃ°0
+n
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 38 to the 15 allowed.(²Çˆ+8Æ€ÌÃ°0
+`
+java:S1854ƒ"BRemove this useless assignment to local variable "expectedTagNum".(Û¸‰¨8Ç€ÌÃ°0
+Q
+java:S1481ƒ"3Remove this unused "expectedTagNum" local variable.(Û¸‰¨8É€ÌÃ°0
+X
+java:S1117…":Rename "CidMap" which hides the field declared at line 26.(§âá²8Í€ÌÃ°0
+_
+java:S1117†"ARename "slotToTagList" which hides the field declared at line 30.(¶õìæ8Í€ÌÃ°0
+^
+java:S3457“"AFormat specifiers should be used instead of string concatenation.(½®}8Ï€ÌÃ°0
+d
+java:S3457˜"AFormat specifiers should be used instead of string concatenation.(ãŠô¢ùÿÿÿÿ8Ğ€ÌÃ°0
+d
+java:S3457£"AFormat specifiers should be used instead of string concatenation.(¥¡ËÌÿÿÿÿÿ8Ò€ÌÃ°0
+L
+java:S2140¨")Use "java.util.Random.nextInt()" instead.(‡ã”­øÿÿÿÿ8Ó€ÌÃ°0
+d
+java:S3457Ó"AFormat specifiers should be used instead of string concatenation.(Ùé’Öüÿÿÿÿ8Ú€ÌÃ°0
+^
+java:S3457Û"AFormat specifiers should be used instead of string concatenation.(éÓÏ8Û€ÌÃ°0
+d
+java:S3457ß"AFormat specifiers should be used instead of string concatenation.(¢ˆÚÖşÿÿÿÿ8Û€ÌÃ°0
+_
+java:S3457ì"AFormat specifiers should be used instead of string concatenation.(õéà»8Ü€ÌÃ°0
+d
+java:S3457"AFormat specifiers should be used instead of string concatenation.(Â£ªÆüÿÿÿÿ8Ş€ÌÃ°0
+d
+java:S3457•"AFormat specifiers should be used instead of string concatenation.(Ñäâ€ùÿÿÿÿ8ß€ÌÃ°0
+Y	java:S125”"<This block of commented-out lines of code should be removed.(–´8ß€ÌÃ°0
+D
+java:S1168Î"&Return an empty array instead of null.(¥¹ï8ä€ÌÃ°0

@@ -1,0 +1,51 @@
+
+t
+java:S1104	"^Make totalExecutionTime a static final constant or non-public and provide accessors if needed.(ùÜî­
+q
+java:S1104"VMake roundCount a static final constant or non-public and provide accessors if needed.(à¾Ã…ùÿÿÿÿ
+p
+java:S1104"UMake slotCount a static final constant or non-public and provide accessors if needed.(ê™Ûıúÿÿÿÿ
+u
+java:S1104"ZMake emptySlotCount a static final constant or non-public and provide accessors if needed.(ãöÁûúÿÿÿÿ
+y
+java:S1104"^Make singletonSlotCount a static final constant or non-public and provide accessors if needed.(Á‹Ò‰ÿÿÿÿÿ
+y
+java:S1104"^Make collisionSlotCount a static final constant or non-public and provide accessors if needed.(á¥ùÿÿÿÿ
+o
+java:S1104"TMake noResult a static final constant or non-public and provide accessors if needed.(«ÃøÆøÿÿÿÿ
+w
+java:S1104"\Make recognizedTagNum a static final constant or non-public and provide accessors if needed.(ˆ·Öíıÿÿÿÿ
+~
+java:S1104"cMake recognizedMissingTagNum a static final constant or non-public and provide accessors if needed.(ßÕŞøÿÿÿÿ
+}
+java:S1104"bMake recognizedActualTagNum a static final constant or non-public and provide accessors if needed.(ºš¹çşÿÿÿÿ
+w
+java:S1104"\Make recognizedCidNum a static final constant or non-public and provide accessors if needed.(öš¯ìüÿÿÿÿ
+y
+java:S1104"cMake recognizedMissingCidNum a static final constant or non-public and provide accessors if needed.(÷¡Ù¥
+x
+java:S1104"bMake recognizedActualCidNum a static final constant or non-public and provide accessors if needed.(İ“´×
+x
+java:S1104"]Make eliminationTagNum a static final constant or non-public and provide accessors if needed.(ñ‰Î’ıÿÿÿÿ
+t
+java:S1104"^Make roundSlotCountList a static final constant or non-public and provide accessors if needed.(¤¿ÒÎ
+r
+java:S1104"WMake missingCids a static final constant or non-public and provide accessors if needed.(”äû¡ùÿÿÿÿ
+l
+java:S1104"VMake actualCids a static final constant or non-public and provide accessors if needed.(Çµ«Á
+v
+java:S1104!"`Make recognizedTagNumList a static final constant or non-public and provide accessors if needed.(ˆ›ïÏ
+|
+java:S1104#"fMake recognizeMissingTagNumList a static final constant or non-public and provide accessors if needed.(âÎàÖ
+{
+java:S1104$"eMake recognizeActualTagNumList a static final constant or non-public and provide accessors if needed.(ü¥‘¤
+v
+java:S1104%"`Make recognizedCidNumList a static final constant or non-public and provide accessors if needed.(©ÉÊª
+}
+java:S1104&"gMake recognizedMissingCidNumList a static final constant or non-public and provide accessors if needed.(Œ²Ù£
+|
+java:S1104'"fMake recognizedActualCidNumList a static final constant or non-public and provide accessors if needed.(£Ã¥·
+x
+java:S1104)"]Make executionTimeList a static final constant or non-public and provide accessors if needed.(¶Ô—Òûÿÿÿÿ
+q
+java:S1104*"[Make missingRateList a static final constant or non-public and provide accessors if needed.(æœ¸ò

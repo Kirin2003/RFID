@@ -1,0 +1,10 @@
+
+r	java:S117D"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(à€‘ëÿÿÿÿÿ8¦Îƒº°0
+„
+java:S1488i"bImmediately return this expression instead of assigning it to the temporary variable "actualList".(Î•â¤ÿÿÿÿÿ8¨Îƒº°0
+W
+java:S1118":Add a private constructor to hide the implicit public one.(¨ÌÓØ8ËÎƒº°0
+K
+java:S5413Q")Verify that "remove()" is used correctly.(Õ§è¸ýÿÿÿÿ8ÓÎƒº°0
+K
+java:S2140O")Use "java.util.Random.nextInt()" instead.(×ø§¬üÿÿÿÿ8ÔÎƒº°0
