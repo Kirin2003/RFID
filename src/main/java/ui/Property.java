@@ -21,13 +21,30 @@ public class Property {
     private JLabel Label3;
     private JLabel Label4;
     private JLabel Label6;
-    // private JTextField textField2;
     private JTextField textField3;
     private JTextField textField4;
-    //  private JTextField textField5;
     private JTextField textField6;
-    //  private JRadioButton RadioButton1;
-    //  private JRadioButton RadioButton2;
+    private JPanel JPanel5;
+    private JTextField textField5;
+    private JLabel Label5;
+    private JPanel JPanel1;
+    private JLabel Label1;
+    private JTextField textField1;
+    private JPanel JPanel2;
+    private JLabel Label2;
+    private JTextField textField2;
+    private JPanel JPanel7;
+    private JLabel Label7;
+    private JTextField textField7;
+    private JPanel JPanel8;
+    private JLabel Label8;
+    private JTextField textField8;
+    private JPanel JPanel9;
+    private JLabel Label9;
+    private JTextField textField9;
+    private JPanel JPanel10;
+    private JRadioButton RadioButton1;
+    private JRadioButton RadioButton2;
 
     private ButtonGroup bg = new ButtonGroup();
 
@@ -45,7 +62,7 @@ public class Property {
         jFrame.pack();
         jFrame.setLocationRelativeTo(null);//居中
 
-        OK.addActionListener(  new ActionListener() {
+        OK.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setData(r);
@@ -114,7 +131,6 @@ public class Property {
     }
 
     public static void main(String[] args) {
-
         ResultInfo r = new ResultInfo();
         JFrame frame = new JFrame("Property");
         frame.setContentPane(new Property(r).JPanel);
@@ -133,7 +149,6 @@ public class Property {
 
         if (Pattern.matches("^0.([0-9]+)?$", input3)) {
             a3 = Double.parseDouble(input3);
-
         } else {
             errorMessage += "输入缺失率不是范围在(0,1)内的小数\n";
             data.propertiesChanged = false;
@@ -143,7 +158,6 @@ public class Property {
 
         if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input4)) {
             a4 = Integer.parseInt(input4);
-
         } else {
             errorMessage += "输入标签数量不是正整数\n";
             data.propertiesChanged = false;
@@ -154,22 +168,86 @@ public class Property {
 
         if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input6)) {
             a6 = Integer.parseInt(input6);
-
         } else {
             errorMessage += "输入平均每个类别的标签数量不是正整数\n";
             data.propertiesChanged = false;
         }
-//
+
+        String input5 = textField5.getText();
+        double a5 = -1;
+
+        if (Pattern.matches("^0.([0-9]+)?$", input5)) {
+            a5 = Double.parseDouble(input5);
+        } else {
+            errorMessage += "输入的意外标签误报率不是范围在(0,1)内的小数\n";
+            data.propertiesChanged = false;
+        }
+
+        String input1 = textField1.getText();
+        int a1 = -1;
+
+        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input1)) {
+            a1 = Integer.parseInt(input1);
+        } else {
+            errorMessage += "输入的每行阅读器数量不是正整数\n";
+            data.propertiesChanged = false;
+        }
+
+        String input2 = textField2.getText();
+        int a2 = -1;
+
+        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input2)) {
+            a2 = Integer.parseInt(input2);
+        } else {
+            errorMessage += "输入每列阅读器数量不是正整数\n";
+            data.propertiesChanged = false;
+        }
+
+        String input7 = textField7.getText();
+        int a7 = -1;
+
+        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input7)) {
+            a7 = Integer.parseInt(input7);
+        } else {
+            errorMessage += "输入的仓库长度不是正整数\n";
+            data.propertiesChanged = false;
+        }
+
+        String input8 = textField8.getText();
+        int a8 = -1;
+
+        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input8)) {
+            a8 = Integer.parseInt(input8);
+        } else {
+            errorMessage += "输入的仓库宽度不是正整数\n";
+            data.propertiesChanged = false;
+        }
+
+        String input9 = textField9.getText();
+        int a9 = -1;
+
+        if (Pattern.matches("^[0-9]*[1-9][0-9]*$", input9)) {
+            a9 = Integer.parseInt(input9);
+        } else {
+            errorMessage += "输入的算法重复模拟次数不是正整数\n";
+            data.propertiesChanged = false;
+        }
+
+        Boolean isRandomAllocated = RadioButton1.isSelected();
 
         if (data.propertiesChanged) {
-//
             data.missingRate = a3;
             data.tagNum = a4;
-
             data.tagNumPerCid = a6;
+            data.unknownRate = a5;
+            data.readerInRow = a1;
+            data.readerInCol = a2;
+            data.repository_leng = a7;
+            data.repository_wid = a8;
+            data.instanceNumber = a9;
+            data.isRandomAllocated = isRandomAllocated;
 
             jFrame.setVisible(false);
-
             systemMessage += "加载配置成功！";
 
         } else {

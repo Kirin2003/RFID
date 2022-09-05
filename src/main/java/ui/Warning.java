@@ -96,7 +96,7 @@ public class Warning extends JDialog {
 
         if (data.warningChanged) {
             data.preciousCid = cid;
-            data.mostMissingTagNum = a2;
+            data.mostMissingCidNum = a2;
             systemMessage += "预警设置成功！\n";
         } else {
             JOptionPane.showMessageDialog(null, errorMessage, "输入不合理", JOptionPane.YES_OPTION);

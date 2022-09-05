@@ -45,7 +45,8 @@ public class Recorder {
      * 识别结束后得到结果分析
      * @return
      */
-    public String getAnalysis() {
+    public List<String> getAnalysis() {
+        List<String> resList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         sb.append("-----------------------识别结果-----------------------\n");
         sb.append("识别存在的类别如下:\n");
@@ -56,6 +57,12 @@ public class Recorder {
         for(String str : missingCids) {
             sb.append(str+"\n");
         }
-        return sb.toString();
+        resList.add(sb.toString());
+        StringBuilder sb2 = new StringBuilder();
+        sb2.append("-----------------------识别结果统计-----------------------\n");
+        sb2.append("识别存在的类别总数为"+actualCids.size()+"\n");
+        sb2.append("识别缺失的类别总数为"+missingCids.size()+"\n");
+        resList.add(sb2.toString());
+        return resList;
     }
 }

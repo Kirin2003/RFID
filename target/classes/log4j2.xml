@@ -18,7 +18,6 @@
     </Appenders>
     <Loggers>
         <Root level="info" >
-            <AppenderRef ref="console" level = "info"/>
             <AppenderRef ref="DLS" level = "info"/>
         </Root>
     </Loggers>

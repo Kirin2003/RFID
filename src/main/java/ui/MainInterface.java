@@ -1,5 +1,5 @@
 package ui;
-
+import com.alee.laf.WebLookAndFeel;
 import domain.ResultInfo;
 
 import javax.swing.*;
@@ -14,9 +14,6 @@ import java.util.Hashtable;
  */
 public class MainInterface {
     public JFrame jFrame = new JFrame("RFID类别识别仿真系统");
-
-    /** ResultInfo */
-    protected ResultInfo resultInfo;
 
     /** 创建保存文件对话框*/
     protected JFileChooser chooser = new JFileChooser(String.valueOf(JFileChooser.SAVE_DIALOG));
@@ -38,21 +35,19 @@ public class MainInterface {
     ButtonGroup flavorGroup = new ButtonGroup();
 
     /** 定义五个单选按钮菜单项，用于设置程序风格 */
-    protected JRadioButtonMenuItem metalItem = new JRadioButtonMenuItem("Metal 风格",true);
-    protected JRadioButtonMenuItem nimbusItem = new JRadioButtonMenuItem("Nimbus 风格",true);
-    protected JRadioButtonMenuItem windowsItem = new JRadioButtonMenuItem("Windows 风格",true);
-    protected JRadioButtonMenuItem classicItem = new JRadioButtonMenuItem("Windows 经典风格",true);
-    protected JRadioButtonMenuItem motifItem = new JRadioButtonMenuItem("Motif 风格",true);
+    protected JRadioButtonMenuItem webItem = new JRadioButtonMenuItem("WebLookAndFeel 风格",true);
+    protected JRadioButtonMenuItem metalItem = new JRadioButtonMenuItem("Metal 风格",false);
+    protected JRadioButtonMenuItem nimbusItem = new JRadioButtonMenuItem("Nimbus 风格",false);
+    protected JRadioButtonMenuItem windowsItem = new JRadioButtonMenuItem("Windows 风格",false);
+    protected JRadioButtonMenuItem classicItem = new JRadioButtonMenuItem("Windows 经典风格",false);
+    protected JRadioButtonMenuItem motifItem = new JRadioButtonMenuItem("Motif 风格",false);
 
     /** 创建一个横向的Box*/
     Box mainBox = Box.createHorizontalBox();
 
     /** 创建两个竖向的Box，并添加相应的组件*/
-    Box functionBox = Box.createVerticalBox();
     JPanel functionPanel = new JPanel();
-    Box viewBox = Box.createVerticalBox();
     JPanel viewPanel = new JPanel();
-
 
     /** 创建按钮组件 */
     JButton loadButton = new JButton("新建配置表格");
@@ -60,10 +55,8 @@ public class MainInterface {
     JButton adviceButton = new JButton("推荐算法");
 
     JButton startButton = new JButton("开始模拟");
-    JButton endButton = new JButton("结束模拟");//无用
     JButton clearButton = new JButton("清空控制台");
     JButton saveFileButton = new JButton("保存记录");
-    JButton analysisButton = new JButton("结果分析");
     JButton warnButton = new JButton("预警设置");
 
     JLabel speedLabel = new JLabel("动画速度:(慢-快)");
@@ -75,13 +68,13 @@ public class MainInterface {
     JMenuItem adviceMenu = new JMenuItem("推荐算法");
     JMenuItem startMenu = new JMenuItem("开始模拟");
     JMenuItem clearMenu = new JMenuItem("清空控制台");
-    JMenuItem analysisMenu = new JMenuItem("结果分析");
     JMenuItem saveFileMenu = new JMenuItem("保存记录");
     JMenuItem warnMenu = new JMenuItem("预警设置");
 
     /** 创建文本域组件 */
     public JTextArea controlText = new JTextArea();
     JTextArea AnalogText = new JTextArea();
+    JLabel label = new JLabel(new ImageIcon(""));
 
     JScrollPane viewPane = new JScrollPane(controlText);
     //private Object FlowLayout;
@@ -89,6 +82,9 @@ public class MainInterface {
     /** 定义方法，用于改变界面风格 */
     private void changeFlavor(String command) throws Exception{
         switch (command){
+            case "WebLookAndFeel 风格":
+                UIManager.setLookAndFeel(new WebLookAndFeel());
+                break;
             case "Metal 风格":
                 UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
                 break;
@@ -130,8 +126,6 @@ public class MainInterface {
         simulation.addSeparator();
         simulation.add(clearMenu);
         simulation.addSeparator();
-        simulation.add(analysisMenu);
-        simulation.addSeparator();
         simulation.add(saveFileMenu);
         simulation.addSeparator();
 
@@ -146,6 +140,7 @@ public class MainInterface {
         jFrame.setJMenuBar(mb);
 
         // 组合右键菜单，选择风格
+        flavorGroup.add(webItem);
         flavorGroup.add(metalItem);
         flavorGroup.add(nimbusItem);
         flavorGroup.add(windowsItem);
@@ -166,12 +161,14 @@ public class MainInterface {
         };
 
         //为5个风格菜单项注册监听器
+        webItem.addActionListener(flavorLister);
         metalItem.addActionListener(flavorLister);
         nimbusItem.addActionListener(flavorLister);
         windowsItem.addActionListener(flavorLister);
         classicItem.addActionListener(flavorLister);
         motifItem.addActionListener(flavorLister);
 
+        popout.add(webItem);
         popout.add(metalItem);
         popout.add(nimbusItem);
         popout.add(windowsItem);
@@ -180,13 +177,11 @@ public class MainInterface {
 
         controlText.setComponentPopupMenu(popout);
         AnalogText.setComponentPopupMenu(popout);
-
-        mb.setBackground(Color.ORANGE);
     }
 
     /** 组装功能区 */
-    public void assembleFunction(){
-
+    public void assembleFunction()
+    {
         // 设置背景颜色
         slider.setBackground(Color.WHITE);
         // 设置主刻度间隔
@@ -201,48 +196,42 @@ public class MainInterface {
         // 给指定的刻度值显示自定义标签
         Hashtable<Integer, JComponent> hashtable = new Hashtable<Integer, JComponent>();
         hashtable.put(1, new JLabel("Slow"));   // 0 刻度位置，显示 "Start"
-        hashtable.put(5, new JLabel("Middle"));  // 10 刻度位置，显示 "Middle"
-        hashtable.put(10, new JLabel("Fast"));    // 20 刻度位置，显示 "End"
+        hashtable.put(5, new JLabel("Middle"));  // 5 刻度位置，显示 "Middle"
+        hashtable.put(10, new JLabel("Fast"));    // 10 刻度位置，显示 "End"
         // 将刻度值和自定义标签的对应关系设置到滑块（设置后不再显示默认的刻度值）
         slider.setLabelTable(hashtable);
 
-
-        loadButton.setPreferredSize(new Dimension(150, 25));
-        adviceButton.setPreferredSize(new Dimension(150, 25));
-        warnButton.setPreferredSize(new Dimension(150, 25));
-        choiceButton.setPreferredSize(new Dimension(150, 25));
-        startButton.setPreferredSize(new Dimension(150, 25));
-        endButton.setPreferredSize(new Dimension(150, 25));
-        clearButton.setPreferredSize(new Dimension(150, 25));
-        saveFileButton.setPreferredSize(new Dimension(150, 25));
-        analysisButton.setPreferredSize(new Dimension(150, 25));
-        speedLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        loadButton.setPreferredSize(new Dimension(100, 30));
+        adviceButton.setPreferredSize(new Dimension(100, 30));
+        warnButton.setPreferredSize(new Dimension(100, 30));
+        choiceButton.setPreferredSize(new Dimension(100, 30));
+        startButton.setPreferredSize(new Dimension(100, 30));
+        clearButton.setPreferredSize(new Dimension(100, 30));
+        saveFileButton.setPreferredSize(new Dimension(100, 30));
 
         JPanel internalPanel = new JPanel();
         internalPanel.setLayout(new FlowLayout());
 
         internalPanel.setPreferredSize(new Dimension(200, Toolkit.getDefaultToolkit().getScreenSize().height));
         internalPanel.setBackground(Color.WHITE);
-        internalPanel.add(Box.createVerticalStrut(70));
+        internalPanel.add(Box.createVerticalStrut(60));
         internalPanel.add(loadButton);
-        internalPanel.add(Box.createVerticalStrut(70));
+        internalPanel.add(Box.createVerticalStrut(60));
         internalPanel.add(adviceButton);
-        internalPanel.add(Box.createVerticalStrut(70));
+        internalPanel.add(Box.createVerticalStrut(60));
         internalPanel.add(warnButton);
-        internalPanel.add(Box.createVerticalStrut(70));
+        internalPanel.add(Box.createVerticalStrut(60));
         internalPanel.add(choiceButton);
-        internalPanel.add(Box.createVerticalStrut(70));
+        internalPanel.add(Box.createVerticalStrut(60));
         internalPanel.add(startButton);
-        internalPanel.add(Box.createVerticalStrut(70));
+        internalPanel.add(Box.createVerticalStrut(60));
         internalPanel.add(clearButton);
-        internalPanel.add(Box.createVerticalStrut(70));
+        internalPanel.add(Box.createVerticalStrut(60));
         internalPanel.add(saveFileButton);
-        internalPanel.add(Box.createVerticalStrut(70));
-        internalPanel.add(analysisButton);
-        internalPanel.add(Box.createVerticalStrut(70));
-        // 暂时删去动画
-        //internalPanel.add(speedLabel);
-        //internalPanel.add(slider);
+        internalPanel.add(Box.createVerticalStrut(60));
+
+        internalPanel.add(speedLabel);
+        internalPanel.add(slider);
         functionPanel.add(Box.createHorizontalStrut(1));
         functionPanel.add(internalPanel);
         functionPanel.add(Box.createHorizontalStrut(1));
@@ -250,10 +239,10 @@ public class MainInterface {
 
     /** 组装控制和模拟区*/
     public void assembleView(){
-        //viewPane.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width-200,Toolkit.getDefaultToolkit().getScreenSize().height));
-        viewPane.setPreferredSize(new Dimension(250,500));
+        //viewPane.setPreferredSize(new Dimension(Toolkit.getDefaul     tToolkit().getScreenSize().width-200,Toolkit.getDefaultToolkit().getScreenSize().height));
+        viewPane.setPreferredSize(new Dimension(250,300));
         viewPane.setLayout(new ScrollPaneLayout());
-        viewPanel.setLayout(new BoxLayout(viewPanel,BoxLayout.PAGE_AXIS));
+        viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.PAGE_AXIS));
         viewPanel.add(AnalogText);
         viewPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
@@ -272,13 +261,18 @@ public class MainInterface {
         mainBox.add(viewPanel);
         jFrame.add(Box.createVerticalStrut(8));
         jFrame.add(mainBox);
+
+        // 设置窗口大小，宽度为当前屏幕的一半，长度为当前屏幕的4/5
+        Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = defaultToolkit.getScreenSize();
+        jFrame.setSize((int) (screenSize.getWidth() / 2) , (int) screenSize.getHeight() * 4 / 5);
+
         // 设置关闭窗口时推出程序
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // 设置jFrame最佳大小并可见
         jFrame.setVisible(true);
         jFrame.setLocationRelativeTo(null);
-        jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /** 客户端程序的入口 */

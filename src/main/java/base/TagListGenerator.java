@@ -1,7 +1,6 @@
 package base;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * A class to generate a tags list
@@ -21,7 +20,7 @@ public class TagListGenerator {
     public static TagRepository generateTagRepository(int tagIDLength, int cidLength, int allTagNum, int density, int unknownTagNum, int missingTagNum){
         List<Tag> allTagList = TagListGenerator.tagListFactory(tagIDLength, cidLength, allTagNum,density);
         List<Tag> expectedTagList = TagListGenerator.removeTag(allTagList, unknownTagNum);
-        List<Tag> actualTagList = TagListGenerator.removeTag(expectedTagList, missingTagNum);
+        List<Tag> actualTagList = TagListGenerator.getActualTags(allTagList, (int)(Math.ceil(missingTagNum*1.0/density)));
         return new TagRepository(allTagList, expectedTagList, actualTagList);
     }
 
@@ -83,5 +82,27 @@ public class TagListGenerator {
             }
         }
         return tagList0;
+    }
+
+    public static List<Tag> getActualTags(List<Tag> tagList, int missingCidNum) {
+        long time = System.currentTimeMillis();
+        Random random = new Random(time);
+        int i = 0;
+        Set<Tag> tagSet = new HashSet<>();
+        Set<String> cidSet = new HashSet<>();
+        while(cidSet.size() < missingCidNum) {
+            i = random.nextInt(tagList.size());
+            Tag tag = tagList.get(i);
+            String cid = tag.getCategoryID();
+
+            cidSet.add(cid);
+        }
+        for (Tag tag : tagList) {
+            if(!cidSet.contains(tag.getCategoryID())) {
+                tagSet.add(tag);
+            }
+        }
+        List<Tag> actualList = new ArrayList<>(tagSet);
+        return actualList;
     }
 }

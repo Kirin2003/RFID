@@ -15,12 +15,11 @@ public abstract class IdentifyTool implements ISubject {
     public Logger logger;
     public Recorder recorder; //记录器
 
-    Environment environment; // 环境
+    public Environment environment; // 环境
     int instanceNum; // 模拟次数
 
-
-    protected int warningNum = 1000000; // 预警数目
-    protected String warningCid = ""; // 预警类别id
+    protected int warningNum = 80; // 预警数目
+    protected String warningCid = "10101010101010101010101010101010"; // 预警类别id
     protected boolean isWarning = true; // 是否需要弹出警告框，只警告一次
 
     protected Vector<IObserver> iObservers = new Vector<>();
@@ -33,10 +32,6 @@ public abstract class IdentifyTool implements ISubject {
     }
 
     public abstract void execute();
-
-
-
-
 
     @Override
     public boolean add(IObserver iObserver) {
@@ -85,5 +80,29 @@ public abstract class IdentifyTool implements ISubject {
             isWarning = false;
         }
 
+    }
+
+    public int getWarningNum() {
+        return warningNum;
+    }
+
+    public void setWarningNum(int warningNum) {
+        this.warningNum = warningNum;
+    }
+
+    public String getWarningCid() {
+        return warningCid;
+    }
+
+    public void setWarningCid(String warningCid) {
+        this.warningCid = warningCid;
+    }
+
+    public boolean isWarning() {
+        return isWarning;
+    }
+
+    public void setWarning(boolean warning) {
+        isWarning = warning;
     }
 }

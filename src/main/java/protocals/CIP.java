@@ -193,7 +193,6 @@ public class CIP extends IdentifyTool{
             List<Integer> slots = new ArrayList<>(CidMap.keySet());
             slots.sort((integer, t1) -> integer > t1 ? 1 : -1);
 
-
             /**
              * 3 识别
               */

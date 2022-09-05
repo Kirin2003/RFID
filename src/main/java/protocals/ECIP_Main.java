@@ -17,10 +17,10 @@ import java.util.List;
 public class ECIP_Main {
     public static void main(String[] args) {
         int instanceNumber = 1;
-        int allTagNumber = 50000;
+        int allTagNumber = 5000;
         int unknownTagNumber = 0;
         int expectedTagNum = allTagNumber - unknownTagNumber;
-        int missingTagNumber = 49000;
+        int missingTagNumber = 4900;
         int tagIDLength = 14;
         int categoryIDLength = 32;
         Logger logger = LogManager.getLogger(ECIP_Main.class);

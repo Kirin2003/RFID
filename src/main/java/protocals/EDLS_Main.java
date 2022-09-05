@@ -17,10 +17,10 @@ import java.util.List;
 public class EDLS_Main {
     public static void main(String[] args) {
         int instanceNumber = 1;
-        int allTagNumber = 50000;
+        int allTagNumber = 5000;
         int unknownTagNumber = 0;
         int expectedTagNum = allTagNumber - unknownTagNumber;
-        int missingTagNumber = 49000;
+        int missingTagNumber = 4900;
         int tagIDLength = 14;
         int categoryIDLength = 32;
         Logger logger = LogManager.getLogger(EDLS_Main.class);
@@ -38,7 +38,6 @@ public class EDLS_Main {
             List<Tag> allTagList = tagRepository.getAllTagList();
             List<Tag> expectedTagList = tagRepository.getExpectedTagList();
             List<Tag> tagList = tagRepository.getActucaltagList();
-
 
             //Single Reader and Multi reader codes are almost same, we only give one reader for the environment
             Environment environment = new Environment(allTagList, expectedTagList, tagList,expectedTagNum/10);
